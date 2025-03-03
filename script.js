@@ -2,31 +2,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // Subscription form handling
     const subscribeForm = document.getElementById('subscribeForm');
     if (subscribeForm) {
-        subscribeForm.addEventListener('submit', function (event) {
+        subscribeForm.addEventListener('submit', async function (event) {
             event.preventDefault();
             const email = document.getElementById('subscribeEmail').value.trim();
-            if (email) {
-                const formData = new FormData();
-                formData.append('email', email);
 
-                fetch('send_subscription.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(responseText => {
-                    alert(responseText);
+            if (email) {
+                try {
+                    const response = await fetch('https://raw-tech-email.vercel.app/api/subscribe', {
+                        method: 'POST',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email })
+                    });
+
+                    const result = await response.json();
+                    alert(result.success || result.error);
                     subscribeForm.reset();
-                })
-                .catch(error => {
+                } catch (error) {
                     alert('Oops! Something went wrong: ' + error.message);
                     console.error('Error:', error);
-                });
+                }
             } else {
                 alert('Please enter a valid email address.');
             }
@@ -36,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Contact form handling
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', function (event) {
+        contactForm.addEventListener('submit', async function (event) {
             event.preventDefault();
 
             // Client-side validation
@@ -51,28 +45,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const formData = new FormData(contactForm);
-            formData.append('g-recaptcha-response', recaptcha);
+            try {
+                const response = await fetch('https://raw-tech-email.vercel.app/api/contact', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ firstName, lastName, email, message, recaptcha })
+                });
 
-            fetch('send_email.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.text();
-            })
-            .then(responseText => {
-                alert(responseText);
+                const result = await response.json();
+                alert(result.success || result.error);
                 contactForm.reset();
                 if (grecaptcha) grecaptcha.reset(); // Reset reCAPTCHA after successful submission
-            })
-            .catch(error => {
+            } catch (error) {
                 alert('Oops! Something went wrong: ' + error.message);
                 console.error('Error:', error);
-            });
+            }
         });
     }
 });
