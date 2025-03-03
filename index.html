@@ -50,11 +50,28 @@
     <div class="subscribe" aria-labelledby="subscribe-heading">
         <h2 id="subscribe-heading">Subscribe</h2>
         <p>Sign up with your email address to receive news and updates.</p>
-        <form id="subscribeForm">
-            <label for="subscribeEmail">Email Address</label>
-            <input type="email" id="subscribeEmail" placeholder="Email Address" required aria-required="true">
-            <button type="submit">Sign Up</button>
-        </form>
+<form id="subscribeForm">
+    <label for="subscribeEmail">Email Address</label>
+    <input type="email" id="subscribeEmail" name="email" placeholder="Email Address" required>
+    <button type="submit">Sign Up</button>
+</form>
+
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const email = document.getElementById("subscribeEmail").value;
+
+    const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, type: "subscribe" })
+    });
+
+    const result = await response.json();
+    alert(result.message);
+});
+</script>
+
     </div>
     <div class="social-badges" role="navigation" aria-label="Social Media Links">
         <a href="https://www.facebook.com/profile.php?id=100087102952359" target="_blank" aria-label="Facebook">
