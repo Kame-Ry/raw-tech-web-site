@@ -5,7 +5,7 @@ export default async function (req, res) {
         return res.status(405).send({ message: 'Only POST requests allowed' });
     }
 
-    const { name, email, message, type } = req.body;
+    const { email, type } = req.body;
 
     const transporter = nodemailer.createTransport({
         host: "smtp.zoho.com",
@@ -13,15 +13,15 @@ export default async function (req, res) {
         secure: true,
         auth: {
             user: "support@raw-tech.co.uk",
-            pass: "YOUR_ZOHO_SMTP_PASSWORD"
+            pass: process.env.ZOHO_PASSWORD // Keep this secret in Vercel environment variables!
         }
     });
 
     const mailOptions = {
         from: '"RAW-TECH Support" <support@raw-tech.co.uk>',
         to: "support@raw-tech.co.uk",
-        subject: type === "contact" ? "New Contact Form Submission" : "New Subscriber",
-        text: message ? `From: ${name} (${email})\n\n${message}` : `New subscription from ${email}`,
+        subject: type === "subscribe" ? "New Subscription" : "New Contact Message",
+        text: `New subscription from ${email}`
     };
 
     try {
