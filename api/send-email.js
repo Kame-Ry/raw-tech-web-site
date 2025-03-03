@@ -13,7 +13,7 @@ export default async function (req, res) {
         secure: true,
         auth: {
             user: "support@raw-tech.co.uk",
-            pass: process.env.ZOHO_PASSWORD // Keep this secret in Vercel environment variables!
+            pass: process.env.ZOHO_PASSWORD
         }
     });
 
