@@ -138,6 +138,7 @@ footer {
     width: 100%;
     margin-top: auto;
 }
+
 /* Social Icons */
 .social-badges {
     display: flex;
@@ -148,5 +149,6 @@ footer {
 
 .social-icon {
     width: 40px;
-    height: auto; 
+    height: auto;
+    display: inline-block;
 }
