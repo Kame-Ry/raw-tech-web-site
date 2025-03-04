@@ -138,3 +138,15 @@ footer {
     width: 100%;
     margin-top: auto;
 }
+/* Social Icons */
+.social-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    width: 40px;
+    height: auto; 
+}
