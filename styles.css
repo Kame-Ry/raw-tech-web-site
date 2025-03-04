@@ -162,3 +162,18 @@ footer {
     background: #ffffff;
     color: #000000;
 }
+
+/* Social Icons */
+.social-badges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    width: 40px;
+    height: auto;
+    display: inline-block; /* Ensures they don’t stretch */
+}
