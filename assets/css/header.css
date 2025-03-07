@@ -1,0 +1,13 @@
+header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #000000;
+    border-bottom: 0px solid #333;
+    z-index: 1000;
+    box-sizing: border-box;
+}
