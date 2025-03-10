@@ -16,6 +16,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadComponent("head", "head.html", true);
     loadComponent("#header", "header.html");
-    loadComponent("#nav", "nav.html");
     loadComponent("#footer", "footer.html");
 });
