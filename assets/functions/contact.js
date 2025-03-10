@@ -1,9 +1,7 @@
 emailjs.init('HSwpVqrwZkX8zURpF');
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadContactFormComponent().then(() => {
-    initContactForm();
-  });
+  loadContactFormComponent().then(initContactForm);
 });
 
 function loadContactFormComponent() {
@@ -14,6 +12,12 @@ function loadContactFormComponent() {
     })
     .then(html => {
       document.getElementById('contact').innerHTML = html;
+      
+      if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.render(document.querySelector('.g-recaptcha'), {
+          sitekey: '6LfAKvAqAAAAAAF4DCtmoBf_3Pv0yc9_geygvNkk'
+        });
+      }
     })
     .catch(err => {
       console.error('Fetch error:', err);
@@ -54,7 +58,7 @@ function initContactForm() {
 
     emailjs.send('gmail_service', 'contact_form', formData)
       .then(() => {
-        statusDiv.textContent = 'Message sent successfully!';
+        statusDiv.textContent = 'Message sent successfully! We will get back to you shortly.';
         statusDiv.style.color = 'green';
         form.reset();
         grecaptcha.reset();
