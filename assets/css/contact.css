@@ -17,7 +17,7 @@
   
   #contact-form button {
     padding: 10px;
-    background-color: #3498db;
+    background-color: #5e5e5e;
     color: #fff;
     cursor: pointer;
     border: none;
@@ -26,8 +26,9 @@
   }
   
   #contact-form button:hover {
-    background-color: #2980b9;
-  }
+  background-color: #f75a22;
+  transition: background 0.3s, color 0.3s;
+}
   
   #form-status {
     padding: 10px;

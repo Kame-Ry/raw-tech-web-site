@@ -21,7 +21,8 @@ function loadContactFormComponent() {
     })
     .catch(err => {
       console.error('Fetch error:', err);
-      document.getElementById('contact').innerHTML = "<p>Error loading form. Please try again later.</p>";
+      document.getElementById('contact').innerHTML =
+        "<p>Error loading form. Please try again later.</p>";
     });
 }
 
@@ -58,7 +59,8 @@ function initContactForm() {
 
     emailjs.send('gmail_service', 'contact_form', formData)
       .then(() => {
-        statusDiv.textContent = 'Message sent successfully! We will get back to you shortly.';
+        statusDiv.textContent =
+          'Message sent successfully! We will get back to you shortly.';
         statusDiv.style.color = 'green';
         form.reset();
         grecaptcha.reset();

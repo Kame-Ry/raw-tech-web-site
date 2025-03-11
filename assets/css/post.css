@@ -89,7 +89,8 @@ body {
 }
 
 .desc {
-    color: #777;
+  background: #ffffff;
+  color: #f75a00;
     font-size: 14px;
 }
 
@@ -100,7 +101,8 @@ body {
 }
 
 pre {
-    background: #f4f4f4;
+  background: #727171;
+  color: #ffffff;
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
@@ -108,7 +110,7 @@ pre {
 }
 
 footer {
-    background-color: #f8f8f8;
+    background-color: #fa0c0c;
     text-align: center;
     padding: 20px;
     font-size: 14px;
