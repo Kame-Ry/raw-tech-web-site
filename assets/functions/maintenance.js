@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/components/${file}${cacheBuster}`)
             .then(response => response.text())
             .then(data => {
-                document.querySelector(selector).innerHTML = data;
+                document.querySelector(selector).insertAdjacentHTML("beforeend", data);
             })
             .catch(error => console.error(`Error loading ${file}:`, error));
     }

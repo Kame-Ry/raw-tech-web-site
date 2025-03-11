@@ -23,3 +23,17 @@ html, body {
     overflow-x: hidden;
     width: 100%;
 }
+
+.post-image {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .post-image {
+        max-width: 95%
+    }
+}
