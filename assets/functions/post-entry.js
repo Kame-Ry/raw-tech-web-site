@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cacheBuster = `?v=${new Date().getTime()}`;
     
     const postFiles = [
-        "seaglass-post.html", "post-entry-2.html","post-entry-2.html", "post-entry-3.html", 
+        "seaglass-post.html", "post-coming-soon.html","post-coming-soon-2.html"
     ];
 
     const postsPerPage = 5;
