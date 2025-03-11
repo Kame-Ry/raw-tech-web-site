@@ -1,79 +1,111 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const cacheBuster = `?v=${new Date().getTime()}`;
-    
-    const postFiles = [
-        "seaglass-post.html", "post-coming-soon.html","post-coming-soon-2.html"
-    ];
+.post-entry {
+  display: flex;
+  flex-direction: column;
+  background: #2D2D2D;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px #05050526;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 700px;
+  margin: 24px auto;
+  padding: 16px;
+}
 
-    const postsPerPage = 5;
-    let currentPage = 1;
+.post-entry:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
 
-    function loadPosts(page) {
-        const startIndex = (page - 1) * postsPerPage;
-        const endIndex = startIndex + postsPerPage;
-        const postsToShow = postFiles.slice(startIndex, endIndex);
+.entry-cover {
+  width: 90%; 
+  height: auto;
+  display: block;
+  background: #333;
+  border-radius: 8px;
+  margin: 0 auto;
+}
 
-        const container = document.querySelector(".widget-container");
-        container.innerHTML = "";
+.entry-cover img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
 
-        postsToShow.forEach(file => {
-            fetch(`/components/${file}${cacheBuster}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Failed to load ${file}: ${response.statusText}`);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    container.insertAdjacentHTML("beforeend", data);
-                })
-                .catch(error => console.error(error));
-        });
+.entry-body {
+  padding: 16px;
+  text-align: left;
+}
 
-        updatePagination();
-    }
+.post-entry .entry-header {
+  background: transparent !important; 
+  padding: 0 !important; 
+  border: none !important; 
+  display: block;
+}
 
-    function updatePagination() {
-        const paginationContainer = document.querySelector(".pagination");
-        paginationContainer.innerHTML = "";
+.post-entry .entry-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+  background: transparent !important;
+  padding: 0 !important;
+  display: block;
+}
 
-        if (currentPage > 1) {
-            const prevBtn = document.createElement("button");
-            prevBtn.textContent = "← Previous";
-            prevBtn.classList.add("pagination-btn");
-            prevBtn.onclick = () => {
-                currentPage--;
-                loadPosts(currentPage);
-            };
-            paginationContainer.appendChild(prevBtn);
-        }
+.post-entry .entry-header a {
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.2s ease-in-out;
+  background: transparent !important;
+  padding: 0 !important;
+  display: inline;
+}
 
-        const totalPages = Math.ceil(postFiles.length / postsPerPage);
-        for (let i = 1; i <= totalPages; i++) {
-            const pageBtn = document.createElement("button");
-            pageBtn.textContent = i;
-            pageBtn.classList.add("pagination-btn");
-            if (i === currentPage) {
-                pageBtn.classList.add("active");
-            }
-            pageBtn.onclick = () => {
-                currentPage = i;
-                loadPosts(currentPage);
-            };
-            paginationContainer.appendChild(pageBtn);
-        }
 
-        if (currentPage < totalPages) {
-            const nextBtn = document.createElement("button");
-            nextBtn.textContent = "Next →";
-            nextBtn.classList.add("pagination-btn");
-            nextBtn.onclick = () => {
-                currentPage++;
-                loadPosts(currentPage);
-            };
-            paginationContainer.appendChild(nextBtn);
-        }
-    }
+.entry-header a:hover {
+  color: #bbbbbb;
+}
 
-    loadPosts(currentPage);
-});
+.entry-content p {
+  color: #cccccc;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.entry-footer {
+  font-size: 14px;
+  color: #aaaaaa;
+  margin-top: 8px;
+  text-align: left;
+  background: transparent !important; 
+  padding: 8px 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.pagination-btn:hover {
+  background: #666;
+}
+
+.pagination-btn.active {
+  background: #888;
+  font-weight: bold;
+}
