@@ -8,7 +8,7 @@ html, body {
 
   body {
     font-family: Arial, sans-serif;
-    background-color: #1d1e20;
+    background-color: #123524;
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -43,4 +43,5 @@ html, body {
       max-width: 95%;
     }
   }
+  
   
