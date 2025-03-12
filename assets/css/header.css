@@ -6,8 +6,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    background: #000000;
-    border-bottom: 0px solid #333;
+    background: #1d1e20;
+    border-bottom: 0px solid #1d1e20;
     z-index: 1000;
     box-sizing: border-box;
 }

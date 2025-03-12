@@ -20,14 +20,14 @@
 }
 
 .social-links a:hover {
-    background: #f75a22;
+    background: #28c209;
     color: #fcfcfc;
 }
 
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    background: #444;
+    background: #000000;
     color: #fff;
     text-decoration: none;
     margin-top: 20px;
@@ -37,6 +37,6 @@
 }
 
 .btn:hover {
-    background: #f75a22;
+    background: #28c209;
     color: #fcfcfc;
 }

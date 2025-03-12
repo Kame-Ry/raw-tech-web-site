@@ -16,4 +16,9 @@ nav ul li a {
     padding: 5px 10px;
     font-size: 14px;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #28c209;
 }

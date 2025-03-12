@@ -1,7 +1,7 @@
 .post-entry {
   display: flex;
   flex-direction: column;
-  background: #2D2D2D;
+  background: #333333;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 8px #05050526;
@@ -133,7 +133,7 @@
 }
 
 .tag:hover {
-  background: #f75a22;
+  background: #5f5f5f;
   color: #fff;
 }
 
