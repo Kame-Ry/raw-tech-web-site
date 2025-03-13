@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #1d1e20;
+    background-color: #2E2E33;
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -71,7 +71,7 @@ body {
 .file-column {
     flex: 1;
     padding: 15px;
-    background: #474747;
+    background: #2E2E33;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }

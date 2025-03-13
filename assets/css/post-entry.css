@@ -1,7 +1,7 @@
 .post-entry {
   display: flex;
   flex-direction: column;
-  background: #333333;
+  background: #2E2E33;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 8px #05050526;
