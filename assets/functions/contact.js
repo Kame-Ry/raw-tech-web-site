@@ -18,12 +18,44 @@ function loadContactFormComponent() {
           sitekey: '6LfAKvAqAAAAAAF4DCtmoBf_3Pv0yc9_geygvNkk'
         });
       }
+      
+      setupInputValidation();
     })
     .catch(err => {
       console.error('Fetch error:', err);
       document.getElementById('contact').innerHTML =
         "<p>Error loading form. Please try again later.</p>";
     });
+}
+
+function setupInputValidation() {
+  const messageField = document.getElementById('message');
+  const nameField = document.getElementById('user_name');
+
+  const maxLength = 200;
+  const regex = /^[a-zA-Z0-9\s.,!?'-]{1,200}$/;
+
+  messageField.addEventListener('input', () => {
+    const statusDiv = document.getElementById('form-status');
+
+    if (messageField.value.length > maxLength) {
+      statusDiv.textContent = `Message too long! Max ${maxLength} characters.`;
+      statusDiv.style.color = 'red';
+    } else if (!regex.test(messageField.value)) {
+      statusDiv.textContent = 'Invalid characters used!';
+      statusDiv.style.color = 'red';
+    } else {
+      statusDiv.textContent = '';
+    }
+  });
+
+  nameField.addEventListener('input', () => {
+    if (!regex.test(nameField.value)) {
+      nameField.setCustomValidity("Invalid characters used!");
+    } else {
+      nameField.setCustomValidity("");
+    }
+  });
 }
 
 function initContactForm() {
@@ -47,10 +79,21 @@ function initContactForm() {
       return;
     }
 
+    const userName = document.getElementById('user_name').value.trim();
+    const userEmail = document.getElementById('user_email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    const regex = /^[a-zA-Z0-9\s.,!?'-]{1,200}$/;
+    if (!regex.test(userName) || !regex.test(message)) {
+      statusDiv.textContent = 'Invalid input detected!';
+      statusDiv.style.color = 'red';
+      return;
+    }
+
     const formData = {
-      user_name: document.getElementById('user_name').value,
-      user_email: document.getElementById('user_email').value,
-      message: document.getElementById('message').value,
+      user_name: userName,
+      user_email: userEmail,
+      message: message,
       'g-recaptcha-response': recaptchaResponse,
     };
 

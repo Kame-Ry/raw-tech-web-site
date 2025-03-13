@@ -16,17 +16,19 @@
   }
   
   #contact-form button {
+    display: inline-block;
     padding: 10px;
-    background-color: #444;
-    color: #fff;
+    background-color: #464646;
+    color: #f5f5f5;
     cursor: pointer;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
+    font-weight: bold;
   }
   
   #contact-form button:hover {
-  background-color: #5f5f5f;
+  background-color: #6e6e6e;
   transition: background 0.3s, color 0.3s;
 }
   
@@ -35,4 +37,4 @@
     font-weight: bold;
     text-align: center;
   }
-  
+
