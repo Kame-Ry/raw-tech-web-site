@@ -48,7 +48,9 @@ body {
     line-height: 1.8;
     font-size: 18px;
     color: #fdfdfd;
+    text-align: justify;
 }
+
 
 
 .post-content h2 {
@@ -73,7 +75,7 @@ body {
     padding: 15px;
     background: #2E2E33;
     border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 5px #0000001a;
 }
 
 .file-column ul {
@@ -82,7 +84,7 @@ body {
 }
 
 .file-column ul ul {
-    padding-left: 15px;
+    padding-left: px;
 }
 
 .file-column li {
@@ -91,7 +93,7 @@ body {
 }
 
 .desc {
-  background: #474747;
+  background: #2E2E33;
   color: #ffffff;
     font-size: 14px;
 }
@@ -103,8 +105,8 @@ body {
 }
 
 pre {
-  background: #474747;
-  color: #ffffff;
+  background: #000000;
+  color: #05ff05;
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
