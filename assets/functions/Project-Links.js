@@ -1,11 +1,15 @@
 const postFiles = [
-    { file: "seaglass_project_link.html", date: "2025-03-11" },
-    { file: "quotes_project_link.html", date: "2025-03-11" },
-    { file: "tags_article_link.html", date: "2025-03-11" },
-    { file: "contact_form_project_link.html", date: "2025-03-10" }
+    { file: "plex_watched_movie_link.html", date: "2025-03-16"},
+    { file: "weather_tracker_link.html", date: "2025-03-15"},
+    { file: "film_affinity_link.html", date: "2025-03-14"},
+    { file: "contact_form_project_link.html", date: "2025-03-14"},
+    { file: "quotes_project_link.html", date: "2025-03-13"},
+    { file: "seaglass_project_link.html", date: "2025-03-10"},
+    { file: "tags_article_link.html", date: "2025-03-10"},
 ];
 
-const sortedPostFiles = postFiles.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+postFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-export default sortedPostFiles;
+console.log("Final sorted postFiles:", postFiles);
 
+export default postFiles;

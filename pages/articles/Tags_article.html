@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tags</title>
+    <title>Interactive Tags: A Deep Dive</title>
     <link rel="stylesheet" href="/assets/css/article.css">
     <script src="/assets/functions/fetch.js" defer></script>
 </head>
@@ -13,52 +13,107 @@
     <nav id="nav"></nav>
     <main class="post-container">
         <article class="post-header">
-            <p class="post-meta">Published on <time datetime="2025-03-11">March 11, 2025</time> • 5 min read</p>
-            <h1 class="post-title">Interactive Tags Setup: A Novice IT Technician's Journey</h1>
+            <p class="post-meta">Published on <time datetime="2025-03-11">March 11, 2025</time> • 8 min read</p>
+            <h1 class="post-title">Interactive Tags: A Deep Dive</h1>
         </article>
-        </figure>
         <article class="post-content">
-            <p><strong>Interactive Tags Setup</strong> is a dynamic approach to filtering content on a projects page. As a novice IT technician diving into the world of JavaScript and CSS, this project was a blend of trials, errors, and learning curves. In this article, I'll share my journey, the challenges I faced, and the improvements I plan to make in future iterations.</p>
+            <p><strong>Interactive Tags</strong> is a system I implemented to dynamically filter project entries based on user-selected tags. This feature is crucial for improving navigation and user experience on my projects page. Through this article, I will break down the implementation, the JavaScript logic, and the CSS enhancements that bring this feature to life.</p>
             
-            <h2>The Setup: Files in Play</h2>
-            <p>The solution revolves around three core files:</p>
+            <h2>Project Breakdown</h2>
+            <p>The core files involved in this implementation include:</p>
             <ul>
-                <li><strong>Tags.js</strong> – This JavaScript file manages tag generation, event listeners, and filtering logic.</li>
-                <li><strong>post-entry.css</strong> – The CSS file ensures that project cards and tags have a sleek, modern look.</li>
-                <li><strong>projects.html</strong> – Acts as the container for the interactive elements and loads the required scripts.</li>
+                <li><strong>tags.js</strong> - Handles tag interactions, filtering logic, and URL parameter parsing.</li>
+                <li><strong>post-entry.css</strong> - Styles project cards and ensures a smooth user experience.</li>
+                <li><strong>projects.html</strong> - The front-end structure that loads and displays filtered content.</li>
             </ul>
             
-            <h2>The Hurdles and How I Overcame Them</h2>
-            <p>While the idea was straightforward, I encountered several issues along the way:</p>
+            <h2>JavaScript Implementation</h2>
+            <p>The primary script responsible for tag filtering is <code>tags.js</code>. Below is a breakdown of its key functions:</p>
+
+            <h3>Ensuring Content Loads Before Execution</h3>
+            <pre><code>document.addEventListener("DOMContentLoaded", function () {
+  console.log("tags.js loaded successfully");
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  let selectedTag = urlParams.get("tag");
+  
+  waitForPosts(() => {
+      generateTagList();
+      if (selectedTag) {
+          filterProjects(decodeURIComponent(selectedTag));
+      }
+  });
+});</code></pre>
+            <p>This ensures that the script does not run until the DOM has fully loaded.</p>
+
+            <h3>Handling Post Loading Delay</h3>
+            <pre><code>function waitForPosts(callback) {
+  const checkInterval = setInterval(() => {
+      const posts = document.querySelectorAll(".post-entry");
+      if (posts.length > 0) {
+          clearInterval(checkInterval);
+          callback();
+      }
+  }, 500);
+}</code></pre>
+            <p>Since project entries are loaded dynamically, a polling mechanism ensures that the script only runs once the content is available.</p>
+
+            <h3>Generating and Displaying Tags</h3>
+            <pre><code>function generateTagList() {
+  const allTagsContainer = document.getElementById("all-tags-container");
+  if (!allTagsContainer) return;
+  
+  const allTags = new Set();
+  document.querySelectorAll(".post-entry").forEach(post => {
+      const postTags = post.dataset.tags ? post.dataset.tags.split(", ") : [];
+      postTags.forEach(tag => allTags.add(tag.trim()));
+  });
+  
+  allTags.forEach(tag => {
+      const tagElement = document.createElement("span");
+      tagElement.classList.add("tag");
+      tagElement.dataset.tag = tag;
+      tagElement.textContent = tag;
+      allTagsContainer.appendChild(tagElement);
+  });
+}</code></pre>
+            <p>This function dynamically extracts tags from project entries and displays them on the page.</p>
+
+            <h3>Filtering Projects Based on Selected Tag</h3>
+            <pre><code>function filterProjects(selectedTag) {
+  document.querySelectorAll(".post-entry").forEach(post => {
+      const postTags = post.dataset.tags ? post.dataset.tags.toLowerCase().split(", ") : [];
+      post.style.display = postTags.includes(selectedTag.toLowerCase()) ? "block" : "none";
+  });
+}</code></pre>
+            <p>Once a tag is selected, this function filters projects accordingly.</p>
+            
+            <h2>CSS Enhancements</h2>
+            <p>The following CSS styles ensure a smooth and modern user experience:</p>
+            <h3>Tag Styling</h3>
+            <pre><code>.tag {
+  padding: 6px 14px;
+  font-size: 14px;
+  background: #444;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.tag:hover { background: #5f5f5f; }
+.tag.active { background: #f75a22; }</code></pre>
+
+            <h2>Lessons Learned & Future Improvements</h2>
             <ul>
-                <li><strong>Delayed Post Loading:</strong> Initially, the tag generation function was running before the project entries were fully loaded. I implemented a polling mechanism using the <code>waitForPosts()</code> function that checks every 500ms for <code>.post-entry</code> elements.</li>
-                <li><strong>URL Parameter Handling:</strong> Ensuring the page maintained the state of a selected tag through URL parameters was a bit tricky. By parsing the URL on page load, I could apply filters dynamically, making the user experience more consistent.</li>
-                <li><strong>Active State Management:</strong> It was essential to accurately reflect the selected tag by toggling the active class. I addressed this by comparing clicked tags with the URL parameter and updating the display accordingly.</li>
+                <li>Improve performance by replacing polling with event-driven methods.</li>
+                <li>Enhance error handling for better debugging.</li>
+                <li>Refactor JavaScript for better modularity and readability.</li>
             </ul>
-            
-            <h2>Steps Taken to Implement the Feature</h2>
-            <ol>
-                <li>Set up an event listener for <code>DOMContentLoaded</code> to ensure all resources were loaded.</li>
-                <li>Implemented URL parameter parsing to retrieve and apply a pre-selected tag.</li>
-                <li>Developed the <code>waitForPosts()</code> function to delay execution until project entries were present.</li>
-                <li>Created the <code>generateTagList()</code> function to extract unique tags from project metadata and render them dynamically.</li>
-                <li>Built the <code>filterProjects()</code> function to show or hide projects based on the selected tag.</li>
-                <li>Added a document-level click handler to manage tag selection and deselection, redirecting the user appropriately.</li>
-            </ol>
-            
-            <h2>Lessons Learned and Future Improvements</h2>
-            <p>This project taught me the importance of timing in JavaScript execution and the value of clean, modular code. Some improvements I plan to implement include:</p>
-            <ul>
-                <li><strong>Event-Driven Updates:</strong> Instead of polling for post elements, I’d like to explore event-driven solutions that could make the code more efficient.</li>
-                <li><strong>Error Handling:</strong> Incorporating better error messages to inform the user when no tags or posts are available.</li>
-                <li><strong>Code Refactoring:</strong> Further refactoring the JavaScript code to enhance readability and maintainability.</li>
-            </ul>
-            
+
             <h2>Conclusion</h2>
-            <p>Setting up interactive tags for dynamic project filtering has been a rewarding experience. Despite some initial challenges, the final implementation not only enhanced the user experience but also taught me valuable lessons in asynchronous programming and UI state management. I look forward to refining this feature further, making it even more robust and user-friendly in future projects.</p>
+            <p>Implementing interactive tags was a valuable experience, teaching me more about JavaScript event handling, DOM manipulation, and dynamic content filtering.</p>
         </article>
     </main>
     <footer id="footer"></footer>
 </body>
 </html>
-
