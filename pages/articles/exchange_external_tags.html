@@ -15,6 +15,10 @@
         a:hover {
             color: #ff8c42;
         }
+        pre code {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
     </style>
 </head>
 <body>
@@ -50,10 +54,24 @@
             <p>This step enables the built-in external email banner in Outlook and Outlook Web Access (OWA).</p>
 
             <h3>3. Create the External Email Disclaimer Rule</h3>
-            <pre><code>New-TransportRule -Name "External Email Tag" `
+            <pre><code>$disclaimer = @"
+&lt;table border='5' bgcolor='#e80d27' style='background-color: #e80d27; border-style: solid; border-color: #000000;'&gt;
+  &lt;tbody&gt;
+    &lt;tr style='height: 45px;'&gt;
+      &lt;td style='height: 45px;'&gt;
+        &lt;span style='color: #f9f9f9;'&gt;
+          &lt;strong&gt;THIS IS AN EXTERNAL EMAIL:&lt;/strong&gt; If you were not expecting this email, do not click any links or open any attachments. Please contact "PLACE NAME, COMPANY OR NUMBER HERE".
+        &lt;/span&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+"@
+
+New-TransportRule -Name "External Email Tag" `
   -FromScope NotInOrganization `
   -ApplyHtmlDisclaimerLocation Prepend `
-  -ApplyHtmlDisclaimerText "&lt;table border='5' bgcolor='#e80d27' style='background-color: #e80d27; border-style: solid; border-color: #000000;'&gt;&lt;tbody&gt;&lt;tr style='height: 45px;'&gt;&lt;td style='height: 45px;'&gt;&lt;span style='color: #f9f9f9;'&gt;&lt;strong&gt;THIS IS AN EXTERNAL EMAIL:&lt;/strong&gt; If you were not expecting this email, do not click any links or open any attachments. Please contact "PLACE NAME, COMPANY OR NUMER HERE".&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;p&gt;&lt;/p&gt;" `
+  -ApplyHtmlDisclaimerText $disclaimer `
   -ApplyHtmlDisclaimerFallbackAction Wrap</code></pre>
             <p>This HTML disclaimer will be prepended to all emails coming from outside your organization.</p>
 
