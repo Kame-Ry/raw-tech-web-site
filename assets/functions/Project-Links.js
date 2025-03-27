@@ -1,4 +1,5 @@
 const postFiles = [
+    { file: "exchange_external_tag_link.html", date: "2025-03-27"},
     { file: "plex_watched_movie_link.html", date: "2025-03-16"},
     { file: "weather_tracker_link.html", date: "2025-03-15"},
     { file: "film_affinity_link.html", date: "2025-03-14"},
