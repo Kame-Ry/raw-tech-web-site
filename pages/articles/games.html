@@ -5,22 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RAW-TECH | Ranked Games</title>
   <meta name="description" content="My ranked and scored favorite video games">
-  <link rel="stylesheet" href="/assets/css/header.css">
-  <link rel="stylesheet" href="/assets/css/footer.css">
-  <link rel="stylesheet" href="/assets/css/article.css">
+  <link rel="stylesheet" href="/assets/css/header.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+  <link rel="stylesheet" href="/assets/css/article.css" />
   <script src="/assets/functions/fetch.js" defer></script>
   <style>
+    
     body {
       scroll-behavior: smooth;
     }
-    .controls {
-      text-align: center;
-      margin: 2rem 0;
+    a {
+      color: #f75a22;
+      text-decoration: none;
+      transition: color 0.3s ease;
     }
-    .game-card:hover {
-  transform: scale(1.015);
-  box-shadow: 0 6px 20px rgba(94, 94, 94, 0.062);
-}
+    a:hover {
+      color: #ff8c42;
+    }
     select, button {
       padding: 0.5rem;
       margin: 0.5rem;
@@ -30,6 +31,7 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     .game-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -57,6 +59,10 @@
         transform: translateY(0);
       }
     }
+    .game-card:hover {
+      transform: scale(1.015);
+      box-shadow: 0 6px 20px rgba(94, 94, 94, 0.062);
+    }
     .entry-header h2 {
       font-size: 22px;
       font-weight: 700;
@@ -83,7 +89,7 @@
       flex-wrap: wrap;
       gap: 5px;
       justify-content: center;
-      padding: 1rem 1rem 1rem;
+      padding: 1rem;
     }
     .heatmap span {
       display: inline-block;
@@ -92,13 +98,54 @@
       border-radius: 4px;
       background: #444;
       color: #fff;
-      box-shadow: 0 2px 3px rgba(0,0,0,0.2);
-      
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     }
     canvas {
       margin: 3rem auto;
       display: block;
       max-width: 800px;
+    }
+    
+    .pagination-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .pagination-button {
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.25rem;
+      background-color: #222;
+      color: #eee;
+      border: 1px solid #555;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .pagination-button:hover {
+      background-color: #444;
+    }
+    .pagination-button.active {
+      background-color: #f75a22;
+      color: #fff;
+      font-weight: bold;
+    }
+    
+    #back-to-top {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #f75a22;
+      color: #ffffff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 1em;
+      transition: opacity 0.3s ease;
+    }
+    #back-to-top:hover {
+      background-color: #ff8c42;
     }
   </style>
 </head>
@@ -108,7 +155,7 @@
   <nav id="nav"></nav>
   <main class="post-container">
     <article class="post-header">
-      <h1 class="post-title">Ranked Games</h1>
+      <h1 class="post-title">Game Rankings</h1>
     </article>
     <article class="post-content">
       <div class="controls">
@@ -116,7 +163,6 @@
         <select id="genreFilter">
           <option value="All">All</option>
         </select>
-
         <label for="tierFilter">Tier:</label>
         <select id="tierFilter">
           <option value="All">All</option>
@@ -126,7 +172,6 @@
           <option value="B">B</option>
           <option value="C">C</option>
         </select>
-
         <label for="scoreFilter">Score:</label>
         <select id="scoreFilter">
           <option value="All">All</option>
@@ -134,552 +179,61 @@
           <option value="80">80+</option>
           <option value="70">70+</option>
         </select>
-
         <button id="toggleView">Toggle View</button>
       </div>
-
       <div id="game-list" class="game-grid"></div>
+      <div id="pagination" class="pagination-container"></div>
     </article>
   </main>
   <footer id="footer"></footer>
 
+  <button id="back-to-top" aria-label="Back to top">↑ Top</button>
+
   <script>
-const games = [
-  {
-    "title": "Nier Gestalt",
-    "genre": "Action RPG",
-    "total": 94.3,
-    "scores": {
-      "Narrative": 98,
-      "Music": 96,
-      "Worldbuilding": 94,
-      "Gameplay": 95,
-      "Replay": 90,
-      "Exploration": 92,
-      "Progression": 93,
-      "Art": 89
-    },
-    "releaseYear": 2010,
-    "link": "https://www.metacritic.com/game/playstation-3/nier"
-  },
-  {
-    "title": "The Witcher 3",
-    "genre": "Open-world RPG",
-    "total": 92.85,
-    "scores": {
-      "Narrative": 94,
-      "Music": 88,
-      "Worldbuilding": 94,
-      "Gameplay": 94,
-      "Replay": 93,
-      "Exploration": 96,
-      "Progression": 91,
-      "Art": 93
-    },
-    "releaseYear": 2015,
-    "link": "https://www.thewitcher.com/en/witcher3"
-  },
-  {
-    "title": "Final Fantasy VII",
-    "genre": "JRPG",
-    "total": 92.05,
-    "scores": {
-      "Narrative": 91,
-      "Music": 95,
-      "Worldbuilding": 93,
-      "Gameplay": 92,
-      "Replay": 90,
-      "Exploration": 90,
-      "Progression": 92,
-      "Art": 91
-    },
-    "releaseYear": 1997,
-    "link": "https://www.metacritic.com/game/playstation/final-fantasy-vii"
-  },
-  {
-    "title": "Kingdom Hearts 1",
-    "genre": "Action RPG",
-    "total": 92.5,
-    "scores": {
-      "Narrative": 93,
-      "Music": 93,
-      "Worldbuilding": 92,
-      "Gameplay": 93,
-      "Replay": 90,
-      "Exploration": 89,
-      "Progression": 94,
-      "Art": 94
-    },
-    "releaseYear": 2002,
-    "link": "https://www.kingdomhearts.com/home/gb/"
-  },
-  {
-    "title": "Kingdom Hearts 2",
-    "genre": "Action RPG",
-    "total": 92.5,
-    "scores": {
-      "Narrative": 93,
-      "Music": 93,
-      "Worldbuilding": 92,
-      "Gameplay": 93,
-      "Replay": 90,
-      "Exploration": 89,
-      "Progression": 94,
-      "Art": 94
-    },
-    "releaseYear": 2005,
-    "link": "https://www.kingdomhearts.com/home/gb/"
-  },
-  {
-    "title": "Oblivion",
-    "genre": "Open-world RPG",
-    "total": 90.65,
-    "scores": {
-      "Narrative": 90,
-      "Music": 90,
-      "Worldbuilding": 94,
-      "Gameplay": 89,
-      "Replay": 95,
-      "Exploration": 95,
-      "Progression": 91,
-      "Art": 84
-    },
-    "releaseYear": 2006,
-    "link": "https://en.uesp.net/wiki/Oblivion:Oblivion"
-  },
-  {
-    "title": "Legend of Zelda: BOTW",
-    "genre": "Action-Adventure",
-    "total": 92.65,
-    "scores": {
-      "Narrative": 82,
-      "Music": 94,
-      "Worldbuilding": 96,
-      "Gameplay": 96,
-      "Replay": 91,
-      "Exploration": 96,
-      "Progression": 90,
-      "Art": 95
-    },
-    "releaseYear": 2017,
-    "link": "https://www.zelda.com/breath-of-the-wild/"
-  },
-  {
-    "title": "Hades",
-    "genre": "Roguelike",
-    "total": 90.45,
-    "scores": {
-      "Narrative": 91,
-      "Music": 81,
-      "Worldbuilding": 95,
-      "Gameplay": 95,
-      "Replay": 98,
-      "Exploration": 79,
-      "Progression": 92,
-      "Art": 94
-    },
-    "releaseYear": 2020,
-    "link": "https://www.supergiantgames.com/games/hades/"
-  },
-  {
-    "title": "Skyrim",
-    "genre": "Open-world RPG",
-    "total": 91.5,
-    "scores": {
-      "Narrative": 90,
-      "Music": 91,
-      "Worldbuilding": 93,
-      "Gameplay": 92,
-      "Replay": 96,
-      "Exploration": 95,
-      "Progression": 92,
-      "Art": 85
-    },
-    "releaseYear": 2011,
-    "link": "https://elderscrolls.bethesda.net/en/skyrim"
-  },
-  {
-    "title": "Fallout 3",
-    "genre": "Open-world RPG",
-    "total": 89.2,
-    "scores": {
-      "Narrative": 90,
-      "Music": 90,
-      "Worldbuilding": 94,
-      "Gameplay": 88,
-      "Replay": 92,
-      "Exploration": 92,
-      "Progression": 88,
-      "Art": 79
-    },
-    "releaseYear": 2008,
-    "link": "https://fallout.bethesda.net/en/games/fallout-3"
-  },
-  {
-    "title": "Returnal",
-    "genre": "Roguelike",
-    "total": 91.6,
-    "scores": {
-      "Narrative": 97,
-      "Music": 86,
-      "Worldbuilding": 92,
-      "Gameplay": 97,
-      "Replay": 85,
-      "Exploration": 86,
-      "Progression": 91,
-      "Art": 90
-    },
-    "releaseYear": 2021,
-    "link": "https://www.playstation.com/en-gb/games/returnal/"
-  },
-  {
-    "title": "Metroid Dread",
-    "genre": "Metroidvania",
-    "total": 86.8,
-    "scores": {
-      "Narrative": 79,
-      "Music": 72,
-      "Worldbuilding": 90,
-      "Gameplay": 95,
-      "Replay": 91,
-      "Exploration": 83,
-      "Progression": 93,
-      "Art": 95
-    },
-    "releaseYear": 2021,
-    "link": "https://www.nintendo.com/games/detail/metroid-dread-switch/"
-  },
-  {
-    "title": "Final Fantasy IX",
-    "genre": "JRPG",
-    "total": 89.5,
-    "scores": {
-      "Narrative": 91,
-      "Music": 95,
-      "Worldbuilding": 92,
-      "Gameplay": 84,
-      "Replay": 78,
-      "Exploration": 90,
-      "Progression": 88,
-      "Art": 93
-    },
-    "releaseYear": 2000,
-    "link": "https://www.metacritic.com/game/playstation/final-fantasy-ix"
-  },
-  {
-    "title": "Jak and Daxter",
-    "genre": "Action-Adventure",
-    "total": 87.7,
-    "scores": {
-      "Narrative": 86,
-      "Music": 74,
-      "Worldbuilding": 92,
-      "Gameplay": 95,
-      "Replay": 92,
-      "Exploration": 91,
-      "Progression": 77,
-      "Art": 95
-    },
-    "releaseYear": 2001,
-    "link": "https://en.wikipedia.org/wiki/Jak_and_Daxter:_The_Precursor_Legacy"
-  },
-  {
-    "title": "Zelda: Ocarina of Time",
-    "genre": "Action-Adventure",
-    "total": 89.05,
-    "scores": {
-      "Narrative": 89,
-      "Music": 93,
-      "Worldbuilding": 90,
-      "Gameplay": 85,
-      "Replay": 81,
-      "Exploration": 90,
-      "Progression": 91,
-      "Art": 91
-    },
-    "releaseYear": 1998,
-    "link": "https://www.zelda.com/ocarina-of-time/"
-  },
-  {
-    "title": "Fallout: New Vegas",
-    "genre": "Open-world RPG",
-    "total": 88.9,
-    "scores": {
-      "Narrative": 89,
-      "Music": 90,
-      "Worldbuilding": 93,
-      "Gameplay": 88,
-      "Replay": 90,
-      "Exploration": 92,
-      "Progression": 89,
-      "Art": 79
-    },
-    "releaseYear": 2010,
-    "link": "https://fallout.bethesda.net/en/games/fallout-new-vegas"
-  },
-  {
-    "title": "Diablo 3",
-    "genre": "Action RPG",
-    "total": 85.15,
-    "scores": {
-      "Narrative": 80,
-      "Music": 70,
-      "Worldbuilding": 90,
-      "Gameplay": 95,
-      "Replay": 95,
-      "Exploration": 69,
-      "Progression": 96,
-      "Art": 89
-    },
-    "releaseYear": 2012,
-    "link": "https://diablo3.blizzard.com/en-us/"
-  },
-  {
-    "title": "Nier Automata",
-    "genre": "Action RPG",
-    "total": 92.9,
-    "scores": {
-      "Narrative": 93,
-      "Music": 95,
-      "Worldbuilding": 93,
-      "Gameplay": 95,
-      "Replay": 75,
-      "Exploration": 93,
-      "Progression": 95,
-      "Art": 92
-    },
-    "releaseYear": 2017,
-    "link": "https://www.nierautomata.com/"
-  },
-  {
-    "title": "God of War 2018",
-    "genre": "Action-Adventure",
-    "total": 90.2,
-    "scores": {
-      "Narrative": 92,
-      "Music": 83,
-      "Worldbuilding": 93,
-      "Gameplay": 96,
-      "Replay": 60,
-      "Exploration": 92,
-      "Progression": 94,
-      "Art": 92
-    },
-    "releaseYear": 2018,
-    "link": "https://godofwar.playstation.com/"
-  },
-  {
-    "title": "Baldur's Gate 3",
-    "genre": "RPG",
-    "total": 89.4,
-    "scores": {
-      "Narrative": 82,
-      "Music": 75,
-      "Worldbuilding": 93,
-      "Gameplay": 96,
-      "Replay": 90,
-      "Exploration": 94,
-      "Progression": 95,
-      "Art": 93
-    },
-    "releaseYear": 2023,
-    "link": "https://baldursgate3.game/"
-  },
-  {
-    "title": "Pokemon (Franchise)",
-    "genre": "JRPG",
-    "total": 82.35,
-    "scores": {
-      "Narrative": 60,
-      "Music": 88,
-      "Worldbuilding": 85,
-      "Gameplay": 92,
-      "Replay": 98,
-      "Exploration": 86,
-      "Progression": 95,
-      "Art": 60
-    },
-    "releaseYear": 1996,
-    "link": "https://www.pokemon.com/"
-  },
-  {
-    "title": "Mass Effect Trilogy",
-    "genre": "Action RPG",
-    "total": 88.75,
-    "scores": {
-      "Narrative": 92,
-      "Music": 84,
-      "Worldbuilding": 93,
-      "Gameplay": 91,
-      "Replay": 70,
-      "Exploration": 89,
-      "Progression": 91,
-      "Art": 87
-    },
-    "releaseYear": 2007,
-    "link": "https://www.ea.com/games/mass-effect/mass-effect-trilogy"
-  },
-  {
-    "title": "Final Fantasy VIII",
-    "genre": "JRPG",
-    "total": 87.35,
-    "scores": {
-      "Narrative": 82,
-      "Music": 94,
-      "Worldbuilding": 86,
-      "Gameplay": 89,
-      "Replay": 75,
-      "Exploration": 86,
-      "Progression": 89,
-      "Art": 90
-    },
-    "releaseYear": 1999,
-    "link": "https://www.metacritic.com/game/playstation/final-fantasy-viii"
-  },
-  {
-    "title": "Dragon Age: Origins",
-    "genre": "RPG",
-    "total": 86.25,
-    "scores": {
-      "Narrative": 79,
-      "Music": 81,
-      "Worldbuilding": 91,
-      "Gameplay": 92,
-      "Replay": 90,
-      "Exploration": 90,
-      "Progression": 90,
-      "Art": 77
-    },
-    "releaseYear": 2009,
-    "link": "https://www.ea.com/games/dragon-age/dragon-age-origins"
-  },
-  {
-    "title": "Jak 3",
-    "genre": "Action-Adventure",
-    "total": 84.9,
-    "scores": {
-      "Narrative": 85,
-      "Music": 72,
-      "Worldbuilding": 89,
-      "Gameplay": 90,
-      "Replay": 80,
-      "Exploration": 80,
-      "Progression": 87,
-      "Art": 93
-    },
-    "releaseYear": 2004,
-    "link": "https://www.metacritic.com/game/playstation2/jak-3"
-  },
-  {
-    "title": "Minecraft",
-    "genre": "Sandbox",
-    "total": 84.55,
-    "scores": {
-      "Narrative": 30,
-      "Music": 96,
-      "Worldbuilding": 99,
-      "Gameplay": 93,
-      "Replay": 100,
-      "Exploration": 100,
-      "Progression": 82,
-      "Art": 90
-    },
-    "releaseYear": 2011,
-    "link": "https://www.minecraft.net/"
-  },
-  {
-    "title": "Fable 3",
-    "genre": "Open-world RPG",
-    "total": 86.05,
-    "scores": {
-      "Narrative": 86,
-      "Music": 79,
-      "Worldbuilding": 85,
-      "Gameplay": 90,
-      "Replay": 73,
-      "Exploration": 83,
-      "Progression": 93,
-      "Art": 93
-    },
-    "releaseYear": 2010,
-    "link": "https://www.xbox.com/en-US/games/fable-3"
-  },
-  {
-    "title": "Fable 2",
-    "genre": "Open-world RPG",
-    "total": 86.05,
-    "scores": {
-      "Narrative": 86,
-      "Music": 79,
-      "Worldbuilding": 85,
-      "Gameplay": 90,
-      "Replay": 73,
-      "Exploration": 83,
-      "Progression": 93,
-      "Art": 93
-    },
-    "releaseYear": 2008,
-    "link": "https://www.xbox.com/en-US/games/fable-2"
-  },
-  {
-    "title": "Spore",
-    "genre": "Sandbox",
-    "total": 80.05,
-    "scores": {
-      "Narrative": 71,
-      "Music": 60,
-      "Worldbuilding": 80,
-      "Gameplay": 86,
-      "Replay": 96,
-      "Exploration": 85,
-      "Progression": 90,
-      "Art": 89
-    },
-    "releaseYear": 2008,
-    "link": "https://www.ea.com/games/spore/spore"
-  },
-  {
-    "title": "Unreal Tournament 2000",
-    "genre": "Arena Shooter",
-    "total": 76.9,
-    "scores": {
-      "Narrative": 60,
-      "Music": 60,
-      "Worldbuilding": 78,
-      "Gameplay": 95,
-      "Replay": 96,
-      "Exploration": 65,
-      "Progression": 87,
-      "Art": 82
-    },
-    "releaseYear": 2000,
-    "link": "https://en.wikipedia.org/wiki/Unreal_Tournament"
-  },
-  {
-    "title": "Elden Ring",
-    "genre": "Open-world RPG",
-    "total": 91.35,
-    "scores": {
-      "Narrative": 78,
-      "Music": 95,
-      "Worldbuilding": 96,
-      "Gameplay": 92,
-      "Replay": 90,
-      "Exploration": 97,
-      "Progression": 94,
-      "Art": 90
-    },
-    "releaseYear": 2022,
-    "link": "https://en.eldensring.com/"
-  }
-];
+    
+    const games = [
+      { "title": "Nier Gestalt", "genre": "Action RPG", "total": 94.3, "scores": { "Narrative": 98, "Music": 96, "Worldbuilding": 94, "Gameplay": 95, "Replay": 90, "Exploration": 92, "Progression": 93, "Art": 89 }, "releaseYear": 2010, "link": "https://www.metacritic.com/game/playstation-3/nier" },
+      { "title": "The Witcher 3", "genre": "Open-world RPG", "total": 92.85, "scores": { "Narrative": 94, "Music": 88, "Worldbuilding": 94, "Gameplay": 94, "Replay": 93, "Exploration": 96, "Progression": 91, "Art": 93 }, "releaseYear": 2015, "link": "https://www.thewitcher.com/en/witcher3" },
+      { "title": "Final Fantasy VII", "genre": "JRPG", "total": 92.05, "scores": { "Narrative": 91, "Music": 95, "Worldbuilding": 93, "Gameplay": 92, "Replay": 90, "Exploration": 90, "Progression": 92, "Art": 91 }, "releaseYear": 1997, "link": "https://www.metacritic.com/game/playstation/final-fantasy-vii" },
+      { "title": "Kingdom Hearts 1", "genre": "Action RPG", "total": 92.5, "scores": { "Narrative": 93, "Music": 93, "Worldbuilding": 92, "Gameplay": 93, "Replay": 90, "Exploration": 89, "Progression": 94, "Art": 94 }, "releaseYear": 2002, "link": "https://www.kingdomhearts.com/home/gb/" },
+      { "title": "Kingdom Hearts 2", "genre": "Action RPG", "total": 92.5, "scores": { "Narrative": 93, "Music": 93, "Worldbuilding": 92, "Gameplay": 93, "Replay": 90, "Exploration": 89, "Progression": 94, "Art": 94 }, "releaseYear": 2005, "link": "https://www.kingdomhearts.com/home/gb/" },
+      { "title": "Oblivion", "genre": "Open-world RPG", "total": 90.65, "scores": { "Narrative": 90, "Music": 90, "Worldbuilding": 94, "Gameplay": 89, "Replay": 95, "Exploration": 95, "Progression": 91, "Art": 84 }, "releaseYear": 2006, "link": "https://en.uesp.net/wiki/Oblivion:Oblivion" },
+      { "title": "Legend of Zelda: BOTW", "genre": "Action-Adventure", "total": 92.65, "scores": { "Narrative": 82, "Music": 94, "Worldbuilding": 96, "Gameplay": 96, "Replay": 91, "Exploration": 96, "Progression": 90, "Art": 95 }, "releaseYear": 2017, "link": "https://www.zelda.com/breath-of-the-wild/" },
+      { "title": "Hades", "genre": "Roguelike", "total": 90.45, "scores": { "Narrative": 91, "Music": 81, "Worldbuilding": 95, "Gameplay": 95, "Replay": 98, "Exploration": 79, "Progression": 92, "Art": 94 }, "releaseYear": 2020, "link": "https://www.supergiantgames.com/games/hades/" },
+      { "title": "Skyrim", "genre": "Open-world RPG", "total": 91.5, "scores": { "Narrative": 90, "Music": 91, "Worldbuilding": 93, "Gameplay": 92, "Replay": 96, "Exploration": 95, "Progression": 92, "Art": 85 }, "releaseYear": 2011, "link": "https://elderscrolls.bethesda.net/en/skyrim" },
+      { "title": "Fallout 3", "genre": "Open-world RPG", "total": 89.2, "scores": { "Narrative": 90, "Music": 90, "Worldbuilding": 94, "Gameplay": 88, "Replay": 92, "Exploration": 92, "Progression": 88, "Art": 79 }, "releaseYear": 2008, "link": "https://fallout.bethesda.net/en/games/fallout-3" },
+      { "title": "Returnal", "genre": "Roguelike", "total": 91.6, "scores": { "Narrative": 97, "Music": 86, "Worldbuilding": 92, "Gameplay": 97, "Replay": 85, "Exploration": 86, "Progression": 91, "Art": 90 }, "releaseYear": 2021, "link": "https://www.playstation.com/en-gb/games/returnal/" },
+      { "title": "Metroid Dread", "genre": "Metroidvania", "total": 86.8, "scores": { "Narrative": 79, "Music": 72, "Worldbuilding": 90, "Gameplay": 95, "Replay": 91, "Exploration": 83, "Progression": 93, "Art": 95 }, "releaseYear": 2021, "link": "https://www.nintendo.com/games/detail/metroid-dread-switch/" },
+      { "title": "Final Fantasy IX", "genre": "JRPG", "total": 89.5, "scores": { "Narrative": 91, "Music": 95, "Worldbuilding": 92, "Gameplay": 84, "Replay": 78, "Exploration": 90, "Progression": 88, "Art": 93 }, "releaseYear": 2000, "link": "https://www.metacritic.com/game/playstation/final-fantasy-ix" },
+      { "title": "Jak and Daxter", "genre": "Action-Adventure", "total": 87.7, "scores": { "Narrative": 86, "Music": 74, "Worldbuilding": 92, "Gameplay": 95, "Replay": 92, "Exploration": 91, "Progression": 77, "Art": 95 }, "releaseYear": 2001, "link": "https://en.wikipedia.org/wiki/Jak_and_Daxter:_The_Precursor_Legacy" },
+      { "title": "Zelda: Ocarina of Time", "genre": "Action-Adventure", "total": 89.05, "scores": { "Narrative": 89, "Music": 93, "Worldbuilding": 90, "Gameplay": 85, "Replay": 81, "Exploration": 90, "Progression": 91, "Art": 91 }, "releaseYear": 1998, "link": "https://www.zelda.com/ocarina-of-time/" },
+      { "title": "Fallout: New Vegas", "genre": "Open-world RPG", "total": 88.9, "scores": { "Narrative": 89, "Music": 90, "Worldbuilding": 93, "Gameplay": 88, "Replay": 90, "Exploration": 92, "Progression": 89, "Art": 79 }, "releaseYear": 2010, "link": "https://fallout.bethesda.net/en/games/fallout-new-vegas" },
+      { "title": "Diablo 3", "genre": "Action RPG", "total": 85.15, "scores": { "Narrative": 80, "Music": 70, "Worldbuilding": 90, "Gameplay": 95, "Replay": 95, "Exploration": 69, "Progression": 96, "Art": 89 }, "releaseYear": 2012, "link": "https://diablo3.blizzard.com/en-us/" },
+      { "title": "Nier Automata", "genre": "Action RPG", "total": 92.9, "scores": { "Narrative": 93, "Music": 95, "Worldbuilding": 93, "Gameplay": 95, "Replay": 75, "Exploration": 93, "Progression": 95, "Art": 92 }, "releaseYear": 2017, "link": "https://www.nierautomata.com/" },
+      { "title": "God of War 2018", "genre": "Action-Adventure", "total": 90.2, "scores": { "Narrative": 92, "Music": 83, "Worldbuilding": 93, "Gameplay": 96, "Replay": 60, "Exploration": 92, "Progression": 94, "Art": 92 }, "releaseYear": 2018, "link": "https://godofwar.playstation.com/" },
+      { "title": "Baldur's Gate 3", "genre": "RPG", "total": 89.4, "scores": { "Narrative": 82, "Music": 75, "Worldbuilding": 93, "Gameplay": 96, "Replay": 90, "Exploration": 94, "Progression": 95, "Art": 93 }, "releaseYear": 2023, "link": "https://baldursgate3.game/" },
+      { "title": "Pokemon (Franchise)", "genre": "JRPG", "total": 82.35, "scores": { "Narrative": 60, "Music": 88, "Worldbuilding": 85, "Gameplay": 92, "Replay": 98, "Exploration": 86, "Progression": 95, "Art": 60 }, "releaseYear": 1996, "link": "https://www.pokemon.com/" },
+      { "title": "Mass Effect Trilogy", "genre": "Action RPG", "total": 88.75, "scores": { "Narrative": 92, "Music": 84, "Worldbuilding": 93, "Gameplay": 91, "Replay": 70, "Exploration": 89, "Progression": 91, "Art": 87 }, "releaseYear": 2007, "link": "https://www.ea.com/games/mass-effect/mass-effect-trilogy" },
+      { "title": "Final Fantasy VIII", "genre": "JRPG", "total": 87.35, "scores": { "Narrative": 82, "Music": 94, "Worldbuilding": 86, "Gameplay": 89, "Replay": 75, "Exploration": 86, "Progression": 89, "Art": 90 }, "releaseYear": 1999, "link": "https://www.metacritic.com/game/playstation/final-fantasy-viii" },
+      { "title": "Dragon Age: Origins", "genre": "RPG", "total": 86.25, "scores": { "Narrative": 79, "Music": 81, "Worldbuilding": 91, "Gameplay": 92, "Replay": 90, "Exploration": 90, "Progression": 90, "Art": 77 }, "releaseYear": 2009, "link": "https://www.ea.com/games/dragon-age/dragon-age-origins" },
+      { "title": "Jak 3", "genre": "Action-Adventure", "total": 84.9, "scores": { "Narrative": 85, "Music": 72, "Worldbuilding": 89, "Gameplay": 90, "Replay": 80, "Exploration": 80, "Progression": 87, "Art": 93 }, "releaseYear": 2004, "link": "https://www.metacritic.com/game/playstation2/jak-3" },
+      { "title": "Minecraft", "genre": "Sandbox", "total": 84.55, "scores": { "Narrative": 30, "Music": 96, "Worldbuilding": 99, "Gameplay": 93, "Replay": 100, "Exploration": 100, "Progression": 82, "Art": 90 }, "releaseYear": 2011, "link": "https://www.minecraft.net/" },
+      { "title": "Fable 3", "genre": "Open-world RPG", "total": 86.05, "scores": { "Narrative": 86, "Music": 79, "Worldbuilding": 85, "Gameplay": 90, "Replay": 73, "Exploration": 83, "Progression": 93, "Art": 93 }, "releaseYear": 2010, "link": "https://www.xbox.com/en-US/games/fable-3" },
+      { "title": "Fable 2", "genre": "Open-world RPG", "total": 86.05, "scores": { "Narrative": 86, "Music": 79, "Worldbuilding": 85, "Gameplay": 90, "Replay": 73, "Exploration": 83, "Progression": 93, "Art": 93 }, "releaseYear": 2008, "link": "https://www.xbox.com/en-US/games/fable-2" },
+      { "title": "Spore", "genre": "Sandbox", "total": 80.05, "scores": { "Narrative": 71, "Music": 60, "Worldbuilding": 80, "Gameplay": 86, "Replay": 96, "Exploration": 85, "Progression": 90, "Art": 89 }, "releaseYear": 2008, "link": "https://www.ea.com/games/spore/spore" },
+      { "title": "Unreal Tournament 2000", "genre": "Arena Shooter", "total": 76.9, "scores": { "Narrative": 60, "Music": 60, "Worldbuilding": 78, "Gameplay": 95, "Replay": 96, "Exploration": 65, "Progression": 87, "Art": 82 }, "releaseYear": 2000, "link": "https://en.wikipedia.org/wiki/Unreal_Tournament" },
+      { "title": "Elden Ring", "genre": "Open-world RPG", "total": 91.35, "scores": { "Narrative": 78, "Music": 95, "Worldbuilding": 96, "Gameplay": 92, "Replay": 90, "Exploration": 97, "Progression": 94, "Art": 90 }, "releaseYear": 2022, "link": "https://en.eldensring.com/" }
+    ];
 
     const gameList = document.getElementById("game-list");
     const genreFilter = document.getElementById("genreFilter");
     const tierFilter = document.getElementById("tierFilter");
     const scoreFilter = document.getElementById("scoreFilter");
     const toggleViewBtn = document.getElementById("toggleView");
+    const paginationContainer = document.getElementById("pagination");
     let isGalleryView = true;
+    let currentPage = 1;
+    const gamesPerPage = 10;
 
     function getTier(score) {
       if (score >= 94) return "S+";
@@ -699,51 +253,72 @@ const games = [
       return '#e53935';
     }
 
+    function renderGamesPage(filteredGames, page) {
+      gameList.innerHTML = "";
+      const start = (page - 1) * gamesPerPage;
+      const end = start + gamesPerPage;
+      const gamesToShow = filteredGames.slice(start, end);
+
+      gamesToShow.forEach((game, index) => {
+        const tier = getTier(game.total);
+        const heat = heatmapCategories(game.scores)
+          .map(cat => `<span style="background:${getHeatColor(cat.value)}">${cat.label}: ${cat.value}</span>`)
+          .join("");
+        const releaseYearText = game.releaseYear ? ` (${game.releaseYear})` : "";
+        const card = document.createElement("div");
+        card.className = "game-card";
+        card.innerHTML = `
+          <div class="entry-header">
+            <h2>
+              <a href="${game.link}" target="_blank" rel="noopener noreferrer">
+                ${start + index + 1}. ${game.title}${releaseYearText}
+              </a>
+            </h2>
+          </div>
+          <div class="heatmap">${heat}</div>
+          <div class="entry-footer">
+            Tier: ${tier} | ${game.genre} | Score: ${game.total}/100
+          </div>
+        `;
+        gameList.appendChild(card);
+      });
+    }
+
+    function updatePaginationControls(filteredGames, currentPage) {
+      paginationContainer.innerHTML = "";
+      const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+      if (totalPages <= 1) return;
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = "pagination-button" + (i === currentPage ? " active" : "");
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          renderGamesPage(filteredGames, currentPage);
+          updatePaginationControls(filteredGames, currentPage);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        paginationContainer.appendChild(btn);
+      }
+    }
+
     function renderGames() {
       const selectedGenre = genreFilter.value;
       const selectedTier = tierFilter.value;
       const selectedScore = scoreFilter.value;
 
-      gameList.innerHTML = "";
-
-      const filteredGames = games.filter(game => {
+      let filteredGames = games.filter(game => {
         const tier = getTier(game.total);
-
         const genreMatch = selectedGenre === "All" || game.genre === selectedGenre;
         const tierMatch = selectedTier === "All" || tier === selectedTier;
         const scoreMatch = selectedScore === "All" || game.total >= parseFloat(selectedScore);
-
         return genreMatch && tierMatch && scoreMatch;
       });
 
-      filteredGames
-  .sort((a, b) => b.total - a.total)
-  .forEach((game, index) => {
-    const tier = getTier(game.total);
-    const heat = heatmapCategories(game.scores)
-      .map(
-        cat => `<span style="background:${getHeatColor(cat.value)}">${cat.label}: ${cat.value}</span>`
-      )
-      .join("");
-    const releaseYearText = game.releaseYear ? ` (${game.releaseYear})` : "";
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.innerHTML = `
-      <div class="entry-header">
-        <h2>
-          <a href="${game.link}" target="_blank" rel="noopener noreferrer">
-            ${index + 1}. ${game.title}${releaseYearText}
-          </a>
-        </h2>
-      </div>
-      <div class="heatmap">${heat}</div>
-      <div class="entry-footer">
-        Tier: ${tier} | ${game.genre} | Score: ${game.total}/100
-      </div>
-    `;
-    gameList.appendChild(card);
-  });
-
+      filteredGames.sort((a, b) => b.total - a.total);
+      currentPage = 1;
+      renderGamesPage(filteredGames, currentPage);
+      updatePaginationControls(filteredGames, currentPage);
     }
 
     function populateGenreFilter() {
@@ -767,6 +342,14 @@ const games = [
 
     populateGenreFilter();
     renderGames();
+
+    const backToTopButton = document.getElementById("back-to-top");
+    window.addEventListener("scroll", () => {
+      backToTopButton.style.display = window.pageYOffset > 300 ? "block" : "none";
+    });
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   </script>
 </body>
 </html>
