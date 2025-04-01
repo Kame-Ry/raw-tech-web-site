@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="/assets/css/contact.css">
+
+  <style>
+    #contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    #contact-form button {
+      display: inline-block;
+      padding: 10px;
+      background-color: #464646;
+      color: #f5f5f5;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    #contact-form button:hover {
+      background-color: #6e6e6e;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    #form-status {
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="/assets/functions/fetch.js" defer></script>
+</head>
+<body>
+  <header id="header"></header>
+  <nav id="nav"></nav>
+
+  <main>
+    <div id="contact">
+      <form id="contact-form">
+        <h2>Contact Us</h2>
+        <input type="text" id="user_name" name="user_name" placeholder="Your Name" required />
+        <input type="email" id="user_email" name="user_email" placeholder="Your Email" required />
+        <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+
+        <div class="g-recaptcha" data-sitekey="6LfAKvAqAAAAAAF4DCtmoBf_3Pv0yc9_geygvNkk"></div>
+
+        <button type="submit">Send Message</button>
+        <div id="form-status"></div>
+      </form>
+    </div>
+  </main>
+
+  <footer id="footer"></footer>
+
+  <script>
+    emailjs.init('HSwpVqrwZkX8zURpF');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupInputValidation();
+      initContactForm();
+    });
+
+    function setupInputValidation() {
+      const messageField = document.getElementById('message');
+      const nameField = document.getElementById('user_name');
+      const maxLength = 200;
+      const regex = /^[a-zA-Z0-9\s.,!?'-]{1,200}$/;
+
+      messageField.addEventListener('input', () => {
+        const statusDiv = document.getElementById('form-status');
+
+        if (messageField.value.length > maxLength) {
+          statusDiv.textContent = `Message too long! Max ${maxLength} characters.`;
+          statusDiv.style.color = 'red';
+        } else if (!regex.test(messageField.value)) {
+          statusDiv.textContent = 'Invalid characters used!';
+          statusDiv.style.color = 'red';
+        } else {
+          statusDiv.textContent = '';
+        }
+      });
+
+      nameField.addEventListener('input', () => {
+        if (!regex.test(nameField.value)) {
+          nameField.setCustomValidity("Invalid characters used!");
+        } else {
+          nameField.setCustomValidity("");
+        }
+      });
+    }
+
+    function initContactForm() {
+      const form = document.getElementById('contact-form');
+      const statusDiv = document.getElementById('form-status');
+
+      if (!form || !statusDiv) {
+        console.error('Contact form or status div not found.');
+        return;
+      }
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const recaptchaResponse = grecaptcha.getResponse();
+
+        if (!recaptchaResponse) {
+          statusDiv.textContent = 'Please complete the reCAPTCHA!';
+          statusDiv.style.color = 'red';
+          return;
+        }
+
+        const userName = document.getElementById('user_name').value.trim();
+        const userEmail = document.getElementById('user_email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const regex = /^[a-zA-Z0-9\s.,!?'-]{1,200}$/;
+
+        if (!regex.test(userName) || !regex.test(message)) {
+          statusDiv.textContent = 'Invalid input detected!';
+          statusDiv.style.color = 'red';
+          return;
+        }
+
+        const formData = {
+          user_name: userName,
+          user_email: userEmail,
+          message: message,
+          'g-recaptcha-response': recaptchaResponse,
+        };
+
+        statusDiv.textContent = 'Sending...';
+        statusDiv.style.color = '#000';
+
+        emailjs.send('gmail_service', 'contact_form', formData)
+          .then(() => {
+            statusDiv.textContent = 'Message sent successfully! We will get back to you shortly.';
+            statusDiv.style.color = 'green';
+            form.reset();
+            grecaptcha.reset();
+          })
+          .catch((error) => {
+            console.error('EmailJS error:', error);
+            statusDiv.textContent = 'Error sending message. Please try again.';
+            statusDiv.style.color = 'red';
+            grecaptcha.reset();
+          });
+      });
+    }
+  </script>
+</body>
+</html>

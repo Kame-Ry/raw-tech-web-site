@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landscape Photography</title>
+  <meta name="description" content="A journey through landscape photography showcasing breathtaking images from around the world.">
+  <link rel="stylesheet" href="/assets/css/article.css">
+  <script src="/assets/functions/fetch.js" defer></script>
+  <style>
+    
+    a {
+      color: #f75a22;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #ff8c42;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.5rem 0;
+    }
+    #back-to-top {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #f75a22;
+      color: #ffffff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 1em;
+      transition: opacity 0.3s ease;
+    }
+    #back-to-top:hover {
+      background-color: #ff8c42;
+    }
+
+    .photo-block {
+      margin-bottom: 2rem;
+    }
+
+    .pagination-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .pagination-button {
+      background-color: #f75a22;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      margin: 0 4px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .pagination-button:hover {
+      background-color: #ff8c42;
+    }
+    .pagination-button.active {
+      background-color: #ff8c42;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-overlay"></div>
+  <header id="header"></header>
+  <nav id="nav"></nav>
+  <main class="post-container">
+    <article class="post-header">
+      <p class="post-meta">
+        Published on <time datetime="2025-03-27">March 27, 2025</time> • 6 min read
+      </p>
+      <h1 class="post-title">A Journey Through Landscape Photography</h1>
+    </article>
+    <article class="post-content">
+      <p>Each frame is a memory, a story, and a small piece of stillness I was lucky enough to capture.</p>
+      <div id="photo-container">
+
+        <div class="photo-block">
+          <h2>Hangzhou, China <small><time datetime="2018-11">Nov 2018</time></small></h2>
+          <img src="/assets/images/landscapes/Hangzhou, China.jpg" alt="Hangzhou, China" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>CN Tower, Canada <small><time datetime="2021-10">Oct 2021</time></small></h2>
+          <img src="/assets/images/landscapes/CN Tower, Canada.jpg" alt="CN Tower, Canada" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Colosseum, Italy <small><time datetime="2023-07">Jul 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Colosseum, Italy.jpg" alt="Colosseum, Italy" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Cornwall, UK <small><time datetime="2023-08">Aug 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Cornwall, UK.jpg" alt="Cornwall, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>West Lake, Hangzhou, China <small><time datetime="2018-11">Nov 2018</time></small></h2>
+          <img src="/assets/images/landscapes/Hangzhou 2, China.jpg" alt="Hangzhou 2, China" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Llanddwyn Lighthouse, UK <small><time datetime="2023-02">Feb 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Llanddwyn Lighthouse, UK.jpg" alt="Llanddwyn Lighthouse, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Ingleborough, UK <small><time datetime="2023-04">April 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Ingleborough, UK.jpg" alt="Ingleborough, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Lake Como, Italy <small><time datetime="2023-07">Jul 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Lake Como, Italy.jpg" alt="Lake Como, Italy" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Lake Como from the Pier, Italy <small><time datetime="2023-07">July 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Lake Como 2, Italy.jpg" alt="Lake Como 2, Italy" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Loch Lomond, Scotland <small><time datetime="2022-03">Mar 2022</time></small></h2>
+          <img src="/assets/images/landscapes/Loch Lomond, Scotland.jpg" alt="Loch Lomond, Scotland" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Mount Vesuvius, Italy <small><time datetime="2017-07">Jul 2017</time></small></h2>
+          <img src="/assets/images/landscapes/Mount Vesuvius.jpg" alt="Mount Vesuvius" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Ningbo, Zhejiang, China <small><time datetime="2018-11">Nov 2018</time></small></h2>
+          <img src="/assets/images/landscapes/Ningbo, Zhejiang, China.jpg" alt="Ningbo, Zhejiang, China" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Niagara Falls, Canada <small><time datetime="2021-10">Oct 2021</time></small></h2>
+          <img src="/assets/images/landscapes/Niagara Falls.jpg" alt="Niagara Falls" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Northern Lights, Lake District, UK <small><time datetime="2023-07">July 2023</time></small></h2>
+          <img src="/assets/images/landscapes/Northern Lights, Lake District, UK.jpg" alt="Northern Lights, Lake District, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Northern Lights (Alternate), UK <small><time datetime="2024-04">April 2024</time></small></h2>
+          <img src="/assets/images/landscapes/Northern Lights 2, Lake District, UK.jpg" alt="Northern Lights 2, Lake District, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Old Arrochar Pier, Scotland <small><time datetime="2022-03">Mar 2022</time></small></h2>
+          <img src="/assets/images/landscapes/Old Arrochar Pier, Scotland.jpg" alt="Old Arrochar Pier, Scotland" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Old Man of Coniston, UK <small><time datetime="2022-03">Mar 2022</time></small></h2>
+          <img src="/assets/images/landscapes/Old Man of Coniston, UK.jpg" alt="Old Man of Coniston, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>South Stack Lighthouse, Wales <small><time datetime="2023-02">Feb 2023</time></small></h2>
+          <img src="/assets/images/landscapes/South Stack, Wales.jpg" alt="South Stack Lighthouse, Wales" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Staithes, North Yorkshire, UK <small><time datetime="2024-01">Jan 2024</time></small></h2>
+          <img src="/assets/images/landscapes/Staithes, UK.jpg" alt="Staithes, North Yorkshire, UK" loading="lazy">
+        </div>
+        <div class="photo-block">
+          <h2>Helvellyn, UK <small><time datetime="2021-06">Jun 2021</time></small></h2>
+          <img src="/assets/images/landscapes/Lake District View.jpg" alt="Helvellyn, UK" loading="lazy">
+        </div>
+      </div>
+    </article>
+
+    <div id="pagination" class="pagination-container"></div>
+  </main>
+  <footer id="footer"></footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑ Top</button>
+
+  <script>
+    const backToTopButton = document.getElementById("back-to-top");
+    window.addEventListener("scroll", () => {
+      backToTopButton.style.display = window.pageYOffset > 300 ? "block" : "none";
+    });
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const photoBlocks = document.querySelectorAll(".photo-block");
+      const paginationContainer = document.getElementById("pagination");
+      const photosPerPage = 10;
+      let currentPage = 1;
+      const totalPages = Math.ceil(photoBlocks.length / photosPerPage);
+
+      function showPage(page) {
+        currentPage = page;
+        const start = (page - 1) * photosPerPage;
+        const end = start + photosPerPage;
+        photoBlocks.forEach((block, index) => {
+          block.style.display = (index >= start && index < end) ? "block" : "none";
+        });
+        updatePaginationControls();
+      }
+
+      function updatePaginationControls() {
+        paginationContainer.innerHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = i;
+          btn.className = "pagination-button" + (i === currentPage ? " active" : "");
+          btn.addEventListener("click", () => showPage(i));
+          paginationContainer.appendChild(btn);
+        }
+      }
+
+      showPage(1);
+    });
+  </script>
+</body>
+</html>
