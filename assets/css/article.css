@@ -9,7 +9,6 @@ body {
     min-height: 100vh;
 }
 
-
 .post-container {
     max-width: 800px;
     margin: auto;
@@ -111,7 +110,11 @@ pre {
     font-size: 14px;
 }
 
-/* Mobile responsive overrides */
+pre code {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
 @media (max-width: 600px) {
     .post-container {
         max-width: 100%;
@@ -130,6 +133,7 @@ pre {
         font-size: 16px;
         line-height: 1.6;
         padding: 0 10px;
+        word-wrap: break-word;
     }
     .post-content h2 {
         font-size: 22px;
