@@ -10,7 +10,6 @@
   <meta property="og:type" content="website" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
   <style>
-    
     body {
       margin: 0;
       background-color: #1c1c1f;
@@ -196,7 +195,7 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    
+
     #reset-filter {
       padding: 10px;
       font-size: 16px;
@@ -222,6 +221,39 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* 🔧 Mobile Fix */
+    @media (max-width: 600px) {
+      .widget-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      article.post-entry {
+        padding: 16px;
+        min-height: auto;
+      }
+
+      .entry-header h2 {
+        font-size: 22px;
+      }
+
+      .entry-content {
+        font-size: 14px;
+        -webkit-line-clamp: 4;
+      }
+
+      .entry-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .tag {
+        font-size: 12px;
+        padding: 4px 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -232,7 +264,6 @@
       <select id="tag-select">
         <option value="">All Projects</option>
       </select>
-
       <button id="reset-filter">Reset Filter</button>
     </div>
     <div id="loading" class="loading-spinner"></div>
@@ -274,13 +305,8 @@
       postFiles.forEach(post => {
         const filePath = `/components/article-links/${post.file}${cacheBuster}`;
         fetch(filePath)
-          .then(res => {
-            if (res.ok) return res.text();
-            throw new Error(`Failed to load ${post.file}`);
-          })
-          .then(html => {
-            container.insertAdjacentHTML("beforeend", html);
-          })
+          .then(res => res.ok ? res.text() : Promise.reject(`Failed to load ${post.file}`))
+          .then(html => container.insertAdjacentHTML("beforeend", html))
           .catch(err => console.error(err))
           .finally(() => {
             loadCount++;
