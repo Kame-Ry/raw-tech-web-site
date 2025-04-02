@@ -51,8 +51,6 @@ body {
     text-align: justify;
 }
 
-
-
 .post-content h2 {
     font-size: 26px;
     margin-top: 30px;
@@ -93,8 +91,8 @@ body {
 }
 
 .desc {
-  background: #2E2E33;
-  color: #ffffff;
+    background: #2E2E33;
+    color: #ffffff;
     font-size: 14px;
 }
 
@@ -105,10 +103,36 @@ body {
 }
 
 pre {
-  background: #000000;
-  color: #05ff05;
+    background: #000000;
+    color: #05ff05;
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
     font-size: 14px;
+}
+
+/* Mobile responsive overrides */
+@media (max-width: 600px) {
+    .post-container {
+        max-width: 100%;
+        padding: 10px;
+    }
+    .post-header {
+        margin-bottom: 20px;
+    }
+    .post-title {
+        font-size: 28px;
+    }
+    .post-meta {
+        font-size: 12px;
+    }
+    .post-content {
+        font-size: 16px;
+        line-height: 1.6;
+        padding: 0 10px;
+    }
+    .post-content h2 {
+        font-size: 22px;
+        margin-top: 20px;
+    }
 }
