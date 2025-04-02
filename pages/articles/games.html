@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="/assets/css/article.css" />
   <script src="/assets/functions/fetch.js" defer></script>
   <style>
-    
     body {
       scroll-behavior: smooth;
     }
@@ -31,7 +30,15 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
+    
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
     .game-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -105,7 +112,6 @@
       display: block;
       max-width: 800px;
     }
-    
     .pagination-container {
       text-align: center;
       margin: 2rem 0;
@@ -128,7 +134,6 @@
       color: #fff;
       font-weight: bold;
     }
-    
     #back-to-top {
       display: none;
       position: fixed;
@@ -190,7 +195,6 @@
   <button id="back-to-top" aria-label="Back to top">↑ Top</button>
 
   <script>
-    
     const games = [
       { "title": "Nier Gestalt", "genre": "Action RPG", "total": 94.3, "scores": { "Narrative": 98, "Music": 96, "Worldbuilding": 94, "Gameplay": 95, "Replay": 90, "Exploration": 92, "Progression": 93, "Art": 89 }, "releaseYear": 2010, "link": "https://www.metacritic.com/game/playstation-3/nier" },
       { "title": "The Witcher 3", "genre": "Open-world RPG", "total": 92.85, "scores": { "Narrative": 94, "Music": 88, "Worldbuilding": 94, "Gameplay": 94, "Replay": 93, "Exploration": 96, "Progression": 91, "Art": 93 }, "releaseYear": 2015, "link": "https://www.thewitcher.com/en/witcher3" },
