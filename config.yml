@@ -1,0 +1,14 @@
+baseURL: "https://raw-tech.co.uk/"
+title: "RAW-TECH"
+theme: "PaperMod"
+defaultContentLanguage: en
+enableRobotsTXT: true
+pagination:
+  pagerSize: 10
+buildDrafts: false
+
+params:
+  homeInfoParams:
+    Title: "Hi, I’m Ryan 👋"
+    Content: "Welcome to RAW-TECH — Project logs, tech guides, and experiments."
+  socialIcons: []
