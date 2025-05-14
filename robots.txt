@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://raw-tech.co.uk/sitemap.xml
