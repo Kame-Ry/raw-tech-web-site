@@ -5,7 +5,7 @@ date: 2025-05-14
 type: post
 tags: ["photography"]
 cover:
-  image: "/images/landscapes/bologna2.jpg"
+  image: "/images/landscapes/Bologna2.jpg"
   alt: "Bologna, Italy"
   caption: "Bologna, Italy"
   relative: false
