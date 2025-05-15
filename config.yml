@@ -26,7 +26,10 @@ params:
   ShowPostCover: true
   ShowPostCoverInList: true
   ShowPostCoverInSingle: true
-  ShowShareButtons: true
+  ShowShareButtons: false
+  ShowReadingTime: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
 
 markup:
   goldmark:
