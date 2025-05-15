@@ -1,11 +1,12 @@
 {
-  "pages": 4,
-  "posts": 1,
+  "pages": 5,
+  "posts": 2,
   "nonPosts": 3,
   "tags": [
+    "gaming",
     "photography"
   ],
   "categories": [],
-  "words": 197,
-  "avgWords": 197.0
+  "words": 546,
+  "avgWords": 273.0
 }
