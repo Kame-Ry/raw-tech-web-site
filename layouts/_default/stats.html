@@ -1,0 +1,14 @@
+{{ define "main" }}
+<article class="post-content">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <table>
+    <tbody>
+      <tr><td>Number of posts</td><td>{{ site.Data.site_stats.posts }}</td></tr>
+      <tr><td>Number of tags</td><td>{{ len site.Data.site_stats.tags }}</td></tr>
+      <tr><td>Total words written</td><td>{{ site.Data.site_stats.words }}</td></tr>
+      <tr><td>Average words per post</td><td>{{ site.Data.site_stats.avgWords }}</td></tr>
+    </tbody>
+  </table>
+</article>
+{{ end }}

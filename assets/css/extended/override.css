@@ -1,0 +1,19 @@
+.home-info h1 strong {
+  color: #D95E1A;
+}
+
+.home-social-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.home-more-button {
+  margin-top: 1rem;
+  background-color: #D95E1A;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  display: inline-block;
+  text-decoration: none;
+}

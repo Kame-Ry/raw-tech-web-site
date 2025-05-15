@@ -3,12 +3,72 @@ title: "RAW-TECH"
 theme: "PaperMod"
 defaultContentLanguage: en
 enableRobotsTXT: true
-pagination:
-  pagerSize: 10
 buildDrafts: false
 
+pagination:
+  pagerSize: 10
+
+taxonomies:
+  tag: "tags"
+  category: "categories"
+
 params:
+  description: "RAW-TECH"
+  author: "Ryan Witts"
+  env: production
+  images:
+    - "/images/Logo.png"
+
   homeInfoParams:
-    Title: "Hi, I’m Ryan 👋"
-    Content: "Welcome to RAW-TECH — Project logs, tech guides, and experiments."
-  socialIcons: []
+    Title: "Tech, Code, and Everything In-Between"
+    Content: |
+      **Welcome — I’m Ryan.**  
+      This site is my digital hub for everything I build and explore — from tech projects to personal experiments.  
+    actions:
+    - name: View Projects
+      url: /posts/
+      icon: projects
+    - name: Click here for more
+      url: /about/
+      class: home-more-button
+        
+
+  showRecent: true
+  homePostsSection: "posts"
+  recentPostsLimit: 5
+
+  ShowPostCover: true
+  ShowPostCoverInList: true
+  ShowPostCoverInSingle: true
+  ShowShareButtons: true
+
+  cover:
+    responsiveImages: true
+    hidden: false
+    linkFullImages: true
+
+  assets:
+    disableFingerprinting: true
+  editPost:
+    showCodeCopyButtons: true
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/Kame-Ry"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/ryan-witts-72993a181/"
+
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
+    - identifier: posts
+      name: Posts
+      url: /posts/
+      weight: 2
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 3
