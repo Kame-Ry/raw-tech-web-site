@@ -19,20 +19,6 @@ params:
   images:
     - "/images/Logo.png"
 
-  homeInfoParams:
-    Title: "Tech, Code, and Everything In-Between"
-    Content: |
-      **Welcome — I’m Ryan.**  
-      This site is my digital hub for everything I build and explore — from tech projects to personal experiments.  
-    actions:
-    - name: View Projects
-      url: /posts/
-      icon: projects
-    - name: Click here for more
-      url: /about/
-      class: home-more-button
-        
-
   showRecent: true
   homePostsSection: "posts"
   recentPostsLimit: 5
@@ -42,6 +28,11 @@ params:
   ShowPostCoverInSingle: true
   ShowShareButtons: true
 
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+      
   cover:
     responsiveImages: true
     hidden: false
