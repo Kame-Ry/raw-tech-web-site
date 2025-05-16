@@ -7,7 +7,6 @@ tags: ["gaming"]
 cover:
   image: "/images/games.jpg"
   alt: "Retro-style game rankings"
-  caption: "A ranked list of personal gaming favorites."
 ---
 
 Here's a ranked breakdown of my favorite games, scored across various categories that matter most to me — such as Narrative, Worldbuilding, Music, and Replayability.

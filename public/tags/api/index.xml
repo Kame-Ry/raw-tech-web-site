@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Api on RAW-TECH</title>
+    <link>http://localhost:1313/tags/api/</link>
+    <description>Recent content in Api on RAW-TECH</description>
+    <image>
+      <title>RAW-TECH</title>
+      <url>http://localhost:1313/images/Logo.png</url>
+      <link>http://localhost:1313/images/Logo.png</link>
+    </image>
+    <generator>Hugo -- 0.147.2</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 16 May 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/api/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Weather Tracker: A Real-Time Weather App</title>
+      <link>http://localhost:1313/posts/weather_tracker/</link>
+      <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/weather_tracker/</guid>
+      <description>A modern weather web app using OpenWeather API and Vercel serverless functions.</description>
+    </item>
+  </channel>
+</rss>

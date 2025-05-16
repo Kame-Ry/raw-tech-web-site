@@ -1,12 +1,21 @@
 {
-  "pages": 5,
-  "posts": 2,
+  "pages": 8,
+  "posts": 5,
   "nonPosts": 3,
   "tags": [
+    "ai",
+    "api",
+    "exchange",
+    "film",
     "gaming",
-    "photography"
+    "photography",
+    "powershell",
+    "python",
+    "security",
+    "tech",
+    "weather"
   ],
   "categories": [],
-  "words": 546,
-  "avgWords": 273.0
+  "words": 1522,
+  "avgWords": 304.4
 }

@@ -1,4 +1,4 @@
 ---
 title: "Posts"
-summary: "A collection of technical experiments, builds, and writeups."
+summary: "A collection of tech projects and personal interests"
 ---
