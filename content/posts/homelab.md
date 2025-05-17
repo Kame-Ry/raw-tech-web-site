@@ -409,7 +409,7 @@ And most importantly: **Docker Compose** lets me define the entire stack in one 
 
 All containers live under `/mnt/ssd-linux/docker`, which sits on the 1TB EXT4 SSD passed through to the VM. It's clean, fast, and not affected by NTFS permission weirdness.
 
-```
+<pre><code>
 /mnt/ssd-linux/
 └── docker/
     ├── compose.yml
@@ -424,7 +424,8 @@ All containers live under `/mnt/ssd-linux/docker`, which sits on the 1TB EXT4 SS
     ├── uptime-kuma/
     ├── filebrowser/
     └── scripts/
-```
+</code></pre>
+
 
 ---
 
