@@ -580,13 +580,13 @@ Networking is where most people go overboard — VLANs, dual-NIC bonding, multi-
 
 ## Baseline Network Layout
 
-```
+<pre><code>
 [Internet]
    │
 [ISP Router]
    ├── 192.168.0.X → Proxmox (homelab)
    └── 192.168.0.X → Debian VM (docker-host)
-```
+</code></pre>
 
 - DHCP reservations for both Proxmox and the Docker VM
 - No static IPs hardcoded in OS — all managed by router bindings
@@ -704,14 +704,14 @@ Homepage acts as a simple self-hosted dashboard to:
 
 Mounted at `/mnt/ssd-linux/docker/homepage/`, the config is stored in:
 
-```
+<pre><code>
 /mnt/ssd-linux/docker/homepage/
 ├── config/
 │   ├── services.yaml
 │   ├── bookmarks.yaml
 │   ├── settings.yaml
 │   └── widgets.yaml
-```
+</code></pre>
 
 Accessible at `http://192.168.0.X:3005`
 
