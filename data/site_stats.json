@@ -1,21 +1,30 @@
 {
-  "pages": 8,
-  "posts": 5,
+  "pages": 9,
+  "posts": 6,
   "nonPosts": 3,
   "tags": [
     "ai",
     "api",
+    "automation",
+    "docker",
     "exchange",
     "film",
     "gaming",
+    "homelab",
+    "homepage",
     "photography",
+    "plex",
     "powershell",
+    "proxmox",
     "python",
     "security",
+    "tailscale",
     "tech",
+    "uptime-kuma",
+    "vpn",
     "weather"
   ],
   "categories": [],
-  "words": 1522,
-  "avgWords": 304.4
+  "words": 6086,
+  "avgWords": 1014.33
 }
