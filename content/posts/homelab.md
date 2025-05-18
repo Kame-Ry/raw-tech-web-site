@@ -17,15 +17,15 @@ draft: false
 
 # Why I Built This Homelab
 
-Modern streaming culture is exhausting. Content is fragmented across too many services, each demanding money for one or two shows/films I actually care about. I resent funding bloated catalogs filled with corporate sludge, Marvel filler arcs, or algorithm-bait reality nonsense.
+Modern streaming culture is exhausting. Content is fragmented across too many services, each demanding money for one or two shows or films people actually care about. It’s frustrating to pay for access only to be served bloated catalogs, Marvel filler arcs, or algorithm-bait reality TV.
 
-I built my media library with intent, focused on older, niche, or overlooked content that often isn’t available anywhere else. I want to watch *The Bear*, not pay for Disney+ just to be served endless Marvel spin-offs.
+Self-hosted media libraries have emerged as a response to that — a way to curate a meaningful, ad-free experience. They’re often built around content that’s hard to access legally: older titles, niche genres, or region-locked releases. For many, setting up something like Plex is less about cost-saving and more about taking control.
 
-> **Piracy, for me, isn’t theft, it’s protest.**
+> **Media self-hosting can be a form of protest.**
 
-It’s a rejection of a system that prioritises profit over storytelling, that inflates prices while inserting ads, fragments content while squeezing creators. When I find something meaningful, I support it, not through monthly fees, but with merch, direct purchases, and word of mouth. That’s why I built my own Plex server.
+It pushes back against a corporate model that prioritises subscriptions and ad revenue over storytelling. When content resonates, real fans often support it directly, through merchandise, physical media, or word of mouth, not passive monthly payments.
 
-It started as a hobby. Just Plex on my main PC with a few folders. No automation. No remote access. Just a digital DVD shelf. Then it spiraled. I wanted **automation**, then **Docker**, then **Linux**, then **monitoring**, then a **Minecraft server** for friends.
+That’s why I started building my own infrastructure. It began as a simple setup, Plex on my PC with a few folders, but quickly evolved. I wanted **automation**, then **Docker**, then **Linux**, then **monitoring**, then a **Minecraft server** for friends.
 
 > **Now, it's a full-blown homelab. Virtualised, containerised and automated.**
 
