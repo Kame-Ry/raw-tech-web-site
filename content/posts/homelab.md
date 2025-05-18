@@ -19,7 +19,7 @@ draft: false
 
 Modern streaming culture is exhausting. Content is fragmented across too many services, each demanding money for one or two shows or films people actually care about. It’s frustrating to pay for access only to be served bloated catalogs, Marvel filler arcs, or algorithm-bait reality TV.
 
-Self-hosted media libraries have emerged as a response to that — a way to curate a meaningful, ad-free experience. They’re often built around content that’s hard to access legally: older titles, niche genres, or region-locked releases. For many, setting up something like Plex is less about cost-saving and more about taking control.
+Self-hosted media libraries have emerged as a response to that, a way to curate a meaningful, ad-free experience. They’re often built around content that’s hard to access legally: older titles, niche genres, or region-locked releases. For many, setting up something like Plex is less about cost-saving and more about taking control.
 
 > **Media self-hosting can be a form of protest.**
 
@@ -770,7 +770,6 @@ curl -X POST -H "Content-Type: application/json" -d '{"content":"✅ Plex mover 
 Kuma also uses the same webhook to send alerts for downed or restored services.
 
 ![caption](/images/homelab/discord.png)
-![caption](/images/homelab/discordtautulli.png)
 
 ---
 
