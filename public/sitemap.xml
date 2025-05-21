@@ -4,6 +4,27 @@
   <url>
     <loc>http://localhost:1313/stats/</loc>
   </url><url>
+    <loc>http://localhost:1313/tags/critical-thinking/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/film/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/passive_consumerism/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/streaming/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-05-21T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/tags/automation/</loc>
     <lastmod>2025-05-17T00:00:00+00:00</lastmod>
   </url><url>
@@ -19,13 +40,7 @@
     <loc>http://localhost:1313/tags/plex/</loc>
     <lastmod>2025-05-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-05-17T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/proxmox/</loc>
-    <lastmod>2025-05-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-05-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/tailscale/</loc>
@@ -41,9 +56,6 @@
     <lastmod>2025-05-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/vpn/</loc>
-    <lastmod>2025-05-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
     <lastmod>2025-05-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/api/</loc>
@@ -68,9 +80,6 @@
     <lastmod>2025-05-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/ai/</loc>
-    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/film/</loc>
     <lastmod>2025-03-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/film-affinity/</loc>

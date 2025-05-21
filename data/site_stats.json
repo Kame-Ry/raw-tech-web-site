@@ -1,11 +1,12 @@
 {
-  "pages": 9,
+  "pages": 10,
   "posts": 6,
-  "nonPosts": 3,
+  "nonPosts": 4,
   "tags": [
     "ai",
     "api",
     "automation",
+    "critical-thinking",
     "docker",
     "exchange",
     "film",
@@ -18,6 +19,7 @@
     "proxmox",
     "python",
     "security",
+    "streaming",
     "tailscale",
     "tech",
     "uptime-kuma",
@@ -25,6 +27,6 @@
     "weather"
   ],
   "categories": [],
-  "words": 6086,
-  "avgWords": 1014.33
+  "words": 6087,
+  "avgWords": 1014.5
 }

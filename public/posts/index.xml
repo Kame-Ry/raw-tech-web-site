@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 17 May 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 21 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Passive Consumerism: How Entertainment Is Quietly Reshaping Civilization</title>
+      <link>http://localhost:1313/posts/passive_consumerism/</link>
+      <pubDate>Wed, 21 May 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/passive_consumerism/</guid>
+      <description>A closer look at how passive entertainment habits, fueled by streaming giants and formulaic franchises are subtly reshaping human behavior and our broader cultural direction.</description>
+    </item>
     <item>
       <title>The Homelab Project</title>
       <link>http://localhost:1313/posts/homelab/</link>
