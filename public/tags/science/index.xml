@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Science on RAW-TECH</title>
+    <link>http://localhost:1313/tags/science/</link>
+    <description>Recent content in Science on RAW-TECH</description>
+    <image>
+      <title>RAW-TECH</title>
+      <url>http://localhost:1313/images/Logo.png</url>
+      <link>http://localhost:1313/images/Logo.png</link>
+    </image>
+    <generator>Hugo -- 0.147.2</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 21 May 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/science/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rebuilding Civilisation: Dr. Stone as a Blueprint for Humanity</title>
+      <link>http://localhost:1313/posts/rebuilding_civilisation_dr.stone/</link>
+      <pubDate>Wed, 21 May 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/rebuilding_civilisation_dr.stone/</guid>
+      <description>A closer look at how passive entertainment habits, fueled by streaming giants and formulaic franchises are subtly reshaping human behavior and our broader cultural direction.</description>
+    </item>
+  </channel>
+</rss>
