@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 09 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Pandemic in Blender</title>
+      <link>http://localhost:1313/posts/still_life_blender/</link>
+      <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/still_life_blender/</guid>
+      <description>How Blender helped me find creative focus in a time of isolation, one render at a time.</description>
+    </item>
     <item>
       <title>Rebuilding Civilisation: Dr. Stone as a Blueprint for Humanity</title>
       <link>http://localhost:1313/posts/rebuilding_civilisation_dr.stone/</link>
