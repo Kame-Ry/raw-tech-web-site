@@ -4,25 +4,37 @@
   <url>
     <loc>http://localhost:1313/stats/</loc>
   </url><url>
+    <loc>http://localhost:1313/tags/art/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/blender/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/covid/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/still_life_blender/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-06-11T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/tags/anime/</loc>
     <lastmod>2025-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/critical-thinking/</loc>
     <lastmod>2025-06-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-06-09T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/posts/rebuilding_civilisation_dr.stone/</loc>
     <lastmod>2025-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/science/</loc>
-    <lastmod>2025-06-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2025-06-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
     <lastmod>2025-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/film/</loc>
@@ -91,22 +103,10 @@
     <loc>http://localhost:1313/tags/ai/</loc>
     <lastmod>2025-03-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/art/</loc>
-    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/blender/</loc>
-    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/covid/</loc>
-    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/posts/film-affinity/</loc>
     <lastmod>2025-03-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/python/</loc>
-    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/still_life_blender/</loc>
     <lastmod>2025-03-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/exchange/</loc>
