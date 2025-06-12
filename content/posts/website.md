@@ -1,9 +1,10 @@
 ---
 title: "Building RAW-TECH: From Hand-Coded HTML to Hugo"
 date: 2025-06-12
-draft: false
-summary: "building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod."
+author: "Ryan"
 tags: ["web development", "hugo", "tech"]
+summary: "building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod."
+type: post
 cover:
   image: "/images/Logo.png"
   alt: "Terminal window open beside a Hugo website preview"
@@ -11,6 +12,7 @@ cover:
   hiddenInList: false
   hiddenInSingle: true
   responsiveImages: true
+draft: false
 ---
 
 ## Prologue: The Impulse to Build Something Truly Mine
