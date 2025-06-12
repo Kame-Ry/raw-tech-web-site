@@ -1,7 +1,6 @@
 ---
 title: "Passive Consumerism: How Entertainment Is Quietly Reshaping Civilization"
 date: 2025-05-21
-author: "Ryan"
 tags: ["film", "critical-thinking"]
 summary: "A closer look at how passive entertainment habits, fueled by streaming giants and formulaic franchises are subtly reshaping human behavior and our broader cultural direction."
 type: post

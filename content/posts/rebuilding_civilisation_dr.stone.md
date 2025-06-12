@@ -1,7 +1,6 @@
 ---
 title: "Rebuilding Civilisation: Dr. Stone as a Blueprint for Humanity"
 date: 2025-06-09
-author: "Ryan"
 tags: ["Anime", "Science", "critical-thinking"]
 summary: "A look at how Dr. Stone fast-tracks the history of human progress, rebuilding technology from the ground up in a way that’s both scientifically grounded and surprisingly believable."
 type: post
