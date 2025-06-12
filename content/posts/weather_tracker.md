@@ -3,7 +3,7 @@ title: "Weather Tracker: A Real-Time Weather App"
 date: 2025-05-16
 summary: "A modern weather web app using OpenWeather API and Vercel serverless functions."
 type: post
-tags: ["weather", "api", "tech"]
+tags: ["tech"]
 cover:
   image: "/images/weather.png"
   alt: "Weather Tracker UI screenshot"

@@ -3,7 +3,7 @@ title: "Exchange Online: Tagging External Emails with Powershell"
 date: 2025-03-12
 summary: "A simple PowerShell-based approach to visibly tagging external emails in Exchange Online."
 type: post
-tags: ["exchange", "powershell", "security", "tech"]
+tags: ["powershell", "microsoft", "tech"]
 cover:
   image: "/images/ms-outlook-logo.jpg"
   alt: "Exchange External Tag"

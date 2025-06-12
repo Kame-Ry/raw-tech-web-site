@@ -4,7 +4,7 @@ date: 2025-05-17
 summary: "A technical journey through building a Plex-focused homelab from the ground up, covering architecture, automation, monitoring, and the philosophy behind it all."
 type: post
 showToc: true
-tags: ["homelab", "docker", "plex", "proxmox", "tailscale", "vpn", "automation", "uptime-kuma", "homepage", "tech"]
+tags: ["docker", "plex", "proxmox", "tech", "linux"]
 cover:
   image: "/images/homelab/homelab.png"
   alt: "Homelab"
