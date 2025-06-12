@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Photography on RAW-TECH</title>
-    <link>http://localhost:51657/tags/photography/</link>
+    <link>http://localhost:1313/tags/photography/</link>
     <description>Recent content in Photography on RAW-TECH</description>
     <image>
       <title>RAW-TECH</title>
-      <url>http://localhost:51657/images/Logo.png</url>
-      <link>http://localhost:51657/images/Logo.png</link>
+      <url>http://localhost:1313/images/Logo.png</url>
+      <link>http://localhost:1313/images/Logo.png</link>
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
     <lastBuildDate>Wed, 14 May 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:51657/tags/photography/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/photography/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Journey Through Landscape Photography</title>
-      <link>http://localhost:51657/posts/lanscape-photography/</link>
+      <link>http://localhost:1313/posts/lanscape-photography/</link>
       <pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/lanscape-photography/</guid>
+      <guid>http://localhost:1313/posts/lanscape-photography/</guid>
       <description>Each frame is a memory, a story, a small piece of stillness.</description>
     </item>
   </channel>

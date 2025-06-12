@@ -2,50 +2,50 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tech on RAW-TECH</title>
-    <link>http://localhost:51657/tags/tech/</link>
+    <link>http://localhost:1313/tags/tech/</link>
     <description>Recent content in Tech on RAW-TECH</description>
     <image>
       <title>RAW-TECH</title>
-      <url>http://localhost:51657/images/Logo.png</url>
-      <link>http://localhost:51657/images/Logo.png</link>
+      <url>http://localhost:1313/images/Logo.png</url>
+      <link>http://localhost:1313/images/Logo.png</link>
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
     <lastBuildDate>Thu, 12 Jun 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:51657/tags/tech/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building RAW-TECH: From Hand-Coded HTML to Hugo</title>
-      <link>http://localhost:51657/posts/website/</link>
+      <link>http://localhost:1313/posts/website/</link>
       <pubDate>Thu, 12 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/website/</guid>
+      <guid>http://localhost:1313/posts/website/</guid>
       <description>building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod.</description>
     </item>
     <item>
       <title>The Homelab Project</title>
-      <link>http://localhost:51657/posts/homelab/</link>
+      <link>http://localhost:1313/posts/homelab/</link>
       <pubDate>Sat, 17 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/homelab/</guid>
+      <guid>http://localhost:1313/posts/homelab/</guid>
       <description>A technical journey through building a Plex-focused homelab from the ground up, covering architecture, automation, monitoring, and the philosophy behind it all.</description>
     </item>
     <item>
       <title>Weather Tracker: A Real-Time Weather App</title>
-      <link>http://localhost:51657/posts/weather_tracker/</link>
+      <link>http://localhost:1313/posts/weather_tracker/</link>
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/weather_tracker/</guid>
+      <guid>http://localhost:1313/posts/weather_tracker/</guid>
       <description>A modern weather web app using OpenWeather API and Vercel serverless functions.</description>
     </item>
     <item>
       <title>Film Affinity: Building a Film Critique Generator</title>
-      <link>http://localhost:51657/posts/film-affinity/</link>
+      <link>http://localhost:1313/posts/film-affinity/</link>
       <pubDate>Fri, 14 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/film-affinity/</guid>
+      <guid>http://localhost:1313/posts/film-affinity/</guid>
       <description>A Python-powered app that scrapes Letterboxd ratings and generates AI-based film critiques with GPT-3.5.</description>
     </item>
     <item>
       <title>Exchange Online: Tagging External Emails with Powershell</title>
-      <link>http://localhost:51657/posts/exchange_external_tag/</link>
+      <link>http://localhost:1313/posts/exchange_external_tag/</link>
       <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/exchange_external_tag/</guid>
+      <guid>http://localhost:1313/posts/exchange_external_tag/</guid>
       <description>A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.</description>
     </item>
   </channel>

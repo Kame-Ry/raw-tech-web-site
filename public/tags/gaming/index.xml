@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Gaming on RAW-TECH</title>
-    <link>http://localhost:51657/tags/gaming/</link>
+    <link>http://localhost:1313/tags/gaming/</link>
     <description>Recent content in Gaming on RAW-TECH</description>
     <image>
       <title>RAW-TECH</title>
-      <url>http://localhost:51657/images/Logo.png</url>
-      <link>http://localhost:51657/images/Logo.png</link>
+      <url>http://localhost:1313/images/Logo.png</url>
+      <link>http://localhost:1313/images/Logo.png</link>
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
     <lastBuildDate>Thu, 15 May 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:51657/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My Favorite Games: Ranked and Scored</title>
-      <link>http://localhost:51657/posts/game-rankings/</link>
+      <link>http://localhost:1313/posts/game-rankings/</link>
       <pubDate>Thu, 15 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:51657/posts/game-rankings/</guid>
+      <guid>http://localhost:1313/posts/game-rankings/</guid>
       <description>A hand-curated list of my favorite games, ranked by personal metrics like narrative, exploration, and replayability.</description>
     </item>
   </channel>

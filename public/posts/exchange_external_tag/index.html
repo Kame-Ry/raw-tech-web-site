@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=51657&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Exchange Online: Tagging External Emails with Powershell | RAW-TECH</title>
-<meta name="keywords" content="exchange, powershell, security, tech">
+<meta name="keywords" content="powershell, microsoft, tech">
 <meta name="description" content="A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.">
 <meta name="author" content="Ryan Witts">
-<link rel="canonical" href="http://localhost:51657/posts/exchange_external_tag/">
+<link rel="canonical" href="http://localhost:1313/posts/exchange_external_tag/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fa382cd77ccc05462752d6a59c1e87f69503c45600807ebd4b65443726b7f475.css" integrity="sha256-&#43;jgs13zMBUYnUtalnB6H9pUDxFYAgH69S2VENya39HU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:51657/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:51657/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:51657/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:51657/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:51657/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:51657/posts/exchange_external_tag/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/exchange_external_tag/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,7 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:url" content="http://localhost:51657/posts/exchange_external_tag/">
+</noscript><meta property="og:url" content="http://localhost:1313/posts/exchange_external_tag/">
   <meta property="og:site_name" content="RAW-TECH">
   <meta property="og:title" content="Exchange Online: Tagging External Emails with Powershell">
   <meta property="og:description" content="A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.">
@@ -64,13 +64,12 @@
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-03-12T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-03-12T00:00:00+00:00">
-    <meta property="article:tag" content="Exchange">
     <meta property="article:tag" content="Powershell">
-    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Microsoft">
     <meta property="article:tag" content="Tech">
-    <meta property="og:image" content="http://localhost:51657/images/ms-outlook-logo.jpg">
+    <meta property="og:image" content="http://localhost:1313/images/ms-outlook-logo.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://localhost:51657/images/ms-outlook-logo.jpg">
+<meta name="twitter:image" content="http://localhost:1313/images/ms-outlook-logo.jpg">
 <meta name="twitter:title" content="Exchange Online: Tagging External Emails with Powershell">
 <meta name="twitter:description" content="A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.">
 
@@ -84,13 +83,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:51657/posts/"
+      "item": "http://localhost:1313/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Exchange Online: Tagging External Emails with Powershell",
-      "item": "http://localhost:51657/posts/exchange_external_tag/"
+      "item": "http://localhost:1313/posts/exchange_external_tag/"
     }
   ]
 }
@@ -103,12 +102,12 @@
   "name": "Exchange Online: Tagging External Emails with Powershell",
   "description": "A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.",
   "keywords": [
-    "exchange", "powershell", "security", "tech"
+    "powershell", "microsoft", "tech"
   ],
   "articleBody": " Want to add a visual warning banner to emails from outside your organisation? This quick PowerShell script does exactly that. Tagging external emails in Exchange Online with a bold disclaimer to help users spot potential phishing attempts.\nWhat This Script Does Turns on native external tagging in Outlook and OWA. Creates a transport rule that adds a bright HTML warning banner to all external emails. Double-checks that the tagging is enabled, and enables it if not. Step-by-Step Breakdown 1. Connect to Exchange Online Connect-ExchangeOnline 2. Enable External Tagging in Outlook Set-ExternalInOutlook -Enabled $true Enables Microsoft’s built-in external email notification across Outlook and OWA.\n3. Add a Visual Disclaimer for External Emails $disclaimer = @\" THIS IS AN EXTERNAL EMAIL: If you weren't expecting this, don't click links or open attachments. Contact your IT team. \"@ New-TransportRule -Name \"External Email Tag\" ` -FromScope NotInOrganization ` -ApplyHtmlDisclaimerLocation Prepend ` -ApplyHtmlDisclaimerText $disclaimer ` -ApplyHtmlDisclaimerFallbackAction Wrap 4. Check If Tagging Is Active (and Enable If Needed) $externalTagSetting = Get-ExternalInOutlook if ($externalTagSetting.Enabled -eq $true) { Write-Host \"External tag is already enabled.\" -ForegroundColor Green } else { Write-Host \"External tag is DISABLED. Enabling...\" -ForegroundColor Yellow Set-ExternalInOutlook -Enabled $true $check = Get-ExternalInOutlook if ($check.Enabled -eq $true) { Write-Host \"Successfully enabled external email tag.\" -ForegroundColor Green } else { Write-Host \"Failed to enable external email tag. Check permissions.\" -ForegroundColor Red } } 5. Disconnect When Done Disconnect-ExchangeOnline -Confirm:$false Tips \u0026 Notes You can split the script into stages if needed—connect first, then create rule, then validate. Only external, unauthenticated senders get tagged—internal mail is untouched. Customize the disclaimer colors and wording to match your brand. Wrapping Up This is a quick win for mail hygiene—especially useful in environments where users might not think twice about a suspicious email. A visual cue helps them pause before they click.\n",
   "wordCount" : "323",
   "inLanguage": "en",
-  "image":"http://localhost:51657/images/ms-outlook-logo.jpg","datePublished": "2025-03-12T00:00:00Z",
+  "image":"http://localhost:1313/images/ms-outlook-logo.jpg","datePublished": "2025-03-12T00:00:00Z",
   "dateModified": "2025-03-12T00:00:00Z",
   "author":{
     "@type": "Person",
@@ -116,14 +115,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:51657/posts/exchange_external_tag/"
+    "@id": "http://localhost:1313/posts/exchange_external_tag/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "RAW-TECH",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:51657/favicon.ico"
+      "url": "http://localhost:1313/favicon.ico"
     }
   }
 }
@@ -145,7 +144,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:51657/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
+            <a href="http://localhost:1313/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -171,22 +170,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:51657/" title="Home">
+                <a href="http://localhost:1313/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/tags/" title="Tags">
+                <a href="http://localhost:1313/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/stats/" title="Stats">
+                <a href="http://localhost:1313/stats/" title="Stats">
                     <span>Stats</span>
                 </a>
             </li>
@@ -206,7 +205,7 @@
 </div>
   </header> 
 <figure class="entry-cover">
-        <img loading="eager" src="http://localhost:51657/images/ms-outlook-logo.jpg" alt="Exchange External Tag">
+        <img loading="eager" src="http://localhost:1313/images/ms-outlook-logo.jpg" alt="Exchange External Tag">
         
 </figure>
   <div class="post-content"><hr>
@@ -279,17 +278,16 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:51657/tags/exchange/">Exchange</a></li>
-      <li><a href="http://localhost:51657/tags/powershell/">Powershell</a></li>
-      <li><a href="http://localhost:51657/tags/security/">Security</a></li>
-      <li><a href="http://localhost:51657/tags/tech/">Tech</a></li>
+      <li><a href="http://localhost:1313/tags/powershell/">Powershell</a></li>
+      <li><a href="http://localhost:1313/tags/microsoft/">Microsoft</a></li>
+      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:51657/">RAW-TECH</a></span> · 
+        <span>&copy; 2025 <a href="http://localhost:1313/">RAW-TECH</a></span> · 
 
     <span>
         Powered by

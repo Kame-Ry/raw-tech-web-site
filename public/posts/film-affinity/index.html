@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=51657&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,16 +9,16 @@
 <meta name="keywords" content="film, ai, python, tech">
 <meta name="description" content="A Python-powered app that scrapes Letterboxd ratings and generates AI-based film critiques with GPT-3.5.">
 <meta name="author" content="Ryan Witts">
-<link rel="canonical" href="http://localhost:51657/posts/film-affinity/">
+<link rel="canonical" href="http://localhost:1313/posts/film-affinity/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fa382cd77ccc05462752d6a59c1e87f69503c45600807ebd4b65443726b7f475.css" integrity="sha256-&#43;jgs13zMBUYnUtalnB6H9pUDxFYAgH69S2VENya39HU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:51657/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:51657/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:51657/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:51657/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:51657/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:51657/posts/film-affinity/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/film-affinity/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,7 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:url" content="http://localhost:51657/posts/film-affinity/">
+</noscript><meta property="og:url" content="http://localhost:1313/posts/film-affinity/">
   <meta property="og:site_name" content="RAW-TECH">
   <meta property="og:title" content="Film Affinity: Building a Film Critique Generator">
   <meta property="og:description" content="A Python-powered app that scrapes Letterboxd ratings and generates AI-based film critiques with GPT-3.5.">
@@ -68,9 +68,9 @@
     <meta property="article:tag" content="Ai">
     <meta property="article:tag" content="Python">
     <meta property="article:tag" content="Tech">
-    <meta property="og:image" content="http://localhost:51657/images/Letterboxd.png">
+    <meta property="og:image" content="http://localhost:1313/images/Letterboxd.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://localhost:51657/images/Letterboxd.png">
+<meta name="twitter:image" content="http://localhost:1313/images/Letterboxd.png">
 <meta name="twitter:title" content="Film Affinity: Building a Film Critique Generator">
 <meta name="twitter:description" content="A Python-powered app that scrapes Letterboxd ratings and generates AI-based film critiques with GPT-3.5.">
 
@@ -84,13 +84,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:51657/posts/"
+      "item": "http://localhost:1313/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Film Affinity: Building a Film Critique Generator",
-      "item": "http://localhost:51657/posts/film-affinity/"
+      "item": "http://localhost:1313/posts/film-affinity/"
     }
   ]
 }
@@ -108,7 +108,7 @@
   "articleBody": " The Film Critique Generator is a Python app I built to take your Letterboxd film ratings and turn them into personalized critiques using GPT-3.5. It scrapes your ratings, runs them through some AI magic, and spits out a neat little write-up of your movie taste. Quick, nerdy, and surprisingly insightful.\nProject Overview This tool does all the heavy lifting:\nPulls your film ratings from Letterboxd. Runs them through GPT-3.5 to write custom critiques. Saves the output as both .txt and .html for easy sharing or archiving. Core Functionality Data Extraction: Grabs your ratings from Letterboxd. AI-Powered Analysis: Feeds your data into GPT-3.5 for critique generation. GUI Frontend: Simple, no-fuss interface to run it. Output Files: Saves results as text and HTML files. Setup Instructions Grab your OpenAI API key (GPT-3.5). Download and launch Film_Affinity.exe. Pop in your Letterboxd username and API key. Hit Generate Critique. Review the output in the generated files. How It Works Fetching Ratings def fetch_page(username, page): url = f\"https://letterboxd.com/{username}/films/page/{page}/\" response = requests.get(url) return response.text if response.status_code == 200 else None Scraping the Data def scrape_letterboxd(username): ratings = [] for page in range(1, 5): content = fetch_page(username, page) ratings.extend(parse_ratings(content)) return ratings Generating Critiques with GPT-3.5 def generate_film_critique(film_ratings): prompt = f\"Based on these ratings, generate a personalized critique: {film_ratings}\" response = openai.Completion.create(engine=\"gpt-3.5-turbo\", prompt=prompt, max_tokens=500) return response['choices'][0]['text'] Outputting as HTML def generate_html_critique(critique_text): return f\"\"\" Film Critique Your Personalized Film Critique{critique_text}\n\"\"\" Final Thoughts Film Affinity is a fun little blend of Python, scraping, and AI that turns your movie ratings into something more reflective. If you’re into data-driven media insights (or just like seeing your film taste summed up by a robot), give it a try.\nFilm Affinity – Python App\n",
   "wordCount" : "284",
   "inLanguage": "en",
-  "image":"http://localhost:51657/images/Letterboxd.png","datePublished": "2025-03-14T00:00:00Z",
+  "image":"http://localhost:1313/images/Letterboxd.png","datePublished": "2025-03-14T00:00:00Z",
   "dateModified": "2025-03-14T00:00:00Z",
   "author":{
     "@type": "Person",
@@ -116,14 +116,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:51657/posts/film-affinity/"
+    "@id": "http://localhost:1313/posts/film-affinity/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "RAW-TECH",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:51657/favicon.ico"
+      "url": "http://localhost:1313/favicon.ico"
     }
   }
 }
@@ -145,7 +145,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:51657/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
+            <a href="http://localhost:1313/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -171,22 +171,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:51657/" title="Home">
+                <a href="http://localhost:1313/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/tags/" title="Tags">
+                <a href="http://localhost:1313/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/stats/" title="Stats">
+                <a href="http://localhost:1313/stats/" title="Stats">
                     <span>Stats</span>
                 </a>
             </li>
@@ -206,7 +206,7 @@
 </div>
   </header> 
 <figure class="entry-cover">
-        <img loading="eager" src="http://localhost:51657/images/Letterboxd.png" alt="Film Critique Generator UI">
+        <img loading="eager" src="http://localhost:1313/images/Letterboxd.png" alt="Film Critique Generator UI">
         
 </figure>
   <div class="post-content"><hr>
@@ -273,17 +273,17 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:51657/tags/film/">Film</a></li>
-      <li><a href="http://localhost:51657/tags/ai/">Ai</a></li>
-      <li><a href="http://localhost:51657/tags/python/">Python</a></li>
-      <li><a href="http://localhost:51657/tags/tech/">Tech</a></li>
+      <li><a href="http://localhost:1313/tags/film/">Film</a></li>
+      <li><a href="http://localhost:1313/tags/ai/">Ai</a></li>
+      <li><a href="http://localhost:1313/tags/python/">Python</a></li>
+      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:51657/">RAW-TECH</a></span> · 
+        <span>&copy; 2025 <a href="http://localhost:1313/">RAW-TECH</a></span> · 
 
     <span>
         Powered by

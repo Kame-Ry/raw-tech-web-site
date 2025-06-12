@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=51657&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Building RAW-TECH: From Hand-Coded HTML to Hugo | RAW-TECH</title>
-<meta name="keywords" content="web development, hugo, tech">
+<meta name="keywords" content="web development, tech">
 <meta name="description" content="building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod.">
-<meta name="author" content="Ryan Witts">
-<link rel="canonical" href="http://localhost:51657/posts/website/">
+<meta name="author" content="Ryan">
+<link rel="canonical" href="http://localhost:1313/posts/website/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fa382cd77ccc05462752d6a59c1e87f69503c45600807ebd4b65443726b7f475.css" integrity="sha256-&#43;jgs13zMBUYnUtalnB6H9pUDxFYAgH69S2VENya39HU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:51657/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:51657/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:51657/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:51657/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:51657/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:51657/posts/website/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/website/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,7 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:url" content="http://localhost:51657/posts/website/">
+</noscript><meta property="og:url" content="http://localhost:1313/posts/website/">
   <meta property="og:site_name" content="RAW-TECH">
   <meta property="og:title" content="Building RAW-TECH: From Hand-Coded HTML to Hugo">
   <meta property="og:description" content="building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod.">
@@ -65,11 +65,10 @@
     <meta property="article:published_time" content="2025-06-12T00:00:00+00:00">
     <meta property="article:modified_time" content="2025-06-12T00:00:00+00:00">
     <meta property="article:tag" content="Web Development">
-    <meta property="article:tag" content="Hugo">
     <meta property="article:tag" content="Tech">
-    <meta property="og:image" content="http://localhost:51657/images/Logo.png">
+    <meta property="og:image" content="http://localhost:1313/images/Logo.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://localhost:51657/images/Logo.png">
+<meta name="twitter:image" content="http://localhost:1313/images/Logo.png">
 <meta name="twitter:title" content="Building RAW-TECH: From Hand-Coded HTML to Hugo">
 <meta name="twitter:description" content="building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod.">
 
@@ -83,13 +82,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:51657/posts/"
+      "item": "http://localhost:1313/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Building RAW-TECH: From Hand-Coded HTML to Hugo",
-      "item": "http://localhost:51657/posts/website/"
+      "item": "http://localhost:1313/posts/website/"
     }
   ]
 }
@@ -102,27 +101,27 @@
   "name": "Building RAW-TECH: From Hand-Coded HTML to Hugo",
   "description": "building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod.",
   "keywords": [
-    "web development", "hugo", "tech"
+    "web development", "tech"
   ],
   "articleBody": "Prologue: The Impulse to Build Something Truly Mine This was my first proper attempt at building my own website. I’d dabbled with HTML a few times—simple static pages with unstyled text, maybe the occasional tag or . But nothing serious.\nThis time, I wanted to make something meaningful. A site that reflected my interests, showcased my projects, and gave me control over every aspect from how it looked to how it was deployed.\nWhen the site first went live, it felt surreal. I checked it on every device I had: my laptop, partner’s mobile, iPad. It brought a quiet kind of joy. A technical landmark, a digital stamp on the world. Sure, it was buggy, slow, and far from optimized but it was mine, out there for anyone to see.\nChapter 1: The Frankenstein HTML Site The original raw-tech.co.uk wasn’t pretty. It was hand-built with HTML, CSS, and vanilla JS. No frameworks, no tooling.\nEverything was hard-coded. Want to update a project? That’s a new HTML file. Want tags? Manually copy/paste tag buttons and JavaScript filters. Want SEO? Hope you remembered your tags.\nI was using Fasthosts to manage the domain “raw-tech.co.uk”. I initially considered Vercel (I’d used it for my weather app), but eventually discovered that GitHub Pages offers free static site hosting with HTTPS and custom domain support. No build quotas, no ads, and I could push updates via Git. That sealed it. I set up DNS through Fasthosts and pointed my site to GitHub’s servers.\nChapter 2: Questioning My Stack Eventually, I asked myself: Why am I doing this the hard way? Every update felt like surgery. My repo was cluttered with .html and .js files for every page. If I wanted a new layout, I had to edit 5–10 files.\nA conversation with someone who works in frontend dev helped shift my thinking:\n“It’s admirable to build a site from scratch. But most professionals, especially when time is tight, use tools like Hugo. You still have full control over style and layout but you let Hugo handle the backend magic.”\nIt wasn’t about shortcuts. It was about using the right tools so I could focus on the content, not the wiring.\nI started looking into static site generators. I’d heard of Jekyll and Hugo. Hugo barely won out.\nChapter 3: Hugo with PaperMod – A New Era Begins Once I chose Hugo as the base, I went with PaperMod as the theme.\nPaperMod is:\nFast, minimal, and actively maintained Practical. No faff. I liked my previous “loud” homepage, but PaperMod’s clean, minimalist approach won me over. It’s practicality incarnate, exactly my style.\nThe Migration Checklist Here’s what I tackled:\nSet up the repo with Hugo and PaperMod Convert each project into Markdown Organise /content/ structure (e.g. posts, projects, photography) Customise the homepage Add SEO metadata Configure GitHub Pages deployment I rebuilt it all. Out with the old, in with the new.\nIt’s Alive! raw-tech.co.uk was live, served over HTTPS, built with Hugo, and deployed through GitHub.\nChapter 5: What I Had to Let Go Contact Forms I tried integrating a contact form using a free mail host (Zoho), but it quickly became frustrating. I couldn’t forward emails to my primary inbox, and I hate having redundant accounts. I prefer one of everything… one email, one purpose-built system. So, the form was dropped.\nMy Custom Tag Filter System This one hurt. I’d built a surprisingly advanced JavaScript tag filter. Tags were clickable, well-formatted, and filtered posts across the site. But pagination was a mess, and it didn’t scale.\nEvery new post meant I had to: Update the tag system Duplicate and move files “Fake” dynamic behavior with sketchy JS hacks It worked… barely. And it constantly broke.\nWith Hugo + PaperMod: I create a Markdown file, add front matter, drop it in /content/, push to GitHub—and I’m done. I probably only understand 40% of what’s going on behind the scenes, but it works. So I left it.\nChapter 6: Lessons Learned Don’t Overcommit to Raw HTML It’s a great way to learn, but not sustainable for updates. A static site generator balances structure and flexibility. Learn HTML, but don’t rely on it entirely.\nDon’t Ignore Tooling I avoided build tools early on, thinking I was “keeping it simple.” I ended up doing more manual work, not less.\nAutomate Deployment Early Using GitHub Actions or deploy hooks prevents mistakes and saves time.\nEmbrace Markdown Writing in Markdown is so much easier than juggling HTML templates. Plus, Hugo brings image processing, front matter, and more.\nEpilogue: From Chaos to Clarity What began as a hardcoded experiment became a maintainable, scalable digital home. Hugo gave me structure. PaperMod gave me a visual foundation. GitHub Pages made deployment effortless.\nAnd through it all I never burned out. I loved it. I spent hours tinkering. Sometimes for no reason. It was therapeutic.\nThat spark’s faded a bit as other projects have taken priority but this site remains my slice of sanctuary. A place to write, rant, archive, and create.\nFinal Word: What is RAW-TECH? It’s a double meaning:\nRAW are my initials. TECH is what I do. But it’s also a mission statement: Raw Technology. Unfiltered, unrefined, foundational. It’s who I am—as a person and as a maker. Whether it stays a personal blog or becomes something more, RAW-TECH is me.\nGithub Repo: RAW-TECH\nBuilt with Hugo. Styled by PaperMod. Maintained by moi.\n",
   "wordCount" : "903",
   "inLanguage": "en",
-  "image":"http://localhost:51657/images/Logo.png","datePublished": "2025-06-12T00:00:00Z",
+  "image":"http://localhost:1313/images/Logo.png","datePublished": "2025-06-12T00:00:00Z",
   "dateModified": "2025-06-12T00:00:00Z",
   "author":{
     "@type": "Person",
-    "name": "Ryan Witts"
+    "name": "Ryan"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:51657/posts/website/"
+    "@id": "http://localhost:1313/posts/website/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "RAW-TECH",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:51657/favicon.ico"
+      "url": "http://localhost:1313/favicon.ico"
     }
   }
 }
@@ -144,7 +143,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:51657/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
+            <a href="http://localhost:1313/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -170,22 +169,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:51657/" title="Home">
+                <a href="http://localhost:1313/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/posts/" title="Posts">
+                <a href="http://localhost:1313/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/tags/" title="Tags">
+                <a href="http://localhost:1313/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:51657/stats/" title="Stats">
+                <a href="http://localhost:1313/stats/" title="Stats">
                     <span>Stats</span>
                 </a>
             </li>
@@ -200,7 +199,7 @@
     <h1 class="post-title entry-hint-parent">
       Building RAW-TECH: From Hand-Coded HTML to Hugo
     </h1>
-    <div class="post-meta"><span title='2025-06-12 00:00:00 +0000 UTC'>June 12, 2025</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;903 words&nbsp;·&nbsp;Ryan Witts
+    <div class="post-meta"><span title='2025-06-12 00:00:00 +0000 UTC'>June 12, 2025</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;903 words&nbsp;·&nbsp;Ryan
 
 </div>
   </header> 
@@ -283,16 +282,15 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:51657/tags/web-development/">Web Development</a></li>
-      <li><a href="http://localhost:51657/tags/hugo/">Hugo</a></li>
-      <li><a href="http://localhost:51657/tags/tech/">Tech</a></li>
+      <li><a href="http://localhost:1313/tags/web-development/">Web Development</a></li>
+      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:51657/">RAW-TECH</a></span> · 
+        <span>&copy; 2025 <a href="http://localhost:1313/">RAW-TECH</a></span> · 
 
     <span>
         Powered by
