@@ -1,6 +1,6 @@
 {
-  "pages": 13,
-  "posts": 10,
+  "pages": 14,
+  "posts": 11,
   "nonPosts": 3,
   "tags": [
     "Anime",
@@ -13,6 +13,7 @@
     "docker",
     "film",
     "gaming",
+    "hiking",
     "linux",
     "microsoft",
     "photography",
@@ -24,6 +25,6 @@
     "web development"
   ],
   "categories": [],
-  "words": 12775,
-  "avgWords": 1277.5
+  "words": 13185,
+  "avgWords": 1198.64
 }

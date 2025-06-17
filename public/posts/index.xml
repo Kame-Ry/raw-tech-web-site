@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Yr Wyddfa via Watkin Path. A Rain-Soaked Adventure</title>
+      <link>http://localhost:1313/posts/snowdon/</link>
+      <pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/snowdon/</guid>
+      <description>A rugged climb through mist and rain, chasing waterfalls and quiet triumphs on Snowdon’s wildest trail.</description>
+    </item>
     <item>
       <title>Building RAW-TECH: From Hand-Coded HTML to Hugo</title>
       <link>http://localhost:1313/posts/website/</link>
