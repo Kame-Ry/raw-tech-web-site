@@ -5,7 +5,7 @@ tags: ["Anime", "Science", "critical-thinking"]
 summary: "A look at how Dr. Stone fast-tracks the history of human progress, rebuilding technology from the ground up in a way that’s both scientifically grounded and surprisingly believable."
 type: post
 cover:
-  image: "/images/Post_images/Dr.Stone.jpg"
+  image: "/images/drstone.jpg"
   alt: "Dr.Stone"
   relative: false
   hiddenInList: false
