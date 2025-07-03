@@ -23,6 +23,9 @@ params:
   ShowCodeCopyButtons: true
   ShowToc: true
 
+  assets:
+    favicon: "/favicon.ico"
+
   showRecent: true
   homePostsSection: "posts"
   recentPostsLimit: 5
