@@ -71,6 +71,6 @@ menu:
       url: /tags/
       weight: 3
     - identifier: recipes
-      name: Recipes
+      name: Cookbook
       url: /recipes/
       weight: 4
