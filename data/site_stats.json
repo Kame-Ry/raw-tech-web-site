@@ -1,10 +1,11 @@
 {
-  "pages": 14,
-  "posts": 11,
+  "pages": 15,
+  "posts": 12,
   "nonPosts": 3,
   "tags": [
     "Anime",
     "Science",
+    "active directory",
     "ai",
     "art",
     "blender",
@@ -21,10 +22,11 @@
     "powershell",
     "proxmox",
     "python",
+    "sysyadmin",
     "tech",
     "web development"
   ],
   "categories": [],
-  "words": 13185,
-  "avgWords": 1198.64
+  "words": 14069,
+  "avgWords": 1172.42
 }

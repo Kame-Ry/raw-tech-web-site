@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Jul 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows 11 Readiness Reporting via PowerShell &#43; Active Directory</title>
+      <link>http://localhost:1313/posts/hardwarereadiness/</link>
+      <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hardwarereadiness/</guid>
+      <description>How to implement a domain-wide Windows 11 readiness audit using PowerShell and Active Directory to track compatibility across all machines.</description>
+    </item>
     <item>
       <title>Yr Wyddfa via Watkin Path. A Rain-Soaked Adventure</title>
       <link>http://localhost:1313/posts/snowdon/</link>
