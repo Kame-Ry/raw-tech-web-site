@@ -18,6 +18,10 @@ params:
   env: production
   images:
     - "/images/Logo.png"
+  defaultSection: recipes
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
 
   showRecent: true
   homePostsSection: "posts"
@@ -66,3 +70,7 @@ menu:
       name: Tags
       url: /tags/
       weight: 3
+    - identifier: recipes
+      name: Recipes
+      url: /recipes/
+      weight: 4

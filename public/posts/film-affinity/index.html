@@ -186,8 +186,8 @@
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/stats/" title="Stats">
-                    <span>Stats</span>
+                <a href="http://localhost:1313/recipes/" title="Recipes">
+                    <span>Recipes</span>
                 </a>
             </li>
         </ul>
@@ -197,7 +197,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Film Affinity: Building a Film Critique Generator
     </h1>
@@ -208,7 +208,39 @@
 <figure class="entry-cover">
         <img loading="eager" src="http://localhost:1313/images/Letterboxd.png" alt="Film Critique Generator UI">
         
-</figure>
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#project-overview" aria-label="Project Overview">Project Overview</a></li>
+                <li>
+                    <a href="#core-functionality" aria-label="Core Functionality">Core Functionality</a></li>
+                <li>
+                    <a href="#setup-instructions" aria-label="Setup Instructions">Setup Instructions</a></li>
+                <li>
+                    <a href="#how-it-works" aria-label="How It Works">How It Works</a><ul>
+                        
+                <li>
+                    <a href="#fetching-ratings" aria-label="Fetching Ratings">Fetching Ratings</a></li>
+                <li>
+                    <a href="#scraping-the-data" aria-label="Scraping the Data">Scraping the Data</a></li>
+                <li>
+                    <a href="#generating-critiques-with-gpt-35" aria-label="Generating Critiques with GPT-3.5">Generating Critiques with GPT-3.5</a></li>
+                <li>
+                    <a href="#outputting-as-html" aria-label="Outputting as HTML">Outputting as HTML</a></li></ul>
+                </li>
+                <li>
+                    <a href="#final-thoughts" aria-label="Final Thoughts">Final Thoughts</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><hr>
 <p>The <strong>Film Critique Generator</strong> is a Python app I built to take your <a href="https://letterboxd.com/Wittsy/">Letterboxd</a> film ratings and turn them into personalized critiques using GPT-3.5. It scrapes your ratings, runs them through some AI magic, and spits out a neat little write-up of your movie taste. Quick, nerdy, and surprisingly insightful.</p>
 <hr>

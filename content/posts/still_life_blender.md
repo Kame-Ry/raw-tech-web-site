@@ -5,7 +5,7 @@ summary: "How Blender helped me find creative focus in a time of isolation, one 
 type: post
 tags: ["blender", "covid", "art"]
 cover:
-  image: "/images/blender.png"
+  image: "/images/blend.png"
   alt: "Blender Icon"
   relative: false
   hiddenInList: false

@@ -186,8 +186,8 @@
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/stats/" title="Stats">
-                    <span>Stats</span>
+                <a href="http://localhost:1313/recipes/" title="Recipes">
+                    <span>Recipes</span>
                 </a>
             </li>
         </ul>
@@ -197,14 +197,76 @@
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Windows 11 Readiness Reporting via PowerShell &#43; Active Directory
     </h1>
     <div class="post-meta"><span title='2025-07-03 00:00:00 +0000 UTC'>July 3, 2025</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;785 words&nbsp;·&nbsp;Ryan Witts
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
+                    <a href="#step-1-deploy-the-windows-11-readiness-script" aria-label="Step 1: Deploy the Windows 11 Readiness Script">Step 1: Deploy the Windows 11 Readiness Script</a><ul>
+                        
+                <li>
+                    <a href="#script-behaviour" aria-label="Script Behaviour">Script Behaviour</a><ul>
+                        
+                <li>
+                    <a href="#example-check-snippets" aria-label="Example Check Snippets">Example Check Snippets</a></li>
+                <li>
+                    <a href="#writing-results-to-active-directory" aria-label="Writing Results to Active Directory">Writing Results to Active Directory</a></li>
+                <li>
+                    <a href="#output-format-in-ad" aria-label="Output Format in AD">Output Format in AD</a></li>
+                <li>
+                    <a href="#example-failures" aria-label="Example Failures">Example Failures</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#step-2-reboot" aria-label="Step 2: Reboot">Step 2: Reboot</a></li>
+                <li>
+                    <a href="#step-3-generate-the-compatibility-report" aria-label="Step 3: Generate the Compatibility Report">Step 3: Generate the Compatibility Report</a><ul>
+                        
+                <li>
+                    <a href="#what-it-does" aria-label="What It Does">What It Does</a><ul>
+                        
+                <li>
+                    <a href="#example-reporting-logic" aria-label="Example Reporting Logic">Example Reporting Logic</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#handling-undetermined-results" aria-label="Handling Undetermined Results">Handling Undetermined Results</a><ul>
+                        
+                <li>
+                    <a href="#resolution" aria-label="Resolution">Resolution</a></li></ul>
+                </li>
+                <li>
+                    <a href="#recommended-gpo-settings" aria-label="Recommended GPO Settings">Recommended GPO Settings</a></li>
+                <li>
+                    <a href="#final-output-example" aria-label="Final Output Example">Final Output Example</a><ul>
+                        
+                <li>
+                    <a href="#incompatible-machines" aria-label="Incompatible Machines">Incompatible Machines</a></li>
+                <li>
+                    <a href="#compatible-machines" aria-label="Compatible Machines">Compatible Machines</a></li></ul>
+                </li>
+                <li>
+                    <a href="#summary" aria-label="Summary">Summary</a></li>
+                <li>
+                    <a href="#download-links" aria-label="Download Links">Download Links</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
 <p>With Microsoft’s announcement that Windows 10 will reach end of support in October 2025, we needed a reliable and scalable way to assess Windows 11 hardware compatibility across all domain-joined devices. While our RMM tools provide basic inventory data, they often fall short when it comes to delivering a clear, easily digestible view of which machines meet Windows 11 requirements and why others don’t.</p>
 <p>As part of our response initiative, I researched how others were tackling the same challenge. The solution we implemented is a lightweight, AD-integrated compatibility check that logs results directly to each computer object in Active Directory. This approach not only centralises the data but also enables straightforward reporting and auditing without relying on third-party tools.</p>

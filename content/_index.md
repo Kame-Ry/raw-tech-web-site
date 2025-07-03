@@ -11,7 +11,7 @@ layout: "home"
 ## Welcome, I’m <span style="color:#D95E1A;">Ryan</span>
 
 This site is my digital hub for everything I build and explore — from tech projects to personal interests. 
-- [Tech Projects](/tags/tech/)
+- [Tech](/tags/tech/)
 - [Electronics](/tags/electronics/)
 - [Hiking](/tags/hiking/)
 - [Climbing](/tags/climbing/)

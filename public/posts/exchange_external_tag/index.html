@@ -185,8 +185,8 @@
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/stats/" title="Stats">
-                    <span>Stats</span>
+                <a href="http://localhost:1313/recipes/" title="Recipes">
+                    <span>Recipes</span>
                 </a>
             </li>
         </ul>
@@ -196,7 +196,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Exchange Online: Tagging External Emails with Powershell
     </h1>
@@ -207,7 +207,39 @@
 <figure class="entry-cover">
         <img loading="eager" src="http://localhost:1313/images/ms-outlook-logo.jpg" alt="Exchange External Tag">
         
-</figure>
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#what-this-script-does" aria-label="What This Script Does">What This Script Does</a></li>
+                <li>
+                    <a href="#step-by-step-breakdown" aria-label="Step-by-Step Breakdown">Step-by-Step Breakdown</a><ul>
+                        
+                <li>
+                    <a href="#1-connect-to-exchange-online" aria-label="1. Connect to Exchange Online">1. Connect to Exchange Online</a></li>
+                <li>
+                    <a href="#2-enable-external-tagging-in-outlook" aria-label="2. Enable External Tagging in Outlook">2. Enable External Tagging in Outlook</a></li>
+                <li>
+                    <a href="#3-add-a-visual-disclaimer-for-external-emails" aria-label="3. Add a Visual Disclaimer for External Emails">3. Add a Visual Disclaimer for External Emails</a></li>
+                <li>
+                    <a href="#4-check-if-tagging-is-active-and-enable-if-needed" aria-label="4. Check If Tagging Is Active (and Enable If Needed)">4. Check If Tagging Is Active (and Enable If Needed)</a></li>
+                <li>
+                    <a href="#5-disconnect-when-done" aria-label="5. Disconnect When Done">5. Disconnect When Done</a></li></ul>
+                </li>
+                <li>
+                    <a href="#tips--notes" aria-label="Tips &amp; Notes">Tips &amp; Notes</a></li>
+                <li>
+                    <a href="#wrapping-up" aria-label="Wrapping Up">Wrapping Up</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><hr>
 <p>Want to add a visual warning banner to emails from outside your organisation? This quick PowerShell script does exactly that. Tagging external emails in Exchange Online with a bold disclaimer to help users spot potential phishing attempts.</p>
 <hr>
