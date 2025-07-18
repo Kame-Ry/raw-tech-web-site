@@ -29,13 +29,13 @@ layout: "home"
 
 <script>
 const titles = [
-  "Digital Hermit",
-  "Coffee-Fueled Sysadmin",
-  "Film Addict",
-  "Gaming Nerd",
-  "Late-Night Reader",
-  "Trail Wanderer",
-  "Boulder Goblin"
+  "a Digital Hermit",
+  "a Coffee-Fueled Sysadmin",
+  "a Film Addict",
+  "a Gaming Nerd",
+  "a Late-Night Reader",
+  "a Trail Wanderer",
+  "a Boulder Goblin"
 ];
 
 let part = 0;
