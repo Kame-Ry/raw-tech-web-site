@@ -8,7 +8,67 @@ layout: "home"
 
 ---
 
-## Welcome, I’m <span style="color:#D95E1A;">Ryan</span>
+<style>
+@keyframes blink { 50% { opacity: 0; } }
+
+.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  width: 1ch;
+  animation: blink 1s step-end infinite;
+  color: white;
+}
+
+#rotator {
+  display: inline;
+  white-space: nowrap;
+}
+</style>
+
+<h2>Welcome, I’m <span style="color:#D95E1A;">Ryan</span>, <span id="rotator"></span><span class="cursor">|</span></h2>
+
+<script>
+const titles = [
+  "Digital Hermit",
+  "Coffee-Fueled Sysadmin",
+  "Film Addict",
+  "Gaming Nerd",
+  "Late-Night Reader",
+  "Trail Wanderer",
+  "Boulder Goblin"
+];
+
+let part = 0;
+let partIndex = 0;
+let direction = 1;
+let delay = 100;
+let element = document.getElementById("rotator");
+
+function typeLoop() {
+  if (direction === 1) {
+    partIndex++;
+    if (partIndex <= titles[part].length) {
+      element.textContent = titles[part].substring(0, partIndex);
+    } else {
+      direction = -1;
+      delay = 1500;
+    }
+  } else {
+    partIndex--;
+    if (partIndex >= 0) {
+      element.textContent = titles[part].substring(0, partIndex);
+    } else {
+      direction = 1;
+      part = (part + 1) % titles.length;
+    }
+  }
+
+  setTimeout(typeLoop, delay);
+  delay = direction === 1 ? 100 : 50;
+}
+
+typeLoop();
+</script>
 
 This site is my digital hub for everything I build and explore — from tech projects to personal interests. 
 - [Tech](/tags/tech/)
