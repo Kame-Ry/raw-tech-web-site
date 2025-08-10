@@ -73,7 +73,7 @@ menu:
       name: Tags
       url: /tags/
       weight: 3
-    - identifier: recipes
-      name: Cookbook
-      url: /recipes/
+    - identifier: tools
+      name: Tools
+      url: /tools/
       weight: 4

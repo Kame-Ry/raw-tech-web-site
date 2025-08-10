@@ -8,6 +8,10 @@
   </url><url>
     <loc>http://localhost:1313/recipes/</loc>
   </url><url>
+    <loc>http://localhost:1313/tools/qr-code-generator/qr.html</loc>
+  </url><url>
+    <loc>http://localhost:1313/tools/</loc>
+  </url><url>
     <loc>http://localhost:1313/recipes/indian/</loc>
   </url><url>
     <loc>http://localhost:1313/recipes/chinese/</loc>
