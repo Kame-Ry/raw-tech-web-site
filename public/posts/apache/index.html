@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,16 +9,16 @@
 <meta name="keywords" content="web development, tech, apache">
 <meta name="description" content="Building a Dockerised Apache Launchpad for My Homelab">
 <meta name="author" content="Ryan Witts">
-<link rel="canonical" href="http://localhost:1313/posts/apache/">
+<link rel="canonical" href="https://raw-tech.co.uk/posts/apache/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fa382cd77ccc05462752d6a59c1e87f69503c45600807ebd4b65443726b7f475.css" integrity="sha256-&#43;jgs13zMBUYnUtalnB6H9pUDxFYAgH69S2VENya39HU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://raw-tech.co.uk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://raw-tech.co.uk/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw-tech.co.uk/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://raw-tech.co.uk/apple-touch-icon.png">
+<link rel="mask-icon" href="https://raw-tech.co.uk/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/apache/">
+<link rel="alternate" hreflang="en" href="https://raw-tech.co.uk/posts/apache/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,7 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:url" content="http://localhost:1313/posts/apache/">
+</noscript><meta property="og:url" content="https://raw-tech.co.uk/posts/apache/">
   <meta property="og:site_name" content="RAW-TECH">
   <meta property="og:title" content="Building a Apache Launchpad for My Homelab">
   <meta property="og:description" content="Building a Dockerised Apache Launchpad for My Homelab">
@@ -67,9 +67,9 @@
     <meta property="article:tag" content="Web Development">
     <meta property="article:tag" content="Tech">
     <meta property="article:tag" content="Apache">
-    <meta property="og:image" content="http://localhost:1313/images/apache/launchpadtitle.png">
+    <meta property="og:image" content="https://raw-tech.co.uk/images/apache/launchpadtitle.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://localhost:1313/images/apache/launchpadtitle.png">
+<meta name="twitter:image" content="https://raw-tech.co.uk/images/apache/launchpadtitle.png">
 <meta name="twitter:title" content="Building a Apache Launchpad for My Homelab">
 <meta name="twitter:description" content="Building a Dockerised Apache Launchpad for My Homelab">
 
@@ -83,13 +83,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://raw-tech.co.uk/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Building a Apache Launchpad for My Homelab",
-      "item": "http://localhost:1313/posts/apache/"
+      "item": "https://raw-tech.co.uk/posts/apache/"
     }
   ]
 }
@@ -107,7 +107,7 @@
   "articleBody": "Why I Built It I wanted to have a go at spinning up my own self-hosted website using Apache on my homelab. Partly out of curiosity, partly to test its usability and see what it’s like to get a basic web presence running locally. It was also a useful dry run for future internal tools or potential web-based projects.\nAt some point, the homelab spirals into tab chaos. Plex here, Radarr there, Proxmox status hidden behind five bookmarks. I wanted something simple a browser-based command centre that lived entirely within my network and made my life less fragmented. Obviously, I have homepage as my “official” solution to this problem, but I wanted to see what it would look like to create my own, stripped back version with a similar style and feel to my official website.\nNo flashy monitoring stack. No Grafana. No Kubernetes. Just a quiet, reliable dashboard that would load fast, and show what’s up.\nAnd because I enjoy suffering a little, I built it myself.\nThe Goal I wanted a launchpad that could:\nShow me what services are running (and whether they’re alive) Link to internal tools and utilities Let me write and keep track of checklist items Let me check disk usage at a glance Write Markdown locally without opening VS Code Be styled similar to my official website Serving It All – With Dockerised Apache I spun up a basic Apache HTTPD container using Docker. I didn’t need a dynamic app server or fancy routing—just a place to dump HTML, CSS, and some lightweight JavaScript.\nHere’s what the container looks like:\nservices: apache: image: httpd:latest container_name: apache ports: - \"8080:80\" volumes: - /mnt/ssd-linux/launchpad:/usr/local/apache2/htdocs/ restart: unless-stopped There’s no magic here. No TLS termination. It doesn’t even have a domain name. It just listens on 8088 locally, and I get to it via Tailscale (http://docker-host.ts.net:8088). That’s it.\nEverything lives in /mnt/ssd-linux/apache. It’s persistent, clean, and mapped straight into Apache’s document root.\nWhat It Looks Like The homepage is a grid of cards, each representing a service: Plex, Tautulli, Sonarr, Radarr, Uptime Kuma, Portainer, and so on. Each card includes an icon, title, and a tiny green dot that tells me whether it’s reachable.\nThat green dot? It’s powered by simple JavaScript that pings the service’s IP or port. If it responds, it adds a .online class and turns green. If not, it stays dead and grey.\nAt the top is a search bar that filters services live, and a “Toggle All” button to collapse or expand all categories.\nDisk Usage Status Every 30 minutes, a cronjob runs this delightful bit of bash:\n#!/bin/bash OUTPUT_FILE=\"/mnt/ssd-linux/logs/sys-status/disk.html\" { echo \"\" echo \"Disk Usage Check — $(date)\" echo \"\" df -h | grep -E '/mnt/(hdd|plex-media|ssd-linux)' || echo \"⚠ No /mnt/ mounts found.\" echo \"\" } \u003e \"$OUTPUT_FILE\" The result? A browsable HTML dump of disk usage, readable in less than two seconds. If you think that’s janky, you’re absolutely right, but it’s fast, visible, and doesn’t rely on some bloated container chewing RAM just to tell me /dev/sda is full.\nMarkdown Editor Sometimes I want to jot notes without launching a full IDE. The Markdown editor is a local HTML page using marked.js to live-render text from a \u003c/code\u003e into preview. It doesn’t save anything. There’s no backend. It’s just a scratchpad for writing. I’ve used it to draft trip plans, and write internal docs.\n\u003cp\u003eNot as pratical, but was still interesting to learn how online markdown editors/previewers work.\n\u003cp\u003e\u003cimg alt=\"Markdown Editor\" loading=\"lazy\" src=\"/images/apache/markdown.png\"\u003e\n\u003chr\u003e \u003ch3 id=\"html-checklists\"\u003eHTML Checklists\u003c/h3\u003e \u003cp\u003eOne of the more practical parts of this launchpad is the \u003cstrong\u003eChecklist Hub\u003c/strong\u003e. It’s a clean, minimal UI that links out to individual checklists each one fully written in HTML, with collapsible sections, checkboxes, and a percentage tracker that updates as you tick things off.\n\u003cp\u003eClicking a card opens a full checklist page, complete with sections, toggle states, and a reset button. There’s also a handy link back to the hub, and from there, back to the main launchpad.\n\u003cp\u003eIt’s fast and practical way better for bulk planning than something like Google Keep. The layout is clearer, items aren’t buried under endless scrolling, and there’s no login. That said, it’s static editing requires updating HTML manually, and there’s no sync. Making it a fancy digital paperweight.\n\u003cp\u003eStill, for an offline, local-only setup? It’s great.\n\u003cp\u003e\u003cimg alt=\"Checklist Hub\" loading=\"lazy\" src=\"/images/apache/checklisthub.png\"\u003e\n\u003cp\u003e\u003cimg alt=\"Ullswater Checklist\" loading=\"lazy\" src=\"/images/apache/checklist.png\"\u003e\n\u003chr\u003e \u003ch2 id=\"security-notes\"\u003eSecurity Notes\u003c/h2\u003e \u003cp\u003eThe launchpad isn’t exposed to the internet. It runs on an internal Docker network, port 8088, and is only reachable via Tailscale. I’ve locked it down with UFW, and there’s no external DNS entry. Even the green dots that show service status are local-only pings.\n\u003chr\u003e \u003ch2 id=\"final-thoughts\"\u003eFinal Thoughts\u003c/h2\u003e \u003cp\u003eSometimes it’s fun to overengineer things. This wasn’t one of those times.\n\u003cp\u003eThis launchpad is small and stupid. It gives me exactly what I needed, some visibility into my environment, fast access to tools, and a little place to dump thoughts.\n\u003cp\u003eIf you’re juggling multiple services and your only dashboard is “ten Chrome tabs and muscle memory,” build yourself a local launchpad. Keep it small. Keep it fast.\n",
   "wordCount" : "831",
   "inLanguage": "en",
-  "image":"http://localhost:1313/images/apache/launchpadtitle.png","datePublished": "2025-07-08T00:00:00Z",
+  "image":"https://raw-tech.co.uk/images/apache/launchpadtitle.png","datePublished": "2025-07-08T00:00:00Z",
   "dateModified": "2025-07-08T00:00:00Z",
   "author":{
     "@type": "Person",
@@ -115,14 +115,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/apache/"
+    "@id": "https://raw-tech.co.uk/posts/apache/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "RAW-TECH",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://raw-tech.co.uk/favicon.ico"
     }
   }
 }
@@ -144,7 +144,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
+            <a href="https://raw-tech.co.uk/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -170,22 +170,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/" title="Home">
+                <a href="https://raw-tech.co.uk/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
+                <a href="https://raw-tech.co.uk/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
+                <a href="https://raw-tech.co.uk/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tools/" title="Tools">
+                <a href="https://raw-tech.co.uk/tools/" title="Tools">
                     <span>Tools</span>
                 </a>
             </li>
@@ -196,7 +196,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <div class="breadcrumbs"><a href="https://raw-tech.co.uk/">Home</a>&nbsp;»&nbsp;<a href="https://raw-tech.co.uk/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Building a Apache Launchpad for My Homelab
     </h1>
@@ -314,16 +314,16 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/web-development/">Web Development</a></li>
-      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
-      <li><a href="http://localhost:1313/tags/apache/">Apache</a></li>
+      <li><a href="https://raw-tech.co.uk/tags/web-development/">Web Development</a></li>
+      <li><a href="https://raw-tech.co.uk/tags/tech/">Tech</a></li>
+      <li><a href="https://raw-tech.co.uk/tags/apache/">Apache</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">RAW-TECH</a></span> · 
+        <span>&copy; 2025 <a href="https://raw-tech.co.uk/">RAW-TECH</a></span> · 
 
     <span>
         Powered by

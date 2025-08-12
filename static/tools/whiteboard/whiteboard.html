@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Whiteboard</title>
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg:#0d1117;         /* base */
+      --bg2:#0f141c;        /* panel gradient end */
+      --panel:#111827;      /* panel */
+      --panel-2:#0f1520;    /* panel 2 */
+      --ink:#e6edf3;        /* text */
+      --muted:#9aa4b2;      /* muted */
+      --accent:#f97316;     /* orange */
+      --accent-2:#fb923c;   /* lighter orange */
+      --good:#22c55e;       
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --chip:#1a2433;
+      --border:rgba(255,255,255,.08);
+      --ring:rgba(249,115,22,.35);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --grid:rgba(255,255,255,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:radial-gradient(1400px 700px at 10% -10%, #131b26 0%, var(--bg) 60%);color:var(--ink);font:14px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Arial}
+
+    .app{display:grid;grid-template-rows:auto 1fr auto;height:100%}
+
+    header.toolbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;background:linear-gradient(180deg,var(--panel),var(--panel-2));border-bottom:1px solid var(--border);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+    header .brand{display:flex;align-items:center;gap:.6rem;margin-right:.25rem}
+    header .brand img{width:22px;height:22px;border-radius:4px;box-shadow:var(--shadow)}
+    header .brand .title{font-weight:600;letter-spacing:.2px}
+
+    .group{display:flex;align-items:center;gap:.35rem;padding-right:.6rem;border-right:1px solid var(--border)}
+    .group:last-child{border-right:none}
+
+    button,select,input[type="number"],input[type="text"],input[type="color"]{background:#0f1520;color:var(--ink);border:1px solid var(--border);border-radius:10px;padding:.42rem .6rem;font-size:13px}
+    button{cursor:pointer;user-select:none}
+    button.icon{width:34px;height:34px;display:grid;place-items:center;padding:0}
+    button.toggle[aria-pressed="true"],button:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+    .color-input{width:34px;height:34px;padding:0;border-radius:10px}
+    .chip{background:var(--chip);border:1px solid var(--border);padding:.2rem .45rem;border-radius:6px;color:var(--muted);font-size:12px}
+
+    .canvas-wrap{position:relative;overflow:hidden}
+    canvas#board{display:block;width:100%;height:100%;touch-action:none}
+    .hud{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.6);padding:.35rem .6rem;border-radius:6px;font-size:12px;color:var(--muted);border:1px solid var(--border)}
+
+    .toast{position:fixed;right:12px;bottom:12px;background:rgba(20,24,32,.92);border:1px solid var(--border);padding:.5rem .7rem;border-radius:10px;font-size:13px;opacity:0;transform:translateY(6px);transition:.2s ease}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    footer.footer{display:flex;justify-content:space-between;align-items:center;padding:.55rem .75rem;font-size:12px;color:var(--muted);border-top:1px solid var(--border);background:linear-gradient(0deg,var(--panel),var(--panel-2))}
+    .kbd{background:#111827;border:1px solid var(--border);padding:0 .35rem;border-radius:4px;font-family:ui-monospace,Menlo,Consolas,monospace}
+
+    /* Inline text editor */
+    #textEditor{position:absolute;z-index:30;outline:none;border:1px dashed var(--accent);background:#fff;color:#111827;padding:4px 6px;border-radius:6px;display:none;min-width:90px;box-shadow:var(--shadow)}
+
+    /* Drag overlay for images */
+    .drop-hint{position:absolute;inset:0;border:2px dashed var(--accent);border-radius:12px;background:rgba(249,115,22,.08);display:none;align-items:center;justify-content:center;color:#ffd7b0;font-weight:600}
+
+    /* Command palette */
+    .palette{position:fixed;inset:0;display:none;align-items:flex-start;justify-content:center;background:rgba(0,0,0,.35)}
+    .palette .panel{margin-top:10vh;background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);width:min(720px,92vw);padding:10px}
+    .palette input{width:100%}
+    .palette .row{display:flex;gap:8px;align-items:center;margin-top:8px}
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="toolbar" role="toolbar" aria-label="Whiteboard toolbar">
+    <div class="brand">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%23f97316'/%3E%3Cpath d='M7 7h10v2H7zm0 4h7v2H7zm0 4h10v2H7z' fill='white'/%3E%3C/svg%3E" alt="logo"/>
+      <div class="title">Whiteboard</div>
+      <span class="chip">Offline</span>
+    </div>
+
+    <div class="group" id="tools">
+      <button class="icon toggle" data-tool="select" title="Select (V)" aria-pressed="false">🖱️</button>
+      <button class="icon toggle" data-tool="pan" title="Pan (Space)" aria-pressed="true">✋</button>
+      <button class="icon toggle" data-tool="pen" title="Freehand (P)">✏️</button>
+      <button class="icon toggle" data-tool="line" title="Line (L)">／</button>
+      <button class="icon toggle" data-tool="arrow" title="Arrow (A)">➤</button>
+      <button class="icon toggle" data-tool="rect" title="Rectangle (R)">▭</button>
+      <button class="icon toggle" data-tool="ellipse" title="Ellipse (O)">◯</button>
+      <button class="icon toggle" data-tool="note" title="Sticky Note (N)">📝</button>
+      <button class="icon toggle" data-tool="text" title="Text (T)">T</button>
+      <button class="icon" id="imgBtn" title="Add image (I)">🖼️</button>
+      <input type="file" id="imgInput" accept="image/*" style="display:none"/>
+    </div>
+
+    <div class="group">
+      <input type="color" id="strokeColor" class="color-input" title="Stroke color" value="#e6edf3"/>
+      <label>W <input type="number" id="strokeWidth" min="1" max="24" value="3" style="width:60px"></label>
+      <label><input type="checkbox" id="fillToggle"> Fill</label>
+      <input type="color" id="fillColor" class="color-input" title="Fill color" value="#f97316"/>
+      <label>Font <input type="number" id="fontSize" min="8" max="128" value="24" style="width:64px"></label>
+    </div>
+
+    <div class="group">
+      <button id="undoBtn" title="Undo (Ctrl+Z)">Undo</button>
+      <button id="redoBtn" title="Redo (Ctrl+Y)">Redo</button>
+      <button id="clearBtn" title="Clear board">Clear</button>
+    </div>
+    <div class="group">
+      <button id="gridBtn" class="toggle" aria-pressed="true" title="Toggle grid (G)">Grid</button>
+      <button id="snapBtn" class="toggle" aria-pressed="false" title="Snap to grid (S)">Snap</button>
+      <button id="fitBtn" title="Reset view">Reset</button>
+      <span id="zoomPct" class="chip">100%</span>
+    </div>
+    <div class="group">
+      <button id="saveBtn" title="Save to LocalStorage (Ctrl+S)">Save</button>
+      <button id="loadBtn" title="Load from LocalStorage">Load</button>
+      <button id="exportPNGBtn" title="Export PNG">PNG</button>
+      <button id="exportSVGBtn" title="Export SVG">SVG</button>
+    </div>
+    <div class="group">
+      <button id="paletteBtn" title="Command palette (Ctrl+/)">⌘/</button>
+    </div>
+  </header>
+
+  <div class="canvas-wrap" id="canvasWrap" tabindex="0" aria-label="Whiteboard workspace">
+    <canvas id="board"></canvas>
+    <input id="textEditor" type="text"/>
+    <div class="drop-hint" id="dropHint">Drop image to add</div>
+    <div class="hud" id="hud">Tool: Pan • Hold <span class="kbd">Space</span> to pan • Wheel to zoom • <span class="kbd">Ctrl+S</span> save • <span class="kbd">Del</span> delete • <span class="kbd">Ctrl+D</span> duplicate</div>
+  </div>
+
+  <footer class="footer">
+    <div>Webapp by raw‑tech.co.uk.</div>
+    <div>State key <span class="kbd">whiteboard:v2</span>.</div>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Command palette -->
+<div class="palette" id="palette">
+  <div class="panel">
+    <input id="paletteInput" type="text" placeholder="Type a command: pen, rect, note, export, help…" />
+    <div class="row">
+      <button data-cmd="pen">pen</button>
+      <button data-cmd="arrow">arrow</button>
+      <button data-cmd="rect">rect</button>
+      <button data-cmd="ellipse">ellipse</button>
+      <button data-cmd="note">note</button>
+      <button data-cmd="text">text</button>
+      <button data-cmd="export png">export png</button>
+      <button data-cmd="export svg">export svg</button>
+      <button data-cmd="clear">clear</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('board');
+  const wrap = document.getElementById('canvasWrap');
+  const ctx = canvas.getContext('2d');
+  let W=0, H=0, dpr=1;
+
+  const state = {
+    objects: [], // z-order
+    undoStack: [],
+    redoStack: [],
+    tool: 'pan',
+    stroke: '#e6edf3',
+    fill: '#f97316',
+    doFill: false,
+    strokeWidth: 3,
+    fontSize: 24,
+    showGrid: true,
+    snap: false,
+    selection: null, // index of selected object
+    // camera
+    cam: { x: 0, y: 0, k: 1 },
+    // interaction
+    isPanning: false,
+    isDrawing: false,
+    current: null,
+    spaceHeld: false,
+    dragOffset: {x:0,y:0},
+  };
+
+  // UI refs
+  const toolsEl = document.getElementById('tools');
+  const strokeColor = document.getElementById('strokeColor');
+  const fillColor = document.getElementById('fillColor');
+  const fillToggle = document.getElementById('fillToggle');
+  const strokeWidth = document.getElementById('strokeWidth');
+  const fontSize = document.getElementById('fontSize');
+  const undoBtn = document.getElementById('undoBtn');
+  const redoBtn = document.getElementById('redoBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  const loadBtn = document.getElementById('loadBtn');
+  const exportPNGBtn = document.getElementById('exportPNGBtn');
+  const exportSVGBtn = document.getElementById('exportSVGBtn');
+  const zoomPct = document.getElementById('zoomPct');
+  const toastEl = document.getElementById('toast');
+  const textEditor = document.getElementById('textEditor');
+  const hud = document.getElementById('hud');
+  const gridBtn = document.getElementById('gridBtn');
+  const snapBtn = document.getElementById('snapBtn');
+  const fitBtn = document.getElementById('fitBtn');
+  const imgBtn = document.getElementById('imgBtn');
+  const imgInput = document.getElementById('imgInput');
+  const dropHint = document.getElementById('dropHint');
+  const palette = document.getElementById('palette');
+  const paletteBtn = document.getElementById('paletteBtn');
+  const paletteInput = document.getElementById('paletteInput');
+
+  function showToast(msg){
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=> toastEl.classList.remove('show'), 1400);
+  }
+
+  function resize(){
+    dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const r = wrap.getBoundingClientRect();
+    W = Math.max(320, r.width);
+    H = Math.max(320, r.height);
+    canvas.width = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(dpr, dpr);
+
+    mini.width = 200; mini.height = 140;
+    draw();
+  }
+  window.addEventListener('resize', resize);
+
+  function setTool(name){
+    state.tool = name;
+    [...toolsEl.querySelectorAll('button.toggle')].forEach(b=> b.setAttribute('aria-pressed', String(b.dataset.tool===name)));
+    hud.textContent = `Tool: ${name.toUpperCase()} • Hold Space to pan • Wheel to zoom • Ctrl+S save • Del delete • Ctrl+D duplicate`;
+  }
+
+  toolsEl.addEventListener('click', (e)=>{
+    const b = e.target.closest('button[data-tool]');
+    if(!b) return;
+    setTool(b.dataset.tool);
+  });
+
+  strokeColor.addEventListener('input', e=> state.stroke = e.target.value);
+  fillColor.addEventListener('input', e=> state.fill = e.target.value);
+  fillToggle.addEventListener('change', e=> state.doFill = e.target.checked);
+  strokeWidth.addEventListener('input', e=> state.strokeWidth = clamp(+e.target.value, 1, 24));
+  fontSize.addEventListener('input', e=> state.fontSize = clamp(+e.target.value, 8, 128));
+  gridBtn.addEventListener('click', ()=>{ state.showGrid=!state.showGrid; gridBtn.setAttribute('aria-pressed', String(state.showGrid)); draw(); });
+  snapBtn.addEventListener('click', ()=>{ state.snap=!state.snap; snapBtn.setAttribute('aria-pressed', String(state.snap)); });
+  fitBtn.addEventListener('click', ()=>{ state.cam={x:0,y:0,k:1}; draw(); });
+  imgBtn.addEventListener('click', ()=> imgInput.click());
+  imgInput.addEventListener('change', async (e)=>{
+    const f = e.target.files[0]; if(!f) return; const url = await readFileURL(f); addImageAtCenter(url);
+  });
+
+  function readFileURL(file){ return new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(file); }); }
+
+  function addImageAtCenter(url){
+    const cx = state.cam.x + W/2/state.cam.k; const cy = state.cam.y + H/2/state.cam.k;
+    const img = new Image(); img.onload = ()=>{
+      const scale = 320 / Math.max(img.width, img.height);
+      state.objects.push({type:'image', x:cx- (img.width*scale)/2, y:cy-(img.height*scale)/2, w:img.width*scale, h:img.height*scale, src:url});
+      pushHistory(true); draw(); saveAuto();
+    }; img.src = url;
+  }
+
+  function worldToScreen(x,y){ const {x:cx,y:cy,k} = state.cam; return { x: (x - cx)*k, y: (y - cy)*k }; }
+  function screenToWorld(x,y){ const {x:cx,y:cy,k} = state.cam; return { x: x/k + cx, y: y/k + cy }; }
+
+  function grid(ctx){
+    if(!state.showGrid) return;
+    const k = state.cam.k;
+    const spacing = 40 * k;
+    const ox = - (state.cam.x * k) % spacing;
+    const oy = - (state.cam.y * k) % spacing;
+    ctx.save(); ctx.translate(ox, oy);
+    ctx.beginPath();
+    for(let x=0;x<=W;x+=spacing){ ctx.moveTo(x,.5); ctx.lineTo(x,H+.5); }
+    for(let y=0;y<=H;y+=spacing){ ctx.moveTo(.5,y); ctx.lineTo(W+.5,y); }
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.stroke();
+    // subtle dots at intersections
+    const dot = Math.max(1, Math.min(2, k));
+    ctx.fillStyle = 'rgba(255,255,255,0.07)';
+    for(let x=0;x<=W;x+=spacing){ for(let y=0;y<=H;y+=spacing){ ctx.fillRect(x-0.5*dot,y-0.5*dot,dot,dot); }}
+    ctx.restore();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    grid(ctx);
+
+    ctx.save();
+    ctx.translate(-state.cam.x*state.cam.k, -state.cam.y*state.cam.k);
+    ctx.scale(state.cam.k, state.cam.k);
+
+    for(let i=0;i<state.objects.length;i++){
+      drawObject(ctx, state.objects[i]);
+    }
+
+    if(state.current){ drawObject(ctx, state.current, true); }
+
+    // selection box
+    if(state.selection!=null){ const o = state.objects[state.selection]; if(o){ drawSelectionBox(ctx,o); }}
+
+    ctx.restore();
+
+    zoomPct.textContent = Math.round(state.cam.k*100)+'%';
+    drawMinimap();
+  }
+
+  function drawSelectionBox(ctx,o){
+    const r = bbox(o);
+    if(!r) return;
+    ctx.save();
+    ctx.setLineDash([6,6]);
+    ctx.strokeStyle = 'rgba(249,115,22,.95)';
+    ctx.lineWidth = 1/state.cam.k;
+    ctx.strokeRect(r.x, r.y, r.w, r.h);
+    ctx.restore();
+  }
+
+  function drawObject(ctx, obj, draft=false){
+    ctx.save();
+    ctx.lineWidth = (obj.w || 2);
+    ctx.strokeStyle = obj.color || state.stroke;
+    ctx.fillStyle = obj.fill || 'transparent';
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+
+    switch(obj.type){
+      case 'pen':
+        if(obj.pts.length<2){ ctx.restore(); return; }
+        ctx.beginPath(); ctx.moveTo(obj.pts[0].x, obj.pts[0].y);
+        for(let i=1;i<obj.pts.length;i++) ctx.lineTo(obj.pts[i].x, obj.pts[i].y);
+        ctx.stroke();
+        break;
+      case 'line':
+        ctx.beginPath(); ctx.moveTo(obj.a.x, obj.a.y); ctx.lineTo(obj.b.x, obj.b.y); ctx.stroke();
+        break;
+      case 'arrow':
+        drawArrow(ctx, obj.a, obj.b, obj.w||2);
+        break;
+      case 'rect':
+        if(obj.fillOn) { ctx.fillRect(obj.x, obj.y, obj.wd, obj.ht); }
+        ctx.strokeRect(obj.x, obj.y, obj.wd, obj.ht);
+        break;
+      case 'ellipse':
+        ctx.beginPath(); ctx.ellipse(obj.cx, obj.cy, Math.abs(obj.rx), Math.abs(obj.ry), 0, 0, Math.PI*2);
+        if(obj.fillOn) ctx.fill(); ctx.stroke();
+        break;
+      case 'text':
+        ctx.font = `${obj.size||24}px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial`;
+        ctx.textBaseline = 'top';
+        if(obj.fillOn) { ctx.fillStyle = obj.fill || '#fff'; ctx.fillText(obj.text||'', obj.x, obj.y); }
+        ctx.strokeStyle = obj.color || '#fff'; ctx.lineWidth = 1; ctx.strokeText(obj.text||'', obj.x, obj.y);
+        break;
+      case 'note':
+        const r = 6; // radius
+        const w = obj.wd, h = obj.ht;
+        ctx.fillStyle = obj.fill || '#2b2f3a';
+        roundRect(ctx, obj.x, obj.y, w, h, r, true, false);
+        ctx.strokeStyle = obj.color || '#fb923c'; ctx.lineWidth = 2; roundRect(ctx, obj.x, obj.y, w, h, r, false, true);
+        ctx.fillStyle = obj.textColor || '#ffd7b0';
+        ctx.font = `${obj.size||18}px ui-sans-serif, system-ui`;
+        wrapText(ctx, obj.text||'', obj.x+10, obj.y+10, w-20, obj.size||18, 1.35);
+        break;
+      case 'image':
+        if(!obj._img){ obj._img = new Image(); obj._img.src = obj.src; }
+        if(obj._img.complete) ctx.drawImage(obj._img, obj.x, obj.y, obj.w, obj.h);
+        else obj._img.onload = ()=> draw();
+        break;
+    }
+
+    if(draft){ // preview
+      ctx.setLineDash([6,6]);
+      ctx.strokeStyle = 'rgba(249,115,22,.9)';
+      if(['rect','note'].includes(obj.type)) ctx.strokeRect(obj.x, obj.y, obj.wd, obj.ht);
+      if(obj.type==='ellipse'){ ctx.beginPath(); ctx.ellipse(obj.cx, obj.cy, Math.abs(obj.rx), Math.abs(obj.ry), 0, 0, Math.PI*2); ctx.stroke(); }
+      if(['line','arrow'].includes(obj.type)){ ctx.beginPath(); ctx.moveTo(obj.a.x, obj.a.y); ctx.lineTo(obj.b.x, obj.b.y); ctx.stroke(); }
+    }
+
+    ctx.restore();
+  }
+
+  function drawArrow(ctx, a, b, width){
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    const angle = Math.atan2(b.y-a.y, b.x-a.x);
+    const len = 10 + width*1.5; const spread = Math.PI/8;
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y);
+    ctx.lineTo(b.x - len*Math.cos(angle - spread), b.y - len*Math.sin(angle - spread));
+    ctx.lineTo(b.x - len*Math.cos(angle + spread), b.y - len*Math.sin(angle + spread));
+    ctx.closePath();
+    ctx.fillStyle = ctx.strokeStyle; ctx.fill();
+  }
+
+  function roundRect(ctx,x,y,w,h,r,fill,stroke){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    if(fill) ctx.fill(); if(stroke) ctx.stroke();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight, lhMul){
+    const words = String(text).split(/\s+/); let line=''; let yy=y; const lh=(lineHeight||16)*(lhMul||1.3);
+    for(let n=0;n<words.length;n++){
+      const test=line+words[n]+" "; const w=ctx.measureText(test).width; if(w>maxWidth && n>0){ ctx.fillText(line,x,yy); line=words[n]+" "; yy+=lh; } else { line=test; }
+    }
+    ctx.fillText(line,x,yy);
+  }
+
+  function pushHistory(skip){ if(skip!==true) state.undoStack.push(JSON.stringify(state.objects)); state.redoStack.length=0; }
+
+  function undo(){ if(!state.undoStack.length) return; state.redoStack.push(JSON.stringify(state.objects)); const prev=state.undoStack.pop(); state.objects = JSON.parse(prev||'[]'); state.selection=null; draw(); }
+  function redo(){ if(!state.redoStack.length) return; state.undoStack.push(JSON.stringify(state.objects)); const next=state.redoStack.pop(); state.objects = JSON.parse(next||'[]'); state.selection=null; draw(); }
+
+  function onPointerDown(e){
+    const {wx,wy,sx,sy} = localPos(e);
+    const activePan = state.tool==='pan' || state.spaceHeld || e.button===1;
+    if(activePan){ state.isPanning = true; state.panStart = { x:e.clientX, y:e.clientY, camX: state.cam.x, camY: state.cam.y }; return; }
+
+    if(state.tool==='select'){
+      const hit = hitTest(wx,wy);
+      state.selection = hit; draw();
+      if(hit!=null){ const o = state.objects[hit]; const r=bbox(o); state.isDragging=true; state.dragOffset={x:wx-(r? r.x:o.x||0), y:wy-(r? r.y:o.y||0)}; pushHistory(); }
+      return;
+    }
+
+    state.isDrawing = true; pushHistory();
+    switch(state.tool){
+      case 'pen': state.current = { type:'pen', pts:[ snapPt({x:wx,y:wy}) ], color: state.stroke, w: state.strokeWidth }; break;
+      case 'line': state.current = { type:'line', a:snapPt({x:wx,y:wy}), b:snapPt({x:wx,y:wy}), color: state.stroke, w: state.strokeWidth }; break;
+      case 'arrow': state.current = { type:'arrow', a:snapPt({x:wx,y:wy}), b:snapPt({x:wx,y:wy}), color: state.stroke, w: state.strokeWidth }; break;
+      case 'rect': state.current = { type:'rect', x:wx, y:wy, wd:0, ht:0, color: state.stroke, fill: state.fill, fillOn: state.doFill, w: state.strokeWidth }; break;
+      case 'ellipse': state.current = { type:'ellipse', cx:wx, cy:wy, rx:0, ry:0, color: state.stroke, fill: state.fill, fillOn: state.doFill, w: state.strokeWidth }; break;
+      case 'note': state.current = { type:'note', x:wx, y:wy, wd:220, ht:140, color:'#fb923c', fill:'#1f2937', text:'New note', textColor:'#ffd7b0', size:18, fillOn:true, w:2 }; break;
+      case 'text':
+        const sp = worldToScreen(wx,wy);
+        openTextEditor(sp.x, sp.y, (value)=>{
+          if(!value) { draw(); return; }
+          state.objects.push({ type:'text', x:wx, y:wy, text:value, color: state.stroke, fill: state.fill, fillOn:true, size: state.fontSize });
+          draw(); saveAuto();
+        });
+        state.isDrawing = false; break;
+    }
+    draw();
+  }
+
+  function onPointerMove(e){
+    const {wx,wy} = localPos(e);
+    if(state.isPanning){ const dx = (e.clientX - state.panStart.x) / state.cam.k; const dy = (e.clientY - state.panStart.y) / state.cam.k; state.cam.x = state.panStart.camX - dx; state.cam.y = state.panStart.camY - dy; draw(); return; }
+
+    if(state.isDragging && state.selection!=null){ const o = state.objects[state.selection]; const r = bbox(o) || {x:o.x||0,y:o.y||0,w:0,h:0}; const nx = snap(wx - state.dragOffset.x); const ny = snap(wy - state.dragOffset.y);
+      const dx = nx - r.x; const dy = ny - r.y; translateObj(o, dx, dy); draw(); return; }
+
+    if(!state.isDrawing || !state.current) return;
+    switch(state.current.type){
+      case 'pen': state.current.pts.push( snapPt({x:wx,y:wy}) ); break;
+      case 'line': state.current.b = snapPt({x:wx,y:wy}); break;
+      case 'arrow': state.current.b = snapPt({x:wx,y:wy}); break;
+      case 'rect': state.current.wd = snap(wx - state.current.x); state.current.ht = snap(wy - state.current.y); break;
+      case 'ellipse': state.current.rx = snap(wx - state.current.cx); state.current.ry = snap(wy - state.current.cy); break;
+      case 'note': state.current.wd = 220; state.current.ht = 140; break;
+    }
+    draw();
+  }
+
+  function onPointerUp(){
+    if(state.isPanning){ state.isPanning=false; return; }
+    if(state.isDragging){ state.isDragging=false; saveAuto(); return; }
+    if(!state.isDrawing) return;
+    state.isDrawing = false;
+    if(state.current){
+      const c = state.current; let keep = true;
+      if(c.type==='pen' && c.pts.length<2) keep=false;
+      if(['line','arrow'].includes(c.type) && dist(c.a,c.b)<1) keep=false;
+      if(c.type==='rect' && Math.abs(c.wd)<1 && Math.abs(c.ht)<1) keep=false;
+      if(c.type==='ellipse' && Math.abs(c.rx)<1 && Math.abs(c.ry)<1) keep=false;
+      if(keep) state.objects.push(c);
+      state.current = null; draw(); saveAuto();
+    }
+  }
+
+  function translateObj(o,dx,dy){
+    switch(o.type){
+      case 'pen': o.pts.forEach(p=>{p.x+=dx;p.y+=dy}); break;
+      case 'line': o.a.x+=dx;o.a.y+=dy;o.b.x+=dx;o.b.y+=dy; break;
+      case 'arrow': o.a.x+=dx;o.a.y+=dy;o.b.x+=dx;o.b.y+=dy; break;
+      case 'rect': o.x+=dx;o.y+=dy; break;
+      case 'ellipse': o.cx+=dx;o.cy+=dy; break;
+      case 'text': o.x+=dx;o.y+=dy; break;
+      case 'note': o.x+=dx;o.y+=dy; break;
+      case 'image': o.x+=dx;o.y+=dy; break;
+    }
+  }
+
+  function bbox(o){
+    switch(o.type){
+      case 'pen':{
+        let minx=Infinity,miny=Infinity,maxx=-Infinity,maxy=-Infinity; o.pts.forEach(p=>{minx=Math.min(minx,p.x);miny=Math.min(miny,p.y);maxx=Math.max(maxx,p.x);maxy=Math.max(maxy,p.y)}); if(!isFinite(minx)) return null; return {x:minx,y:miny,w:maxx-minx,h:maxy-miny};
+      }
+      case 'line': case 'arrow':{ const minx=Math.min(o.a.x,o.b.x), miny=Math.min(o.a.y,o.b.y); const maxx=Math.max(o.a.x,o.b.x), maxy=Math.max(o.a.y,o.b.y); return {x:minx,y:miny,w:maxx-minx,h:maxy-miny}; }
+      case 'rect': case 'note': return {x:o.x,y:o.y,w:o.wd,h:o.ht};
+      case 'ellipse': return {x:o.cx-Math.abs(o.rx), y:o.cy-Math.abs(o.ry), w:Math.abs(o.rx)*2, h:Math.abs(o.ry)*2};
+      case 'text': return {x:o.x,y:o.y,w:(o.text? o.text.length*(o.size||24)*.6:10), h:(o.size||24)*1.2};
+      case 'image': return {x:o.x,y:o.y,w:o.w,h:o.h};
+    }
+    return null;
+  }
+
+  function hitTest(wx,wy){
+    for(let i=state.objects.length-1;i>=0;i--){ const o=state.objects[i]; const r=bbox(o); if(r && wx>=r.x && wx<=r.x+r.w && wy>=r.y && wy<=r.y+r.h) return i; }
+    return null;
+  }
+
+  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
+  function clamp(v,min,max){ return Math.min(max, Math.max(min,v)); }
+  function snap(v){ return state.snap? Math.round(v/10)*10 : v; }
+  function snapPt(p){ return {x:snap(p.x), y:snap(p.y)}; }
+
+  function onWheel(e){
+    const delta = e.deltaY; const factor = Math.pow(1.001, delta * (e.ctrlKey? 1.6 : 1));
+    const prevK = state.cam.k; let k = clamp(prevK / factor, 0.1, 6);
+    const rect = canvas.getBoundingClientRect();
+    const sx = (e.clientX - rect.left) * (canvas.width/rect.width) / dpr;
+    const sy = (e.clientY - rect.top) * (canvas.height/rect.height) / dpr;
+    const wx1 = screenToWorld(sx, sy); state.cam.k = k; const wx2 = screenToWorld(sx, sy);
+    state.cam.x += (wx1.x - wx2.x); state.cam.y += (wx1.y - wx2.y); draw();
+  }
+
+  function localPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const sx = (e.clientX - rect.left) * (canvas.width/rect.width) / dpr;
+    const sy = (e.clientY - rect.top) * (canvas.height/rect.height) / dpr;
+    const w = screenToWorld(sx,sy); return { wx:w.x, wy:w.y, sx, sy };
+  }
+
+  // Text editor overlay
+  function openTextEditor(sx, sy, onCommit){
+    textEditor.style.left = Math.round(sx) + 'px';
+    textEditor.style.top = Math.round(sy) + 'px';
+    textEditor.style.fontSize = state.fontSize + 'px';
+    textEditor.value = '';
+    textEditor.style.display = 'block';
+    textEditor.focus();
+    function close(commit){
+      const val = textEditor.value.trim();
+      textEditor.style.display = 'none'; textEditor.value=''; textEditor.onkeydown=null;
+      if(commit) onCommit(val);
+    }
+    textEditor.onkeydown = (ev)=>{
+      if(ev.key==='Enter'){ ev.preventDefault(); close(true); }
+      else if(ev.key==='Escape'){ ev.preventDefault(); close(false); }
+    };
+  }
+
+  // Minimap
+  function drawMinimap(){
+    const bounds = contentBounds();
+    mctx.clearRect(0,0,mini.width,mini.height);
+    if(!bounds){ miniView.style.display='none'; return; }
+    const pad=40; const bx=bounds.x-pad, by=bounds.y-pad, bw=bounds.w+pad*2, bh=bounds.h+pad*2;
+    const sx = mini.width/bw; const sy = mini.height/bh; const s = Math.min(sx,sy);
+    const offx = (mini.width - bw*s)/2 - bx*s; const offy = (mini.height - bh*s)/2 - by*s;
+    mctx.save(); mctx.translate(offx,offy); mctx.scale(s,s);
+    // grid faint
+    mctx.fillStyle='rgba(255,255,255,.03)'; mctx.fillRect(bx,by,bw,bh);
+    // draw simplified objects
+    for(const o of state.objects){ mctx.save(); mctx.strokeStyle='rgba(255,255,255,.6)'; mctx.lineWidth=1/s; mctx.fillStyle='rgba(249,115,22,.5)';
+      const r=bbox(o); if(!r){ mctx.restore(); continue; }
+      mctx.strokeRect(r.x,r.y,r.w,r.h);
+      mctx.restore();
+    }
+    // viewport rect
+    const vx = state.cam.x, vy = state.cam.y, vw = W/state.cam.k, vh = H/state.cam.k;
+    const rx = vx*s+offx, ry = vy*s+offy, rw = vw*s, rh = vh*s;
+    miniView.style.display='block'; miniView.style.left=rx+'px'; miniView.style.top=ry+'px'; miniView.style.width=rw+'px'; miniView.style.height=rh+'px';
+    mctx.restore();
+  }
+
+  function contentBounds(){
+    if(!state.objects.length) return null; let minx=Infinity,miny=Infinity,maxx=-Infinity,maxy=-Infinity; for(const o of state.objects){ const b=bbox(o); if(!b) continue; minx=Math.min(minx,b.x); miny=Math.min(miny,b.y); maxx=Math.max(maxx,b.x+b.w); maxy=Math.max(maxy,b.y+b.h);} if(!isFinite(minx)) return null; return {x:minx,y:miny,w:maxx-minx,h:maxy-miny};
+  }
+
+  // Save / Load / Export
+  const LS_KEY = 'whiteboard:v2';
+  function save(){ const payload = { objects: state.objects }; localStorage.setItem(LS_KEY, JSON.stringify(payload)); showToast('Saved'); }
+  function saveAuto(){ clearTimeout(saveAuto._t); saveAuto._t = setTimeout(save, 400); }
+  function load(){ const raw = localStorage.getItem(LS_KEY); if(!raw){ showToast('Nothing saved'); return; } try{ const data=JSON.parse(raw); state.objects = data.objects||[]; state.undoStack.length=0; state.redoStack.length=0; state.selection=null; draw(); showToast('Loaded'); }catch(err){ console.error(err); showToast('Load failed'); }}
+
+  function exportPNG(){
+    const off = document.createElement('canvas'); off.width = Math.max(1, Math.floor(W)); off.height = Math.max(1, Math.floor(H)); const ox = off.getContext('2d');
+    ox.fillStyle = '#ffffff'; ox.fillRect(0,0,off.width, off.height);
+    ox.save(); ox.scale(1,1); ox.translate(-state.cam.x*state.cam.k, -state.cam.y*state.cam.k); ox.scale(state.cam.k, state.cam.k);
+    for(const obj of state.objects){ drawObject(ox, obj); }
+    ox.restore();
+    const url = off.toDataURL('image/png'); const a = document.createElement('a'); a.href=url; a.download='whiteboard.png'; a.click();
+  }
+
+  function exportSVG(){
+    const vw = Math.round(W), vh = Math.round(H);
+    const parts = [
+      `<?xml version="1.0" encoding="UTF-8"?>`,
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${vw}" height="${vh}" viewBox="0 0 ${vw} ${vh}">`,
+      `<rect width="100%" height="100%" fill="#ffffff"/>`
+    ];
+    const k = state.cam.k; const tx = -state.cam.x*k, ty = -state.cam.y*k;
+    parts.push(`<g transform="translate(${tx},${ty}) scale(${k})">`);
+    for(const o of state.objects){ parts.push(svgFor(o)); }
+    parts.push(`</g></svg>`);
+    const blob = new Blob([parts.join('\n')], {type:'image/svg+xml'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='whiteboard.svg'; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  }
+
+  function svgFor(o){
+    const stroke = o.color||'#000'; const fill = o.fillOn? (o.fill||'none') : 'none'; const sw = o.w||2; const esc=(s)=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+    switch(o.type){
+      case 'pen': return `<polyline fill="none" stroke="${stroke}" stroke-width="${sw}" points="${o.pts.map(p=>`${p.x},${p.y}`).join(' ')}"/>`;
+      case 'line': return `<line x1="${o.a.x}" y1="${o.a.y}" x2="${o.b.x}" y2="${o.b.y}" stroke="${stroke}" stroke-width="${sw}"/>`;
+      case 'arrow': return `<g><line x1="${o.a.x}" y1="${o.a.y}" x2="${o.b.x}" y2="${o.b.y}" stroke="${stroke}" stroke-width="${sw}"/></g>`; // arrowhead omitted in SVG for simplicity
+      case 'rect': return `<rect x="${o.x}" y="${o.y}" width="${o.wd}" height="${o.ht}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+      case 'ellipse': return `<ellipse cx="${o.cx}" cy="${o.cy}" rx="${Math.abs(o.rx)}" ry="${Math.abs(o.ry)}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+      case 'text': return `<text x="${o.x}" y="${o.y}" font-size="${o.size||24}" fill="${o.fillOn? (o.fill||stroke): stroke}">${esc(o.text||'')}</text>`;
+      case 'note': return `<rect x="${o.x}" y="${o.y}" width="${o.wd}" height="${o.ht}" rx="8" ry="8" fill="${o.fill||'#1f2937'}" stroke="#fb923c" stroke-width="2"/>`;
+      case 'image': return `<!-- image omitted in SVG export for privacy -->`;
+    }
+    return '';
+  }
+
+  // Clear
+  function clearBoard(){ if(confirm('Clear the board?')){ state.objects=[]; state.undoStack.length=0; state.redoStack.length=0; state.selection=null; draw(); saveAuto(); }}
+
+  // Drag & drop / paste images
+  wrap.addEventListener('dragover', e=>{ e.preventDefault(); dropHint.style.display='flex'; });
+  wrap.addEventListener('dragleave', ()=> dropHint.style.display='none');
+  wrap.addEventListener('drop', async e=>{ e.preventDefault(); dropHint.style.display='none'; const f=[...(e.dataTransfer.files||[])].find(f=>f.type.startsWith('image/')); if(!f) return; const url=await readFileURL(f); addImageAtCenter(url); });
+  document.addEventListener('paste', async e=>{ const items = e.clipboardData && e.clipboardData.items; if(!items) return; for(const it of items){ if(it.type && it.type.startsWith('image/')){ const file=it.getAsFile(); const url=await readFileURL(file); addImageAtCenter(url); break; } }});
+
+  // Events
+  canvas.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  wrap.addEventListener('wheel', (e)=>{ e.preventDefault(); onWheel(e); }, { passive: false });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.code==='Space'){ state.spaceHeld = true; setTool('pan'); }
+    if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='s'){ e.preventDefault(); save(); }
+    if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='z'){ e.preventDefault(); undo(); }
+    if((e.ctrlKey||e.metaKey) && (e.key.toLowerCase()==='y' || (e.shiftKey && e.key.toLowerCase()==='z'))){ e.preventDefault(); redo(); }
+    if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='d'){ e.preventDefault(); duplicateSelection(); }
+    if(e.key==='Delete' || e.key==='Backspace'){ if(state.selection!=null){ e.preventDefault(); deleteSelection(); }}
+    if(e.key.toLowerCase()==='g'){ state.showGrid=!state.showGrid; gridBtn.setAttribute('aria-pressed', String(state.showGrid)); draw(); }
+    if(e.key.toLowerCase()==='s'){ if(!e.ctrlKey&&!e.metaKey){ state.snap=!state.snap; snapBtn.setAttribute('aria-pressed', String(state.snap)); }}
+    const map = { v:'select', p:'pen', l:'line', a:'arrow', r:'rect', o:'ellipse', n:'note', t:'text' };
+    if(map[e.key]){ setTool(map[e.key]); }
+    if((e.ctrlKey||e.metaKey) && e.key==='/'){ e.preventDefault(); togglePalette(true); }
+  });
+  document.addEventListener('keyup', (e)=>{ if(e.code==='Space'){ state.spaceHeld=false; setTool('pan'); }});
+
+  undoBtn.onclick = undo; redoBtn.onclick = redo; clearBtn.onclick = clearBoard; saveBtn.onclick = save; loadBtn.onclick = load; exportPNGBtn.onclick = exportPNG; exportSVGBtn.onclick = exportSVG;
+
+  // Selection ops
+  function deleteSelection(){ if(state.selection==null) return; state.objects.splice(state.selection,1); state.selection=null; draw(); saveAuto(); }
+  function duplicateSelection(){ if(state.selection==null) return; const o = state.objects[state.selection]; const c = JSON.parse(JSON.stringify(o)); translateObj(c, 20, 20); state.objects.push(c); state.selection = state.objects.length-1; draw(); saveAuto(); }
+
+  // Command palette
+  function togglePalette(show){ palette.style.display = show? 'flex':'none'; if(show){ paletteInput.value=''; paletteInput.focus(); } }
+  paletteBtn.onclick = ()=> togglePalette(true);
+  palette.addEventListener('click', (e)=>{ if(e.target===palette) togglePalette(false); });
+  paletteInput.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ togglePalette(false); } if(e.key==='Enter'){ runCommand(paletteInput.value.trim()); togglePalette(false);} });
+  palette.querySelectorAll('button[data-cmd]').forEach(b=> b.onclick = ()=>{ runCommand(b.dataset.cmd); togglePalette(false); });
+
+  function runCommand(cmd){
+    const c = cmd.toLowerCase();
+    if(['pen','rect','ellipse','arrow','note','text','line','select','pan'].includes(c)){ setTool(c==='line'? 'line': c); return; }
+    if(c==='export png'){ exportPNG(); return; }
+    if(c==='export svg'){ exportSVG(); return; }
+    if(c==='clear'){ clearBoard(); return; }
+    if(c==='help'){ showToast('Shortcuts: V select, Space pan, P pen, L line, A arrow, R rect, O ellipse, N note, T text, G grid, S snap, Del delete'); return; }
+    showToast('Unknown command');
+  }
+
+  // Init
+  function init(){ resize(); setTool('pan');
+    const raw = localStorage.getItem(LS_KEY); if(raw){ try{ state.objects = JSON.parse(raw).objects||[]; }catch{} }
+    draw();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

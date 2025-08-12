@@ -2,120 +2,190 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Welcome on RAW-TECH</title>
-    <link>http://localhost:1313/</link>
+    <link>https://raw-tech.co.uk/</link>
     <description>Recent content in Welcome on RAW-TECH</description>
     <image>
       <title>RAW-TECH</title>
-      <url>http://localhost:1313/images/Logo.png</url>
-      <link>http://localhost:1313/images/Logo.png</link>
+      <url>https://raw-tech.co.uk/images/Logo.png</url>
+      <link>https://raw-tech.co.uk/images/Logo.png</link>
     </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
     <lastBuildDate>Tue, 08 Jul 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://raw-tech.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ascii Art Generator</title>
+      <link>https://raw-tech.co.uk/tools/ascii/ascii.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/ascii/ascii.html</guid>
+      <description>Ascii denied</description>
+    </item>
+    <item>
+      <title>Boules</title>
+      <link>https://raw-tech.co.uk/tools/boules/boules.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/boules/boules.html</guid>
+      <description>Oh Boules</description>
+    </item>
     <item>
       <title>Carbonara</title>
-      <link>http://localhost:1313/recipes/italian/carbonara/</link>
+      <link>https://raw-tech.co.uk/recipes/italian/carbonara/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/recipes/italian/carbonara/</guid>
+      <guid>https://raw-tech.co.uk/recipes/italian/carbonara/</guid>
       <description>Easy | Prep: 10 min | Cook: 15 min | Serves: 2</description>
     </item>
     <item>
-      <title>QR Code Generator</title>
-      <link>http://localhost:1313/tools/qr-code-generator/qr.html</link>
+      <title>Image Editor</title>
+      <link>https://raw-tech.co.uk/tools/photo-editor/photo-editor.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tools/qr-code-generator/qr.html</guid>
-      <description>QR Code generator</description>
+      <guid>https://raw-tech.co.uk/tools/photo-editor/photo-editor.html</guid>
+      <description>Sure, it’s art</description>
+    </item>
+    <item>
+      <title>Infinite Runner</title>
+      <link>https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html</guid>
+      <description>Keep going, then</description>
+    </item>
+    <item>
+      <title>Markdown Preview</title>
+      <link>https://raw-tech.co.uk/tools/markdown-preview/markdown-preview.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/markdown-preview/markdown-preview.html</guid>
+      <description>Riveting stuff</description>
+    </item>
+    <item>
+      <title>Mini Music Player</title>
+      <link>https://raw-tech.co.uk/tools/music-player/music-player.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/music-player/music-player.html</guid>
+      <description>Great, more noise</description>
+    </item>
+    <item>
+      <title>Particle Simulator</title>
+      <link>https://raw-tech.co.uk/tools/particle-simulator/particle-simulator.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/particle-simulator/particle-simulator.html</guid>
+      <description>Big bang, whatever</description>
+    </item>
+    <item>
+      <title>Simple Pomodoro Timer</title>
+      <link>https://raw-tech.co.uk/tools/pomodoro-timer/pomodoro-timer.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/pomodoro-timer/pomodoro-timer.html</guid>
+      <description>Hurry up</description>
+    </item>
+    <item>
+      <title>The Maze Runner</title>
+      <link>https://raw-tech.co.uk/tools/maze-runner/maze-runner.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/maze-runner/maze-runner.html</guid>
+      <description>Get lost</description>
+    </item>
+    <item>
+      <title>Tower Stacker</title>
+      <link>https://raw-tech.co.uk/tools/tower-stack/tower-stack.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/tower-stack/tower-stack.html</guid>
+      <description>Not stable</description>
+    </item>
+    <item>
+      <title>Whiteboard</title>
+      <link>https://raw-tech.co.uk/tools/whiteboard/whiteboard.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://raw-tech.co.uk/tools/whiteboard/whiteboard.html</guid>
+      <description>Nice squiggle</description>
     </item>
     <item>
       <title>Building a Apache Launchpad for My Homelab</title>
-      <link>http://localhost:1313/posts/apache/</link>
+      <link>https://raw-tech.co.uk/posts/apache/</link>
       <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/apache/</guid>
+      <guid>https://raw-tech.co.uk/posts/apache/</guid>
       <description>Building a Dockerised Apache Launchpad for My Homelab</description>
     </item>
     <item>
       <title>Windows 11 Readiness Reporting via PowerShell &#43; Active Directory</title>
-      <link>http://localhost:1313/posts/hardwarereadiness/</link>
+      <link>https://raw-tech.co.uk/posts/hardwarereadiness/</link>
       <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/hardwarereadiness/</guid>
+      <guid>https://raw-tech.co.uk/posts/hardwarereadiness/</guid>
       <description>How to implement a domain-wide Windows 11 readiness audit using PowerShell and Active Directory to track compatibility across all machines.</description>
     </item>
     <item>
       <title>Yr Wyddfa via Watkin Path. A Rain-Soaked Adventure</title>
-      <link>http://localhost:1313/posts/snowdon/</link>
+      <link>https://raw-tech.co.uk/posts/snowdon/</link>
       <pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/snowdon/</guid>
+      <guid>https://raw-tech.co.uk/posts/snowdon/</guid>
       <description>A rugged climb through mist and rain, chasing waterfalls and quiet triumphs on Snowdon’s wildest trail.</description>
     </item>
     <item>
       <title>Building RAW-TECH: From Hand-Coded HTML to Hugo</title>
-      <link>http://localhost:1313/posts/website/</link>
+      <link>https://raw-tech.co.uk/posts/website/</link>
       <pubDate>Thu, 12 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/website/</guid>
+      <guid>https://raw-tech.co.uk/posts/website/</guid>
       <description>building and rebuilding my personal website—from pure HTML/CSS to Hugo with PaperMod.</description>
     </item>
     <item>
       <title>My Pandemic in Blender</title>
-      <link>http://localhost:1313/posts/still_life_blender/</link>
+      <link>https://raw-tech.co.uk/posts/still_life_blender/</link>
       <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/still_life_blender/</guid>
+      <guid>https://raw-tech.co.uk/posts/still_life_blender/</guid>
       <description>How Blender helped me find creative focus in a time of isolation, one render at a time.</description>
     </item>
     <item>
       <title>Rebuilding Civilisation: Dr. Stone as a Blueprint for Humanity</title>
-      <link>http://localhost:1313/posts/rebuilding_civilisation_dr.stone/</link>
+      <link>https://raw-tech.co.uk/posts/rebuilding_civilisation_dr.stone/</link>
       <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/rebuilding_civilisation_dr.stone/</guid>
+      <guid>https://raw-tech.co.uk/posts/rebuilding_civilisation_dr.stone/</guid>
       <description>A look at how Dr. Stone fast-tracks the history of human progress, rebuilding technology from the ground up in a way that’s both scientifically grounded and surprisingly believable.</description>
     </item>
     <item>
       <title>Passive Consumerism: How Entertainment Is Quietly Reshaping Civilization</title>
-      <link>http://localhost:1313/posts/passive_consumerism/</link>
+      <link>https://raw-tech.co.uk/posts/passive_consumerism/</link>
       <pubDate>Wed, 21 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/passive_consumerism/</guid>
+      <guid>https://raw-tech.co.uk/posts/passive_consumerism/</guid>
       <description>A closer look at how passive entertainment habits, fueled by streaming giants and formulaic franchises are subtly reshaping human behavior and our broader cultural direction.</description>
     </item>
     <item>
       <title>The Homelab Project</title>
-      <link>http://localhost:1313/posts/homelab/</link>
+      <link>https://raw-tech.co.uk/posts/homelab/</link>
       <pubDate>Sat, 17 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/homelab/</guid>
+      <guid>https://raw-tech.co.uk/posts/homelab/</guid>
       <description>A technical journey through building a Plex-focused homelab from the ground up, covering architecture, automation, monitoring, and the philosophy behind it all.</description>
     </item>
     <item>
       <title>Weather Tracker: A Real-Time Weather App</title>
-      <link>http://localhost:1313/posts/weather_tracker/</link>
+      <link>https://raw-tech.co.uk/posts/weather_tracker/</link>
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/weather_tracker/</guid>
+      <guid>https://raw-tech.co.uk/posts/weather_tracker/</guid>
       <description>A modern weather web app using OpenWeather API and Vercel serverless functions.</description>
     </item>
     <item>
       <title>My Favorite Games: Ranked and Scored</title>
-      <link>http://localhost:1313/posts/game-rankings/</link>
+      <link>https://raw-tech.co.uk/posts/game-rankings/</link>
       <pubDate>Thu, 15 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/game-rankings/</guid>
+      <guid>https://raw-tech.co.uk/posts/game-rankings/</guid>
       <description>A hand-curated list of my favorite games, ranked by personal metrics like narrative, exploration, and replayability.</description>
     </item>
     <item>
       <title>A Journey Through Landscape Photography</title>
-      <link>http://localhost:1313/posts/lanscape-photography/</link>
+      <link>https://raw-tech.co.uk/posts/lanscape-photography/</link>
       <pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/lanscape-photography/</guid>
+      <guid>https://raw-tech.co.uk/posts/lanscape-photography/</guid>
       <description>Each frame is a memory, a story, a small piece of stillness.</description>
     </item>
     <item>
       <title>Film Affinity: Building a Film Critique Generator</title>
-      <link>http://localhost:1313/posts/film-affinity/</link>
+      <link>https://raw-tech.co.uk/posts/film-affinity/</link>
       <pubDate>Fri, 14 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/film-affinity/</guid>
+      <guid>https://raw-tech.co.uk/posts/film-affinity/</guid>
       <description>A Python-powered app that scrapes Letterboxd ratings and generates AI-based film critiques with GPT-3.5.</description>
     </item>
     <item>
       <title>Exchange Online: Tagging External Emails with Powershell</title>
-      <link>http://localhost:1313/posts/exchange_external_tag/</link>
+      <link>https://raw-tech.co.uk/posts/exchange_external_tag/</link>
       <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/exchange_external_tag/</guid>
+      <guid>https://raw-tech.co.uk/posts/exchange_external_tag/</guid>
       <description>A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.</description>
     </item>
   </channel>

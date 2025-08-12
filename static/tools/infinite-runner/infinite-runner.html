@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Infinite Runner</title>
+<style>
+  :root{
+    --bg:#1a1a1a; --panel:#262626; --text:#f2f2f2; --muted:#a6a6a6;
+    --accent:#ff6f00;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(#1a1a1a,#0d0d0d);color:var(--text);font:14px system-ui,sans-serif;}
+  .wrap{height:100%;display:grid;place-items:center;padding:16px}
+  .frame{width:min(1100px,95vw);height:min(620px,85vh);background:var(--panel);border:1px solid #333;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);position:relative;overflow:hidden}
+  canvas{display:block;width:100%;height:100%}
+  .hud{position:absolute;inset:12px 12px auto 12px;display:flex;gap:12px;align-items:center}
+  .pill{background:rgba(38,38,38,.85);border:1px solid #444;color:var(--text);padding:8px 12px;border-radius:999px;font-weight:600;display:flex;gap:10px;align-items:center}
+  .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .right{position:absolute;top:12px;right:12px;display:flex;gap:12px}
+  .center-msg{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+  .card{background:rgba(26,26,26,.85);border:1px solid #444;border-radius:14px;padding:16px 18px;text-align:center}
+  h1{margin:0 0 6px;font-weight:650;font-size:18px;color:var(--accent)}
+  .hint{color:var(--muted);font-size:12px}
+</style>
+</head>
+    <div class="brand">Webapp by <a href="https://raw-tech.co.uk">RAW-TECH</a></div>
+<body>
+<div class="wrap">
+  <div class="frame">
+    <canvas id="game" width="1100" height="620"></canvas>
+    <div class="hud">
+      <div class="pill"><span class="dot"></span><span id="score">0</span> m</div>
+      <div class="pill">Best: <span id="best">0</span> m</div>
+      <div class="pill">Speed: <span id="speed">0</span></div>
+    </div>
+    <div class="right">
+      <div class="pill">Space: jump</div>
+      <div class="pill">↓: slide</div>
+      <div class="pill">←/→: decel/accel</div>
+    </div>
+    <div class="center-msg" id="center">
+      <div class="card">
+        <h1>Infinite Runner</h1>
+        <div class="hint">Press Space to start. Jump with Space. Slide with Arrow Down. Adjust speed with Left/Right arrows.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, GROUND_Y = H - 120;
+  let running=false, paused=false, gameOver=false, time=0, last=performance.now();
+  let score=0, best=+localStorage.getItem('runner.best')||0;
+  let speed=420, maxSpeed=1000, accel=6, manualAccel=0;
+
+  const player={x:160,y:GROUND_Y,w:56,h:84,color:'#ff6f00',vy:0,jumpForce:880,gravity:2200,sliding:false,slideTime:0,maxSlide:520,onGround:true,
+    getHitbox(){return(this.sliding&&this.onGround)?{x:this.x,y:this.y-44,w:this.w,h:44}:{x:this.x,y:this.y-this.h,w:this.w,h:this.h};}};
+
+  const keys=new Set();
+  addEventListener('keydown',e=>{
+    if(e.code==='Space') e.preventDefault();
+    keys.add(e.code);
+    if(!running && e.code==='Space') start();
+    if(e.code==='Space') jump();
+    if(e.code==='ArrowDown') slide(true);
+    if(e.code==='ArrowLeft') manualAccel=-150;
+    if(e.code==='ArrowRight') manualAccel=150;
+    if(gameOver && (e.code==='Space'||e.code==='Enter')) reset();
+  });
+  addEventListener('keyup',e=>{
+    keys.delete(e.code);
+    if(e.code==='ArrowDown') slide(false);
+    if(e.code==='ArrowLeft' || e.code==='ArrowRight') manualAccel=0;
+  });
+
+  const scoreEl=document.getElementById('score'),bestEl=document.getElementById('best'),speedEl=document.getElementById('speed'),center=document.getElementById('center');
+  bestEl.textContent=best;
+
+  const obstacles=[],clouds=[],decor=[]; let nextSpawnX=W+400;
+
+  function seedParallax(){
+    for(let i=0;i<8;i++) clouds.push({x:Math.random()*W*2,y:80+Math.random()*120,r:30+Math.random()*40,s:.2+.15*Math.random()});
+    for(let i=0;i<18;i++) decor.push({x:Math.random()*W*2,w:12+Math.random()*18,h:70+Math.random()*110,s:.55+.35*Math.random()});
+  }
+  seedParallax();
+
+  function start(){running=true;paused=false;gameOver=false;center.style.display='none';last=performance.now();}
+  function jump(){if(!player.onGround||paused||gameOver)return;player.vy=-player.jumpForce;player.onGround=false;player.sliding=false;}
+  function slide(down){if(paused||gameOver)return;player.sliding=down&&player.onGround;player.slideTime=0;}
+  function spawnObstacle(){const type=Math.random()<0.55?'crate':'bar';if(type==='crate'){const w=46+Math.floor(Math.random()*28),h=46+Math.floor(Math.random()*34);obstacles.push({type,x:W+40,y:GROUND_Y,w,h});}else{const gap=80+Math.random()*30,th=14+Math.random()*8,b=GROUND_Y-(player.h-44)-gap;obstacles.push({type,x:W+40,y:b,w:120+Math.random()*80,h:th});}}
+  function scheduleNext(){nextSpawnX+=260+Math.random()*260;}
+  function aabb(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
+  function reset(){obstacles.length=0;clouds.length=0;decor.length=0;seedParallax();score=0;speed=420;time=0;player.y=GROUND_Y;player.vy=0;player.onGround=true;player.sliding=false;gameOver=false;running=true;paused=false;center.style.display='none';last=performance.now();}
+  function die(){gameOver=true;running=false;best=Math.max(best,Math.floor(score));localStorage.setItem('runner.best',best);center.style.display='grid';center.querySelector('.card').innerHTML=`<h1>Game Over</h1><div class="hint">Score: <strong>${Math.floor(score)}</strong> m · Best: <strong>${best}</strong> m</div><div class="hint" style="margin-top:6px">Press Enter or Space to retry</div>`;}
+
+  function drawBackground(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(255,111,0,0.15)';for(let i=0;i<40;i++){let x=(i*53+(time*20)%W)%W,y=(i*71)%H;ctx.strokeRect(x,y,Math.random()*40,Math.random()*40);}for(const c of clouds){ctx.fillStyle='rgba(255,111,0,0.05)';ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fill();}for(const d of decor){ctx.fillStyle='#333';ctx.fillRect(d.x,GROUND_Y-d.h,d.w,d.h);}}
+  function drawGround(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,GROUND_Y+1,W,H-GROUND_Y);ctx.strokeStyle='#444';ctx.beginPath();ctx.moveTo(0,GROUND_Y+.5);ctx.lineTo(W,GROUND_Y+.5);ctx.stroke();}
+  function drawPlayer(){const hb=player.getHitbox();ctx.fillStyle=player.color;ctx.fillRect(hb.x,hb.y,hb.w,hb.h);}
+  function drawObstacles(){for(const o of obstacles){ctx.fillStyle=o.type==='crate'?'#555':'#444';ctx.fillRect(o.x,o.y-(o.type==='crate'?o.h:0),o.w,o.h);}}
+
+  function frame(ts){requestAnimationFrame(frame);const now=ts||performance.now();let dt=(now-last)/1000;if(dt>0.04)dt=0.04;if(!running||paused||gameOver){last=now;drawStatic();return;}time+=dt;last=now;speed=Math.min(maxSpeed,Math.max(200,speed+accel*dt+manualAccel*dt));score+=(speed*dt)/50;player.vy+=player.gravity*dt;player.y+=player.vy*dt;if(player.y>=GROUND_Y){player.y=GROUND_Y;player.vy=0;player.onGround=true;}if(player.sliding){player.slideTime+=dt*1000;if(player.slideTime>=player.maxSlide)player.sliding=false;}for(const c of clouds){c.x-=speed*dt*c.s*0.25;if(c.x<-120)c.x=W+Math.random()*W;}for(const d of decor){d.x-=speed*dt*d.s*0.45;if(d.x<-20){d.x=W+Math.random()*W;d.h=70+Math.random()*110;d.w=12+Math.random()*18;}}if(nextSpawnX<W){spawnObstacle();scheduleNext();}nextSpawnX-=speed*dt;for(const o of obstacles){o.x-=speed*dt;}while(obstacles.length&&obstacles[0].x+obstacles[0].w<-10)obstacles.shift();const hb=player.getHitbox();for(const o of obstacles){const ob=(o.type==='crate')?{x:o.x,y:o.y-o.h,w:o.w,h:o.h}:{x:o.x,y:o.y,w:o.w,h:o.h};if(aabb(hb,ob)){die();break;}}scoreEl.textContent=Math.floor(score);speedEl.textContent=Math.round(speed);bestEl.textContent=best;draw();}
+
+  function draw(){ctx.clearRect(0,0,W,H);drawBackground();drawGround();drawPlayer();drawObstacles();}
+  function drawStatic(){ctx.clearRect(0,0,W,H);drawBackground();drawGround();drawPlayer();drawObstacles();scoreEl.textContent=Math.floor(score);speedEl.textContent=Math.round(speed);bestEl.textContent=best;}
+
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

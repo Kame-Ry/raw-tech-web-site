@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,16 +9,16 @@
 <meta name="keywords" content="powershell, microsoft, tech">
 <meta name="description" content="A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.">
 <meta name="author" content="Ryan Witts">
-<link rel="canonical" href="http://localhost:1313/posts/exchange_external_tag/">
+<link rel="canonical" href="https://raw-tech.co.uk/posts/exchange_external_tag/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.fa382cd77ccc05462752d6a59c1e87f69503c45600807ebd4b65443726b7f475.css" integrity="sha256-&#43;jgs13zMBUYnUtalnB6H9pUDxFYAgH69S2VENya39HU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://raw-tech.co.uk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://raw-tech.co.uk/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw-tech.co.uk/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://raw-tech.co.uk/apple-touch-icon.png">
+<link rel="mask-icon" href="https://raw-tech.co.uk/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/exchange_external_tag/">
+<link rel="alternate" hreflang="en" href="https://raw-tech.co.uk/posts/exchange_external_tag/">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,7 +55,7 @@
         }
 
     </style>
-</noscript><meta property="og:url" content="http://localhost:1313/posts/exchange_external_tag/">
+</noscript><meta property="og:url" content="https://raw-tech.co.uk/posts/exchange_external_tag/">
   <meta property="og:site_name" content="RAW-TECH">
   <meta property="og:title" content="Exchange Online: Tagging External Emails with Powershell">
   <meta property="og:description" content="A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.">
@@ -67,9 +67,9 @@
     <meta property="article:tag" content="Powershell">
     <meta property="article:tag" content="Microsoft">
     <meta property="article:tag" content="Tech">
-    <meta property="og:image" content="http://localhost:1313/images/ms-outlook-logo.jpg">
+    <meta property="og:image" content="https://raw-tech.co.uk/images/ms-outlook-logo.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://localhost:1313/images/ms-outlook-logo.jpg">
+<meta name="twitter:image" content="https://raw-tech.co.uk/images/ms-outlook-logo.jpg">
 <meta name="twitter:title" content="Exchange Online: Tagging External Emails with Powershell">
 <meta name="twitter:description" content="A simple PowerShell-based approach to visibly tagging external emails in Exchange Online.">
 
@@ -83,13 +83,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://raw-tech.co.uk/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "Exchange Online: Tagging External Emails with Powershell",
-      "item": "http://localhost:1313/posts/exchange_external_tag/"
+      "item": "https://raw-tech.co.uk/posts/exchange_external_tag/"
     }
   ]
 }
@@ -107,7 +107,7 @@
   "articleBody": " Want to add a visual warning banner to emails from outside your organisation? This quick PowerShell script does exactly that. Tagging external emails in Exchange Online with a bold disclaimer to help users spot potential phishing attempts.\nWhat This Script Does Turns on native external tagging in Outlook and OWA. Creates a transport rule that adds a bright HTML warning banner to all external emails. Double-checks that the tagging is enabled, and enables it if not. Step-by-Step Breakdown 1. Connect to Exchange Online Connect-ExchangeOnline 2. Enable External Tagging in Outlook Set-ExternalInOutlook -Enabled $true Enables Microsoft’s built-in external email notification across Outlook and OWA.\n3. Add a Visual Disclaimer for External Emails $disclaimer = @\" THIS IS AN EXTERNAL EMAIL: If you weren't expecting this, don't click links or open attachments. Contact your IT team. \"@ New-TransportRule -Name \"External Email Tag\" ` -FromScope NotInOrganization ` -ApplyHtmlDisclaimerLocation Prepend ` -ApplyHtmlDisclaimerText $disclaimer ` -ApplyHtmlDisclaimerFallbackAction Wrap 4. Check If Tagging Is Active (and Enable If Needed) $externalTagSetting = Get-ExternalInOutlook if ($externalTagSetting.Enabled -eq $true) { Write-Host \"External tag is already enabled.\" -ForegroundColor Green } else { Write-Host \"External tag is DISABLED. Enabling...\" -ForegroundColor Yellow Set-ExternalInOutlook -Enabled $true $check = Get-ExternalInOutlook if ($check.Enabled -eq $true) { Write-Host \"Successfully enabled external email tag.\" -ForegroundColor Green } else { Write-Host \"Failed to enable external email tag. Check permissions.\" -ForegroundColor Red } } 5. Disconnect When Done Disconnect-ExchangeOnline -Confirm:$false Tips \u0026 Notes You can split the script into stages if needed—connect first, then create rule, then validate. Only external, unauthenticated senders get tagged—internal mail is untouched. Customize the disclaimer colors and wording to match your brand. Wrapping Up This is a quick win for mail hygiene—especially useful in environments where users might not think twice about a suspicious email. A visual cue helps them pause before they click.\n",
   "wordCount" : "323",
   "inLanguage": "en",
-  "image":"http://localhost:1313/images/ms-outlook-logo.jpg","datePublished": "2025-03-12T00:00:00Z",
+  "image":"https://raw-tech.co.uk/images/ms-outlook-logo.jpg","datePublished": "2025-03-12T00:00:00Z",
   "dateModified": "2025-03-12T00:00:00Z",
   "author":{
     "@type": "Person",
@@ -115,14 +115,14 @@
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/exchange_external_tag/"
+    "@id": "https://raw-tech.co.uk/posts/exchange_external_tag/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "RAW-TECH",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://raw-tech.co.uk/favicon.ico"
     }
   }
 }
@@ -144,7 +144,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
+            <a href="https://raw-tech.co.uk/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -170,22 +170,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/" title="Home">
+                <a href="https://raw-tech.co.uk/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
+                <a href="https://raw-tech.co.uk/posts/" title="Posts">
                     <span>Posts</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
+                <a href="https://raw-tech.co.uk/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tools/" title="Tools">
+                <a href="https://raw-tech.co.uk/tools/" title="Tools">
                     <span>Tools</span>
                 </a>
             </li>
@@ -196,7 +196,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <div class="breadcrumbs"><a href="https://raw-tech.co.uk/">Home</a>&nbsp;»&nbsp;<a href="https://raw-tech.co.uk/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Exchange Online: Tagging External Emails with Powershell
     </h1>
@@ -205,7 +205,7 @@
 </div>
   </header> 
 <figure class="entry-cover">
-        <img loading="eager" src="http://localhost:1313/images/ms-outlook-logo.jpg" alt="Exchange External Tag">
+        <img loading="eager" src="https://raw-tech.co.uk/images/ms-outlook-logo.jpg" alt="Exchange External Tag">
         
 </figure><div class="toc">
     <details >
@@ -310,16 +310,16 @@
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/powershell/">Powershell</a></li>
-      <li><a href="http://localhost:1313/tags/microsoft/">Microsoft</a></li>
-      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
+      <li><a href="https://raw-tech.co.uk/tags/powershell/">Powershell</a></li>
+      <li><a href="https://raw-tech.co.uk/tags/microsoft/">Microsoft</a></li>
+      <li><a href="https://raw-tech.co.uk/tags/tech/">Tech</a></li>
     </ul>
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">RAW-TECH</a></span> · 
+        <span>&copy; 2025 <a href="https://raw-tech.co.uk/">RAW-TECH</a></span> · 
 
     <span>
         Powered by
