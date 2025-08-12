@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Boules — Standalone</title>
+<meta name="color-scheme" content="dark light" />
+<style>
+  :root{
+    --bg:#0c0f14; --panel:#0f1621; --panel2:#121a26; --ink:#e7eef7; --muted:#9bb0c3;
+    --accent:#7dd3fc; --accent2:#5b9cff; --good:#22c55e; --warn:#f59e0b; --bad:#ef4444;
+    --border:#1f2a37; --ring:rgba(125,211,252,.35); --radius:14px; --shadow:0 16px 36px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+  body{margin:0; display:grid; place-items:center; background:radial-gradient(800px 600px at 10% 0%,#0e1420,#0b0f14 65%); color:var(--ink); font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial}
+  .shell{width:100%; max-width:520px; padding:10px}
+  header{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; padding:10px; border-radius:var(--radius); background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); border:1px solid var(--border); box-shadow:var(--shadow)}
+  .brand{display:flex; align-items:center; gap:8px}
+  .badge{height:20px; width:20px; border-radius:6px; background:radial-gradient(120% 120% at 10% 0%,var(--accent),var(--accent2))}
+  h1{margin:0; font-size:14px}
+  .stats{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+  .chip{display:inline-flex; align-items:center; gap:6px; padding:6px 8px; border-radius:10px; background:var(--panel); border:1px solid var(--border); font-size:12px}
+  .btn,.select,.name{appearance:none; border:1px solid var(--border); border-radius:10px; padding:6px 8px; font-size:12px; background:var(--panel2); color:var(--ink); font-weight:600}
+  .name{-webkit-backdrop-filter:none; backdrop-filter:none}
+  .btn{cursor:pointer}
+  .stage-wrap{position:relative; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow); contain:paint}
+  canvas{display:block; width:100%; height:auto; background:linear-gradient(180deg,#c2a776,#b5965f 40%, #a98552 100%)}
+  .toast{position:absolute; left:50%; top:6px; transform:translateX(-50%); padding:6px 8px; border-radius:10px; background:rgba(14,21,33,.72); font-size:12px}
+  .aim{position:absolute; inset:0; pointer-events:none}
+  .win{position:absolute; inset:0; display:none; place-items:center; /*backdrop-filter:blur(3px);*/ background:linear-gradient(rgba(10,16,24,.12),rgba(10,16,24,.2))}
+  .card{background:var(--panel2); border:1px solid var(--border); border-radius:12px; padding:14px 16px; text-align:center}
+</style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><div class="badge"></div><h1>Boules</h1></div>
+      <div class="stats">
+        <div class="chip"><strong>Turn:</strong>&nbsp;<span id="turn">Player 1</span></div>
+        <div class="chip"><strong>Remaining:</strong>&nbsp;<span id="remain">3 vs 3</span></div>
+        <input id="p1" class="name" value="Player 1" title="Rename Player 1" />
+        <input id="p2" class="name" value="Player 2" title="Rename Player 2" />
+        <select id="mode" class="select" title="Opponent"><option value="human">2 Players</option><option value="cpu">Vs CPU</option></select>
+        <button id="resetBtn" class="btn">Reset end</button>
+        <button id="newEndBtn" class="btn">New end</button>
+      </div>
+    </header>
+
+    <div class="stage-wrap">
+      <canvas id="cv" width="420" height="720"></canvas>
+      <div class="toast" id="toast">Throw from bottom circle. All walls are out of bounds for boules. Jack bounces.</div>
+      <div class="aim" id="aim"></div>
+      <div class="win" id="win"><div class="card"><h3 id="winTitle">End complete</h3><p id="winText">No score kept. Winner shown per end only.</p><button id="againBtn" class="btn" style="margin-top:6px">New end</button></div></div>
+    </div>
+  </div>
+
+    <footer class="mono">
+      Webapp by <a href="https://raw-tech.co.uk">RAW-TECH</a>
+    </footer>
+  </div>
+
+<script>
+(()=>{
+  // --- Elements ---
+  const cv = document.getElementById('cv');
+  const cx = cv.getContext('2d');
+  const turnEl = document.getElementById('turn');
+  const remainEl = document.getElementById('remain');
+  const toast = document.getElementById('toast');
+  const aimLayer = document.getElementById('aim');
+  const win = document.getElementById('win');
+  const winTitle = document.getElementById('winTitle');
+  const winText = document.getElementById('winText');
+  const againBtn = document.getElementById('againBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const newEndBtn = document.getElementById('newEndBtn');
+  const modeSel = document.getElementById('mode');
+  const p1Input = document.getElementById('p1');
+  const p2Input = document.getElementById('p2');
+
+  // --- Court ---
+  const W=cv.width, H=cv.height;
+  const sandNoise = document.createElement('canvas');
+  sandNoise.width=256; sandNoise.height=256; const sn = sandNoise.getContext('2d');
+  const img = sn.createImageData(256,256); for(let i=0;i<img.data.length;i+=4){const n=200+((Math.random()*30)|0); img.data[i]=n; img.data[i+1]=n-10; img.data[i+2]=n-30; img.data[i+3]=40+((Math.random()*40)|0);} sn.putImageData(img,0,0);
+
+  // --- Physics ---
+  const ballR = 10; const jackR = 6;
+  const friction = 0.992; const minSpeed = 0.05; const bounce = 0.8;
+
+  // --- State ---
+  let turn = 'A';
+  let remain = {A:3,B:3};
+  let moving = false; let cpu=false; let cpuTimer=null;
+  const origin = {x: W*0.5, y: H-78}; // both players shoot from bottom centre
+  const names = {A:'Player 1', B:'Player 2'};
+
+  const jack = makeBall(W*0.5, H*0.22, 0, 0, jackR, 'jack');
+  /** @type {Array<{x:number,y:number,vx:number,vy:number,r:number,type:string,team:'A'|'B',out:boolean}>} */
+  let boules = [];
+
+  function makeBall(x,y,vx,vy,r,type='boule',team=null){return {x,y,vx,vy,r,type,team,out:false}};
+
+  // --- Input ---
+  let isDown=false, downPos=null, dragPos=null;
+  const getPos = (e)=>{const r=cv.getBoundingClientRect(); if(e.touches&&e.touches[0]) e=e.touches[0]; return {x:(e.clientX-r.left)*(cv.width/r.width), y:(e.clientY-r.top)*(cv.height/r.height)}};
+  const inThrowCircle = (p)=> Math.hypot(p.x-origin.x, p.y-origin.y) <= 30;
+
+  cv.addEventListener('mousedown', onDown); window.addEventListener('mousemove', onMove); window.addEventListener('mouseup', onUp);
+  cv.addEventListener('touchstart', onDown,{passive:false}); window.addEventListener('touchmove', onMove,{passive:false}); window.addEventListener('touchend', onUp);
+
+  function onDown(e){ e.preventDefault(); if(moving) return; const p=getPos(e); if(!inThrowCircle(p)) return; isDown=true; downPos=p; dragPos=p; showAim(); }
+  function onMove(e){ if(!isDown) return; dragPos=getPos(e); updateAim(); }
+  function onUp(e){ if(!isDown) return; isDown=false; hideAim(); const p=getPos(e.changedTouches?e.changedTouches[0]:e); shootFromDrag(p); }
+
+  // --- Throwing ---
+  function shootFromDrag(p){
+    if(remain[turn]<=0) return;
+    const dx = downPos.x - p.x, dy = downPos.y - p.y;
+    let f = Math.hypot(dx,dy)/28; // base power
+    f *= 1.30; // +7% on top of previous 20%
+    if(f<0.1) return;
+    const a = Math.atan2(dy,dx);
+    const cap = 22; // slightly higher cap to match boost
+    const fx = Math.cos(a)*Math.min(cap,f);
+    const fy = Math.sin(a)*Math.min(cap,f);
+    const b = makeBall(origin.x, origin.y, fx, fy, ballR, 'boule', turn);
+    boules.push(b); moving=true; remain[turn]--; updateRemain();
+  }
+
+  // --- UI helpers ---
+  function updateTurn(){ turnEl.textContent = names[turn]; }
+  function updateRemain(){ remainEl.textContent = `${remain.A} vs ${remain.B}`; }
+  function flash(text, ms=1400){ toast.textContent = text; toast.style.opacity='1'; clearTimeout(toast._t); toast._t=setTimeout(()=>toast.style.opacity='0',ms); }
+
+  // --- Controls ---
+  p1Input.addEventListener('input', ()=>{ names.A = p1Input.value.trim()||'Player 1'; updateTurn(); });
+  p2Input.addEventListener('input', ()=>{ names.B = p2Input.value.trim()||(cpu?'CPU':'Player 2'); updateTurn(); });
+  modeSel.addEventListener('change', ()=>{ cpu = (modeSel.value==='cpu'); if(cpu && p2Input.value.trim().toLowerCase()!=='cpu'){ p2Input.value='CPU'; names.B='CPU'; updateTurn(); } });
+  resetBtn.addEventListener('click', ()=>{ if(!moving) resetEnd(true); });
+  newEndBtn.addEventListener('click', ()=>{ if(!moving) resetEnd(true); });
+  againBtn.addEventListener('click', ()=>{ resetEnd(true); win.style.display='none'; });
+
+  // --- Turn / per-end scoring (no match score kept) ---
+  function switchTurn(){ turn = (turn==='A')?'B':'A'; updateTurn(); }
+
+  function endScoring(){
+    const inA = boules.filter(b=>b.team==='A' && !b.out);
+    const inB = boules.filter(b=>b.team==='B' && !b.out);
+    if(inA.length===0 && inB.length===0) return {winner:null, points:0};
+    const dA = inA.map(b=>dist(b,jack));
+    const dB = inB.map(b=>dist(b,jack));
+    const minA = dA.length?Math.min(...dA):Infinity;
+    const minB = dB.length?Math.min(...dB):Infinity;
+    let winner=null; let points=0;
+    if(minA<minB){ winner='A'; points = inA.filter((b,i)=>dA[i] < minB).length; }
+    else if(minB<minA){ winner='B'; points = inB.filter((b,i)=>dB[i] < minA).length; }
+    return {winner, points};
+  }
+
+  function maybeFinishEnd(){
+    if(remain.A===0 && remain.B===0 && !moving){
+      const {winner,points}=endScoring();
+      let title='End complete'; let text='No boules score';
+      if(winner){ title = `${names[winner]} scores`; text = `${points} point${points===1?'':'s'} this end`; }
+      winTitle.textContent = title; winText.textContent = text; win.style.display='grid';
+    }
+  }
+
+  function resetEnd(){
+    boules = []; jack.out=false; randomiseJack(); jack.vx=jack.vy=0; remain={A:3,B:3}; turn='A'; moving=false; cancelCpu(); updateTurn(); updateRemain(); flash('New end.'); maybeCpuTurn(); draw();
+  }
+
+  // --- CPU --- smarter basic logic, single-shot guard
+  function cancelCpu(){ if(cpuTimer){ clearTimeout(cpuTimer); cpuTimer=null; } }
+  function closestActive(){
+    const active = boules.filter(b=>!b.out);
+    if(active.length===0) return null;
+    let best=null, bestD=Infinity; for(const b of active){ const d=dist(b,jack); if(d<bestD){ best=b; bestD=d; } }
+    return {b:best, d:bestD};
+  }
+  function maybeCpuTurn(){
+    if(!cpu) return; if(turn!=='B') return; if(moving) return; if(remain.B<=0) return; if(cpuTimer) return;
+    cpuTimer = setTimeout(()=>{
+      cpuTimer=null;
+      const o = origin;
+      const nb = boules.filter(b=>b.team==='B' && !b.out).length;
+      const cb = closestActive();
+      const opponentClosest = cb && cb.b.team==='A';
+      const shootThreshold = 38;
+      if(opponentClosest && cb.d < shootThreshold){
+        // shoot
+        const target = cb.b;
+        let a = Math.atan2(target.y - o.y, target.x - o.x) + rand(-0.04,0.04);
+        let d = Math.hypot(target.x - o.x, target.y - o.y);
+        let p = Math.min(19, d/26 + 1.0 + rand(-0.15,0.15));
+        const fx=Math.cos(a)*p, fy=Math.sin(a)*p;
+        const b = makeBall(o.x,o.y,fx,fy,ballR,'boule','B'); boules.push(b); moving=true; remain.B--; updateRemain();
+      } else {
+        // place near jack
+        const dirx = jack.x - o.x, diry = jack.y - o.y; const d = Math.hypot(dirx,diry)||1; const ux = dirx/d, uy = diry/d;
+        const targetX = jack.x - ux * (nb>1?14:10);
+        const targetY = jack.y - uy * (nb>1?14:10);
+        let a = Math.atan2(targetY - o.y, targetX - o.x) + rand(-0.05,0.05);
+        let p = Math.min(17.5, d/28 + rand(-0.25,0.25));
+        const fx=Math.cos(a)*p, fy=Math.sin(a)*p;
+        const b = makeBall(o.x,o.y,fx,fy,ballR,'boule','B'); boules.push(b); moving=true; remain.B--; updateRemain();
+      }
+    }, 450 + Math.random()*650);
+  }
+
+  // --- Simulation ---
+  let last = performance.now();
+  function loop(t){ const dt = Math.min(32, t-last); last=t; update(dt/16.6667); draw(); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+
+  function update(dt){
+    integrate(jack, dt, true);
+    for(const b of boules){ integrate(b, dt, false); }
+
+    // collisions
+    const all = [jack, ...boules.filter(b=>!b.out)];
+    for(let i=0;i<all.length;i++){ for(let j=i+1;j<all.length;j++){ collide(all[i], all[j]); } }
+
+    moving = Math.hypot(jack.vx,jack.vy)>minSpeed || boules.some(b=>Math.hypot(b.vx,b.vy)>minSpeed);
+
+    if(!moving){
+      const {nextTeam, mustContinue} = nextTurnLogic();
+      if(remain.A>0 || remain.B>0){
+        if(mustContinue){ if(turn!==nextTeam){ turn=nextTeam; updateTurn(); } }
+        else { switchTurn(); if(remain[turn]===0) { switchTurn(); } }
+        updateTurn(); maybeCpuTurn();
+      }
+      maybeFinishEnd();
+    }
+  }
+
+  function nextTurnLogic(){
+    const inA = boules.filter(b=>b.team==='A' && !b.out);
+    const inB = boules.filter(b=>b.team==='B' && !b.out);
+    const minA = inA.length?Math.min(...inA.map(b=>dist(b,jack))):Infinity;
+    const minB = inB.length?Math.min(...inB.map(b=>dist(b,jack))):Infinity;
+    let closestTeam = null; if(minA<minB) closestTeam='A'; else if(minB<minA) closestTeam='B';
+    let nextTeam = turn; let mustContinue=false;
+    if(closestTeam){ const other = closestTeam==='A'?'B':'A'; nextTeam = other; mustContinue = (remain[other]>0); }
+    else { nextTeam = (turn==='A')?'B':'A'; }
+    return {nextTeam, mustContinue};
+  }
+
+  function integrate(b, dt, isJack){
+    if(b.out) return;
+    b.x += b.vx*dt; b.y += b.vy*dt;
+    b.vx *= friction; b.vy *= friction;
+    if(Math.hypot(b.vx,b.vy)<minSpeed){ b.vx=b.vy=0; }
+
+    const r = b.r; const left=24+r, right=W-24-r, top=24+r, bottom=H-24-r;
+    if(isJack){
+      if(b.x<left){ b.x=left; b.vx=Math.abs(b.vx)*bounce; }
+      if(b.x>right){ b.x=right; b.vx=-Math.abs(b.vx)*bounce; }
+      if(b.y<top){ b.y=top; b.vy=Math.abs(b.vy)*bounce; }
+      if(b.y>bottom){ b.y=bottom; b.vy=-Math.abs(b.vy)*bounce; }
+    } else {
+      // any wall contact -> out
+      if(b.x<left || b.x>right || b.y<top || b.y>bottom){ b.out=true; b.vx=b.vy=0; flash('Out of bounds.', 900); }
+    }
+  }
+
+  function collide(a,b){
+    if(a.out||b.out) return;
+    const dx=a.x-b.x, dy=a.y-b.y; const d=Math.hypot(dx,dy); const minD=a.r+b.r;
+    if(d>0 && d<minD){
+      const nx=dx/d, ny=dy/d; const overlap=minD-d+0.5; a.x+=nx*overlap*0.5; a.y+=ny*overlap*0.5; b.x-=nx*overlap*0.5; b.y-=ny*overlap*0.5;
+      const k = (a.vx-b.vx)*nx + (a.vy-b.vy)*ny;
+      if(k<0){ const imp = (-(1+bounce)*k)/2; a.vx += imp*nx; a.vy += imp*ny; b.vx -= imp*nx; b.vy -= imp*ny; }
+    }
+  }
+
+  // --- Drawing ---
+  function draw(){
+    const g = cx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#cbb27e'); g.addColorStop(0.5,'#bea16a'); g.addColorStop(1,'#ae8e55');
+    cx.fillStyle=g; cx.fillRect(0,0,W,H);
+    const pat=cx.createPattern(sandNoise,'repeat'); cx.globalAlpha=0.15; cx.fillStyle=pat; cx.fillRect(0,0,W,H); cx.globalAlpha=1;
+
+    cx.strokeStyle='rgba(0,0,0,.25)'; cx.lineWidth=12; cx.strokeRect(18.5,18.5,W-37,H-37);
+    cx.strokeStyle='rgba(255,255,255,.25)'; cx.lineWidth=2; cx.strokeRect(24.5,24.5,W-49,H-49);
+
+    // Throw circle
+    cx.beginPath(); cx.arc(origin.x, origin.y, 26, 0, Math.PI*2); cx.strokeStyle='rgba(125,211,252,.9)'; cx.lineWidth=2; cx.stroke();
+    cx.globalAlpha=0.2; cx.fillStyle='#7dd3fc'; cx.beginPath(); cx.arc(origin.x, origin.y, 26, 0, Math.PI*2); cx.fill(); cx.globalAlpha=1;
+
+    drawJack();
+    for(const b of boules){ drawBoule(b); }
+
+    if(remain.A===0 && remain.B===0){ drawDistances(); }
+
+    if(isDown) drawAim();
+  }
+
+  function drawJack(){
+    cx.save();
+    cx.beginPath(); cx.arc(jack.x+3,jack.y+4,jack.r,0,Math.PI*2); cx.fillStyle='rgba(0,0,0,.35)'; cx.fill();
+    const g = cx.createRadialGradient(jack.x-3,jack.y-4,2,jack.x,jack.y,jack.r+6);
+    g.addColorStop(0,'#fff'); g.addColorStop(1,'#f1d7a4');
+    cx.fillStyle=g; cx.beginPath(); cx.arc(jack.x,jack.y,jack.r,0,Math.PI*2); cx.fill();
+    cx.restore();
+  }
+  function drawBoule(b){
+    cx.save();
+    if(b.out){ cx.globalAlpha=0.35; }
+    cx.beginPath(); cx.arc(b.x+3,b.y+4,b.r,0,Math.PI*2); cx.fillStyle='rgba(0,0,0,.35)'; cx.fill();
+    const g = cx.createRadialGradient(b.x-5,b.y-7,3,b.x,b.y,b.r+8);
+    g.addColorStop(0,'#dfe6ef'); g.addColorStop(1,'#a2adbb');
+    cx.fillStyle=g; cx.beginPath(); cx.arc(b.x,b.y,b.r,0,Math.PI*2); cx.fill();
+    cx.strokeStyle = b.team==='A'? '#FFA500' : '#4ade80'; cx.lineWidth=2; cx.beginPath(); cx.arc(b.x,b.y,b.r-3,0,Math.PI*2); cx.stroke();
+    cx.restore();
+  }
+  function drawDistances(){
+    const {winner} = endScoring(); if(!winner) return;
+    const inA = boules.filter(b=>b.team==='A' && !b.out);
+    const inB = boules.filter(b=>b.team==='B' && !b.out);
+    const dA = inA.map(b=>dist(b,jack)); const dB = inB.map(b=>dist(b,jack));
+    const minA = dA.length?Math.min(...dA):Infinity; const minB = dB.length?Math.min(...dB):Infinity;
+    const r = winner==='A'?minA:minB;
+    cx.save(); cx.setLineDash([6,6]); cx.strokeStyle='rgba(255,255,255,.25)'; cx.lineWidth=2; cx.beginPath(); cx.arc(jack.x,jack.y,r,0,Math.PI*2); cx.stroke(); cx.restore();
+  }
+
+  // --- Aim visuals ---
+  function updateAim(){
+    if(!downPos || !dragPos) return;
+    const dx = downPos.x - dragPos.x;
+    const dy = downPos.y - dragPos.y;
+    const len = Math.min(240, Math.hypot(dx, dy));
+    const ux = dx / (Math.hypot(dx, dy) || 1);
+    const uy = dy / (Math.hypot(dx, dy) || 1);
+    const ex = downPos.x + ux * len;
+    const ey = downPos.y + uy * len;
+    aimLayer.innerHTML = `<svg viewBox="0 0 ${W} ${H}" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="${downPos.x}" y1="${downPos.y}" x2="${ex}" y2="${ey}" stroke="rgba(125,211,252,.9)" stroke-width="3"/>
+      <circle cx="${ex}" cy="${ey}" r="6" fill="rgba(125,211,252,.95)"/>
+    </svg>`;
+  }
+  function drawAim(){ updateAim(); }
+  function showAim(){ aimLayer.style.display='block'; aimLayer.innerHTML=''; updateAim(); }
+  function hideAim(){ aimLayer.style.display='none'; aimLayer.innerHTML=''; }
+
+  // --- Utils ---
+  function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+
+  // --- Jack placement ---
+  function randomiseJack(){
+    const margin = 44; const minY = 40; const maxY = H * 0.28; const minX = margin; const maxX = W - margin;
+    let x, y; do { x = rand(minX, maxX); y = rand(minY, maxY); } while (Math.hypot(x-origin.x, y-origin.y) < 150);
+    jack.x=x; jack.y=y;
+  }
+
+  // --- Start ---
+  function init(){ names.A = p1Input.value.trim()||'Player 1'; names.B = p2Input.value.trim()||'Player 2'; updateTurn(); updateRemain(); resetEnd(); }
+  init();
+})();
+</script>
+</body>
+</html>

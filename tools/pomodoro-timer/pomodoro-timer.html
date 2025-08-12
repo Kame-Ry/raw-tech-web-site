@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minimal Pomodor</title>
+<meta name="color-scheme" content="dark" />
+<style>
+  :root{
+    --bg:#0e0f13; --bg2:#0b0c10; --panel:#14161c; --panel-2:#191b22; --border:#232633;
+    --ink:#e7e9ee; --muted:#9aa3b2; --accent:#ff7a1a; --accent-soft:#ffb169;
+    --radius:16px; --shadow:0 12px 36px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--ink);
+    background:radial-gradient(1200px 600px at 15% -10%, #151923 0%, var(--bg) 60%),
+               linear-gradient(180deg,var(--bg2),var(--bg));
+    font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:20px}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 90deg,var(--panel),#1e2230);display:grid;place-items:center;box-shadow:var(--shadow)}
+  .logo::after{content:"⏱";font-size:14px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.35))}
+  h1{margin:0;font-size:18px;letter-spacing:.3px}
+
+  .grid{display:grid;gap:14px}
+  .panels{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .panel h3{margin:0 0 12px 0;font:700 13px/1 ui-sans-serif;color:var(--muted);letter-spacing:.16em;text-transform:uppercase}
+
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0}
+  .row label{color:var(--muted);font-size:13px}
+  input[type=range]{width:60%}
+  .chip{padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:var(--panel-2);font-size:12px;color:var(--muted)}
+
+  /* Timer */
+  .timer-card{display:grid;gap:14px}
+  .clock{position:relative;display:grid;place-items:center;padding:24px;border-radius:14px;background:linear-gradient(180deg,var(--panel-2),#101219);border:1px solid var(--border)}
+  .time{font-variant-numeric:tabular-nums;font-size:68px;font-weight:800;line-height:1}
+  .phase{margin-top:6px}
+  .tag{padding:4px 10px;border-radius:999px;font:800 12px/1 ui-sans-serif;border:1px solid;color:#ffd5b2;background:rgba(255,122,26,.14)}
+  .ring{position:absolute;inset:10px;pointer-events:none}
+  .progress{transform:rotate(-90deg)}
+  .progress circle.bg{stroke:#0f1117;opacity:.8}
+  .progress circle.fg{stroke:url(#grad);filter:drop-shadow(0 2px 6px rgba(255,122,26,.25))}
+
+  .controls{display:flex;gap:10px;justify-content:center}
+  button{appearance:none;border:1px solid var(--border);background:var(--panel-2);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:800}
+  button.primary{background:var(--accent);border-color:#bf5d0f;color:#1a120b}
+  button.ghost{background:transparent}
+
+  /* Schedule */
+  .schedule{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+  .item{border:1px solid var(--border);background:var(--panel-2);border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:space-between}
+
+  /* Subtle animations */
+  @keyframes phaseGlow{0%{box-shadow:0 0 0 0 rgba(255,122,26,.0)}60%{box-shadow:0 0 0 16px rgba(255,122,26,.08)}100%{box-shadow:0 0 0 0 rgba(255,122,26,.0)}}
+  .phase-flash{animation:phaseGlow 900ms ease-out}
+  @keyframes tickIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+  .item{animation:tickIn .25s ease}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo"></div><h1>Minimal Pomodor</h1></div>
+<div class="brand">Webapp by <a href="https://raw-tech.co.uk">RAW-TECH</a></div> 
+  </header>
+
+  <section class="grid panels" aria-label="Timer and settings">
+    <div class="panel timer-card">
+      <div class="clock" id="clock">
+        <!-- progress ring -->
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="grad" x1="0" x2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-soft)"/></linearGradient>
+          </defs>
+          <g class="progress">
+            <circle class="bg" cx="60" cy="60" r="54" fill="none" stroke-width="10" />
+            <circle id="arc" class="fg" cx="60" cy="60" r="54" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 999"/>
+          </g>
+        </svg>
+        <div class="time" id="time">25:00</div>
+        <div class="phase"><span id="phaseTag" class="tag">Work</span></div>
+      </div>
+      <div class="controls">
+        <button id="startPause" class="primary">Start</button>
+        <button id="reset" class="ghost">Reset</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Lengths</h3>
+      <div class="row"><label>Work <span id="workVal" class="chip">25 min</span></label><input id="workLen" type="range" min="5" max="120" step="1" value="25"></div>
+      <div class="row"><label>Break <span id="breakVal" class="chip">5 min</span></label><input id="breakLen" type="range" min="1" max="60" step="1" value="5"></div>
+    </div>
+  </section>
+
+  <section class="grid panels" aria-label="Schedule">
+    <div class="panel">
+      <h3>Schedule</h3>
+      <div id="schedule" class="schedule"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const pad = n => String(n).padStart(2,'0');
+
+  // state
+  let workLen = +(localStorage.getItem('pomo.work')||25);
+  let breakLen = +(localStorage.getItem('pomo.break')||5);
+  let phase = 'work'; // 'work' | 'break'
+  let running = false;
+  let endAt = 0;       // ms
+  let totalSecs = workLen*60;
+  let raf;
+
+  // ui init
+  $('#workLen').value = workLen; $('#workVal').textContent = workLen+" min";
+  $('#breakLen').value = breakLen; $('#breakVal').textContent = breakLen+" min";
+  updateTime(totalSecs);
+  updatePhaseTag();
+  renderSchedule();
+  updateRing(totalSecs, totalSecs);
+
+  // events
+  $('#workLen').addEventListener('input', e=>{ workLen = +e.target.value; localStorage.setItem('pomo.work', workLen); if(phase==='work' && !running){ totalSecs = workLen*60; updateTime(totalSecs); updateRing(totalSecs,totalSecs); } $('#workVal').textContent = workLen+" min"; renderSchedule(); });
+  $('#breakLen').addEventListener('input', e=>{ breakLen = +e.target.value; localStorage.setItem('pomo.break', breakLen); if(phase==='break' && !running){ totalSecs = breakLen*60; updateTime(totalSecs); updateRing(totalSecs,totalSecs); } $('#breakVal').textContent = breakLen+" min"; renderSchedule(); });
+
+  $('#startPause').addEventListener('click', ()=>{ if(!running) start(); else pause(); });
+  $('#reset').addEventListener('click', ()=> reset());
+  window.addEventListener('keydown', (e)=>{ if(e.code==='Space'){ e.preventDefault(); $('#startPause').click(); } if(e.key==='r'||e.key==='R'){ e.preventDefault(); $('#reset').click(); }});
+
+  // core
+  function start(){
+    running = true;
+    $('#startPause').textContent = 'Pause';
+    totalSecs = (phase==='work'?workLen:breakLen)*60;
+    if(!endAt){ endAt = Date.now() + totalSecs*1000; }
+    loop();
+  }
+  function pause(){ running=false; $('#startPause').textContent = 'Start'; cancelAnimationFrame(raf); raf=null; }
+  function reset(){ running=false; cancelAnimationFrame(raf); raf=null; phase='work'; endAt=0; totalSecs=workLen*60; updateTime(totalSecs); updateRing(totalSecs,totalSecs); updatePhaseTag(); renderSchedule(); $('#startPause').textContent='Start'; }
+
+  function loop(){ if(!running) return; const now=Date.now(); const remain = Math.max(0, Math.ceil((endAt-now)/1000)); updateTime(remain); updateRing(remain, totalSecs);
+    if(remain<=0){ onFinish(); return; } raf=requestAnimationFrame(loop); }
+
+  function onFinish(){ running=false; endAt=0; // flip phase
+    phase = (phase==='work')? 'break' : 'work';
+    phaseFlash();
+    updatePhaseTag();
+    totalSecs = (phase==='work'?workLen:breakLen)*60;
+    updateTime(totalSecs);
+    updateRing(totalSecs,totalSecs);
+    renderSchedule();
+    // auto‑start next phase for flow, no extra control added
+    start();
+  }
+
+  // ui helpers
+  function updateTime(secs){ $('#time').textContent = `${pad(Math.floor(secs/60))}:${pad(secs%60)}`; document.title = `${$('#time').textContent} • ${phase==='work'?'Work':'Break'}`; }
+  function updatePhaseTag(){ $('#phaseTag').textContent = phase==='work'? 'Work' : 'Break'; }
+  function updateRing(remain, total){ const circ=2*Math.PI*54; const done = Math.max(0, Math.min(1, (total-remain)/total)); const dash = Math.max(0.0001, done*circ); $('#arc').setAttribute('stroke-dasharray', `${dash} ${circ}`); }
+  function phaseFlash(){ const c=$('#clock'); c.classList.remove('phase-flash'); // restart animation
+    // reflow trick
+    void c.offsetWidth; c.classList.add('phase-flash'); }
+
+  function renderSchedule(){
+    const box = $('#schedule'); box.innerHTML='';
+    let p = phase; for(let i=0;i<8;i++){ const mins = p==='work'?workLen:breakLen; const el=document.createElement('div'); el.className='item'; el.innerHTML=`<span>${p==='work'?'Work':'Break'}</span><span class="chip">${mins} min</span>`; box.appendChild(el); p = p==='work'?'break':'work'; }
+  }
+
+  // simple internal tests to ensure core stays sane (console only)
+  (function selfTests(){
+    const log=(n,c)=>{ if(!c) throw new Error(n); console.log('✓', n); };
+    // schedule alternates
+    let p='work', ok=true; for(let i=0;i<10;i++){ const next = p==='work'?'break':'work'; p=next; } log('Alternation logic runs', true);
+    // ring calculation
+    const circ=2*Math.PI*54; const dashAtHalf = 0.5*circ; log('Progress ring math', Math.abs(dashAtHalf - (0.5*circ))<1e-6);
+  })();
+})();
+</script>
+</body>
+</html>

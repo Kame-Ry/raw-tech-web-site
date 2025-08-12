@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Particle Simulator</title>
+<meta name="color-scheme" content="dark light" />
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#121821; --muted:#9fb3c8; --accent:#ff7a1a; --accent2:#ffd9b8;
+    --border:#1a2432; --chip:#0f1520; --text:#e6eef6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); display:grid; grid-template-rows:auto 1fr
+  }
+  header{display:flex; gap:.75rem; align-items:center; padding:.75rem 1rem;
+    background:linear-gradient(180deg,#0e131a,#0b0f14); border-bottom:1px solid var(--border)}
+  header h1{font-size:1rem; margin:0; opacity:.9; letter-spacing:.3px}
+  .wrap{display:grid; grid-template-columns:360px 1fr; gap:10px; padding:10px; min-height:0}
+  @media (max-width: 900px){ .wrap{grid-template-columns:1fr; grid-template-rows:auto 1fr} }
+  .panel{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; box-shadow:0 8px 30px rgba(0,0,0,.35); min-height:0}
+  .grid{display:grid; grid-template-columns:1fr; gap:10px}
+  .row{display:grid; grid-template-columns:130px 1fr 72px; gap:10px; align-items:center}
+  .row label{color:var(--muted); font-size:.86rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .row input[type="range"]{width:100%}
+  .row output{font-variant-numeric:tabular-nums; width:72px; text-align:right; color:#d1e2f3; font-size:.86rem; overflow:hidden}
+  .inline{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+  select, input[type="color"], input[type="range"], button, .text, input[type="number"]{
+    background:#0f141c; color:var(--text); border:1px solid #1f2a3a; border-radius:10px; padding:8px 10px; font:inherit
+  }
+  input[type="color"]{padding:0; width:42px; height:32px}
+  button{cursor:pointer}
+  button.primary{background:linear-gradient(180deg,#0f1b2a,#09121b); border-color:#243548}
+  button:active{transform:translateY(1px)}
+  .subgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  .hint{font-size:.78rem; color:#98aac0}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap}
+  .seg{display:inline-flex; background:var(--chip); border:1px solid var(--border); border-radius:10px; overflow:hidden}
+  .seg button{border:0; background:transparent; padding:8px 10px}
+  .seg button.active{background:#111a27; color:var(--accent)}
+  .stat{display:flex; gap:.75rem; color:var(--muted); font-size:.85rem; flex-wrap:wrap}
+  canvas{width:100%; height:100%; display:block; background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(255,122,26,.05), transparent 60%),
+    radial-gradient(900px 700px at 80% 30%, rgba(255,217,184,.06), transparent 60%),
+    #05080d}
+  .kbd{padding:.1rem .35rem; border:1px solid #2a3a50; border-bottom-width:2px; border-radius:6px; background:#0c1220; font-size:.78rem}
+  /* gradient stops UI */
+  #stopsWrap{display:grid; grid-template-columns:130px 1fr; gap:10px; align-items:start}
+  #stopsList{display:flex; flex-direction:column; gap:6px; max-height:160px; overflow:auto; padding:6px; border:1px dashed #223044; border-radius:10px; background:#0c121a}
+  .stopItem{display:flex; align-items:center; gap:8px; padding:6px; border:1px solid #1b2838; border-radius:10px; background:#0f141c}
+  .drag{width:18px; height:18px; border:1px solid #2a3a4e; border-radius:6px; display:grid; place-items:center; font-size:12px; color:#9fb3c8; user-select:none; cursor:grab}
+  .drag:active{cursor:grabbing}
+  .stopItem input[type="color"]{width:40px; height:28px}
+  .stopItem input[type="number"]{width:64px}
+  .stopItem button{padding:6px 8px}
+  .rowNote{font-size:.78rem; color:#98aac0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Particle Simulator</h1>
+<div class="brand">Webapp by <a href="https://raw-tech.co.uk">RAW-TECH</a></div> 
+  <div class="hint">Click to move emitter • Drag to draw a line/rect/cone</div>
+</header>
+
+<div class="wrap">
+  <section class="panel" id="controls">
+    <div class="toolbar">
+      <div class="seg" id="bgSeg">
+        <button data-bg="dark" class="active">Dark</button>
+        <button data-bg="grid">Grid</button>
+        <button data-bg="clear">Clear</button>
+      </div>
+      <button id="snapshot">Snapshot</button>
+    </div>
+
+    <div class="grid">
+      <div class="row">
+        <label for="material">Material</label>
+        <select id="material">
+          <option value="custom">Custom</option>
+          <option value="fire">Fire</option>
+          <option value="ice">Ice</option>
+          <option value="metal">Metal</option>
+          <option value="sparks">Sparks</option>
+          <option value="smoke">Smoke</option>
+          <option value="neon">Neon</option>
+          <option value="snow">Snow</option>
+          <option value="embers">Embers</option>
+          <option value="plasma">Plasma</option>
+          <option value="rainbow">Rainbow</option>
+          <option value="bubbles">Bubbles</option>
+          <option value="confetti">Confetti</option>
+          <option value="ash">Ash</option>
+          <option value="rain">Rain</option>
+          <option value="aurora">Aurora</option>
+          <option value="galaxy">Galaxy</option>
+          <option value="toxic">Toxic</option>
+          <option value="pastel">Pastel</option>
+          <option value="sand">Sand</option>
+          <option value="leaves">Leaves</option>
+        </select>
+        <span></span>
+      </div>
+
+      <div class="row">
+        <label for="shape">Emitter Shape</label>
+        <select id="shape">
+          <option value="point">Point</option>
+          <option value="line">Line</option>
+          <option value="circle">Circle</option>
+          <option value="ring">Ring</option>
+          <option value="rect">Rectangle</option>
+          <option value="rect-edge">Rect Edge</option>
+          <option value="cone">Cone</option>
+          <option value="burst">Burst</option>
+          <option value="spiral">Spiral</option>
+          <option value="ellipse">Ellipse</option>
+          <option value="ellipse-ring">Ellipse Ring</option>
+          <option value="arc">Arc</option>
+          <option value="ngon">Polygon</option>
+          <option value="star">Star</option>
+          <option value="vortex">Vortex</option>
+        </select>
+        <span></span>
+      </div>
+
+      <div class="row">
+        <label for="rate">Emission rate</label>
+        <input id="rate" type="range" min="0" max="2000" step="10" value="400" />
+        <output id="rateOut">400/s</output>
+      </div>
+      <div class="row">
+        <label for="size">Particle size</label>
+        <input id="size" type="range" min="0.5" max="12" step="0.1" value="3" />
+        <output id="sizeOut">3 px</output>
+      </div>
+      <div class="row">
+        <label for="speed">Speed</label>
+        <input id="speed" type="range" min="0" max="600" step="5" value="220" />
+        <output id="speedOut">220</output>
+      </div>
+      <div class="row">
+        <label for="gravity">Gravity</label>
+        <input id="gravity" type="range" min="-200" max="800" step="5" value="120" />
+        <output id="gravityOut">120</output>
+      </div>
+      <div class="row">
+        <label for="life">Lifetime</label>
+        <input id="life" type="range" min="0.2" max="10" step="0.1" value="3" />
+        <output id="lifeOut">3 s</output>
+      </div>
+
+      <div id="stopsWrap">
+        <div>
+          <div style="color:var(--muted); font-size:.86rem; line-height:1.1; margin-top:6px">Gradient</div>
+          <div class="rowNote">Add up to 6 stops. Even spacing by default.</div>
+        </div>
+        <div>
+          <div class="inline" style="margin-bottom:8px">
+            <label class="inline"><input id="gradient" type="checkbox" checked> Enable</label>
+            <label class="inline"><input id="additive" type="checkbox"> Additive</label>
+            <button id="addStop" title="Add color stop">+ Stop</button>
+            <button id="evenStops" title="Evenly space stops">Even spacing</button>
+          </div>
+          <div id="stopsList" aria-label="Gradient stops list"></div>
+        </div>
+      </div>
+
+      <div class="subgrid">
+        <button id="pause" class="primary">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+
+      <div class="stat">
+        <span>Particles: <code id="statCount">0</code></span>
+        <span>FPS: <code id="statFps">0</code></span>
+        <span>Blend: <code id="statBlend">source-over</code></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" style="position:relative; overflow:hidden">
+    <canvas id="c"></canvas>
+  </section>
+</div>
+
+<script>
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const TAU = Math.PI * 2;
+
+function toHex(color){
+  if(/^#/.test(color)) return color;
+  const m = /rgba?\((\d+),(\d+),(\d+)/.exec((color||'').replace(/\s+/g,''));
+  if(m){
+    const r = (+m[1]).toString(16).padStart(2,'0');
+    const g = (+m[2]).toString(16).padStart(2,'0');
+    const b = (+m[3]).toString(16).padStart(2,'0');
+    return `#${r}${g}${b}`;
+  }
+  return '#ffffff';
+}
+
+function hexToRgb(h){
+  if(/^#/.test(h)){
+    const s=h.slice(1);
+    const n=s.length===3?s.split('').map(ch=>ch+ch).join(''):s;
+    const num=parseInt(n,16); return {r:(num>>16)&255,g:(num>>8)&255,b:num&255};
+  }
+  const m=/rgba?\((\d+),(\d+),(\d+)/.exec((h||'').replace(/\s+/g,'')); 
+  return m?{r:+m[1],g:+m[2],b:+m[3]}:{r:255,g:255,b:255};
+}
+
+class Particle {
+  constructor(x, y, vx, vy, size, life, colors, useGrad, baseAlpha=1){
+    this.x=x; this.y=y; this.vx=vx; this.vy=vy;
+    this.size=size; this.life=life; this.age=0;
+    this.colors=colors; this.useGrad=useGrad;
+    this.baseAlpha=baseAlpha;
+  }
+  color(){
+    if(!this.useGrad || !this.colors || this.colors.length===0) return '#ffffff';
+    if(this.colors.length===1) return this.colors[0];
+    const t = clamp(this.age / this.life, 0, 1);
+    const n = this.colors.length - 1;
+    const pos = t * n;
+    const i = Math.min(n-1, Math.floor(pos));
+    const f = pos - i;
+    const c0 = hexToRgb(this.colors[i]);
+    const c1 = hexToRgb(this.colors[i+1]);
+    const r=(c0.r+(c1.r-c0.r)*f)|0, g=(c0.g+(c1.g-c0.g)*f)|0, b=(c0.b+(c1.b-c0.b)*f)|0;
+    return `rgb(${r},${g},${b})`;
+  }
+  update(dt, ax=0, ay=0){
+    this.vx += ax * dt; this.vy += ay * dt;
+    this.x += this.vx * dt; this.y += this.vy * dt;
+    this.age += dt; return this.age < this.life;
+  }
+  draw(ctx){
+    const t = 1 - this.age / this.life;
+    ctx.globalAlpha = clamp(t, 0, 1) * this.baseAlpha;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * (0.6 + 0.4*t), 0, TAU);
+    ctx.fillStyle = this.color();
+    ctx.fill();
+  }
+}
+
+class Emitter {
+  constructor(){
+    this.shape='point';
+    this.p0={x:0,y:0}; this.p1={x:0,y:0};
+    this.radius=80; this.rect={w:120,h:80};
+    this.cone={angle:0, spread:Math.PI/6};
+    this.spiral={turns:3, r:100};
+    this.ellipse={rx:120, ry:80};
+    this.arc={r:100, angle:0, spread:Math.PI/4};
+    this.ngon={n:6, r:90};
+    this.star={points:5, r1:90, r2:45};
+  }
+  setPoint(x,y){ this.p0.x=x; this.p0.y=y; }
+  setLine(x0,y0,x1,y1){ this.p0.x=x0; this.p0.y=y0; this.p1.x=x1; this.p1.y=y1; }
+  setCircle(cx,cy,r){ this.p0.x=cx; this.p0.y=cy; this.radius=Math.max(1,r); }
+  setRing(cx,cy,r){ this.setCircle(cx,cy,r); }
+  setRect(x0,y0,x1,y1){ this.p0.x=Math.min(x0,x1); this.p0.y=Math.min(y0,y1);
+    this.rect.w=Math.max(2, Math.abs(x1-x0)); this.rect.h=Math.max(2, Math.abs(y1-y0)); }
+  setCone(x0,y0,x1,y1){ this.p0.x=x0; this.p0.y=y0; this.cone.angle=Math.atan2(y1-y0, x1-x0); }
+  setSpiral(cx,cy,r){ this.p0.x=cx; this.p0.y=cy; this.spiral.r=Math.max(4,r); }
+  setEllipse(cx,cy,rx,ry){ this.p0.x=cx; this.p0.y=cy; this.ellipse.rx=Math.max(4,rx); this.ellipse.ry=Math.max(4,ry); }
+  setEllipseRing(cx,cy,rx,ry){ this.setEllipse(cx,cy,rx,ry); }
+  setArc(cx,cy,r,angle){ this.p0.x=cx; this.p0.y=cy; this.arc.r=Math.max(4,r); this.arc.angle=angle; }
+  setNgon(cx,cy,r){ this.p0.x=cx; this.p0.y=cy; this.ngon.r=Math.max(4,r); }
+  setStar(cx,cy,r){ this.p0.x=cx; this.p0.y=cy; this.star.r1=Math.max(6,r); this.star.r2=Math.max(3,r*0.5); }
+
+  sampleSpawn(speed){
+    let x,y,dirx=0,diry=-1;
+    const s = speed * (0.6 + Math.random()*0.8);
+
+    if(this.shape==='point'){
+      x=this.p0.x; y=this.p0.y; const a=Math.random()*TAU; dirx=Math.cos(a); diry=Math.sin(a);
+
+    } else if(this.shape==='line'){
+      const t=Math.random(); x=lerp(this.p0.x,this.p1.x,t); y=lerp(this.p0.y,this.p1.y,t);
+      const lx=this.p1.x-this.p0.x, ly=this.p1.y-this.p0.y; const len=Math.hypot(lx,ly)||1;
+      let ux=-ly/len, uy=lx/len; const a=(Math.random()-0.5)*(Math.PI/2);
+      const ca=Math.cos(a), sa=Math.sin(a); dirx=ux*ca-uy*sa; diry=ux*sa+uy*ca;
+
+    } else if(this.shape==='circle'){
+      const a=Math.random()*TAU; const r=Math.sqrt(Math.random())*this.radius;
+      x=this.p0.x+Math.cos(a)*r; y=this.p0.y+Math.sin(a)*r;
+      let ux=Math.cos(a), uy=Math.sin(a); const j=(Math.random()-0.5)*(Math.PI/2);
+      const ca=Math.cos(j), sa=Math.sin(j); dirx=ux*ca-uy*sa; diry=ux*sa+uy*ca;
+
+    } else if(this.shape==='ring'){
+      const a=Math.random()*TAU;
+      x=this.p0.x+Math.cos(a)*this.radius; y=this.p0.y+Math.sin(a)*this.radius;
+      const j=(Math.random()-0.5)*(Math.PI/8);
+      const ang=a+j; dirx=Math.cos(ang); diry=Math.sin(ang);
+
+    } else if(this.shape==='rect'){
+      x=this.p0.x + Math.random()*this.rect.w; y=this.p0.y + Math.random()*this.rect.h;
+      const a=(Math.random()*TAU); dirx=Math.cos(a); diry=Math.sin(a);
+
+    } else if(this.shape==='rect-edge'){
+      const per = 2*(this.rect.w+this.rect.h); let t=Math.random()*per;
+      const x0=this.p0.x, y0=this.p0.y, w=this.rect.w, h=this.rect.h;
+      if(t<w){ x=x0+t; y=y0; dirx=0; diry=-1; }
+      else if(t<w+h){ x=x0+w; y=y0+(t-w); dirx=1; diry=0; }
+      else if(t<2*w+h){ x=x0+(2*w+h-t); y=y0+h; dirx=0; diry=1; }
+      else { x=x0; y=y0+(per-t); dirx=-1; diry=0; }
+
+    } else if(this.shape==='cone'){
+      x=this.p0.x; y=this.p0.y;
+      const a = this.cone.angle + (Math.random()-0.5)*2*this.cone.spread;
+      dirx=Math.cos(a); diry=Math.sin(a);
+
+    } else if(this.shape==='burst'){
+      x=this.p0.x; y=this.p0.y;
+      const a=(Math.random()*TAU);
+      dirx=Math.cos(a); diry=Math.sin(a);
+
+    } else if(this.shape==='spiral'){
+      const t=Math.random(); const ang=t*this.spiral.turns*TAU;
+      const r=t*this.spiral.r;
+      x=this.p0.x + Math.cos(ang)*r; y=this.p0.y + Math.sin(ang)*r;
+      const tang=ang+Math.PI/2; const j=(Math.random()-0.5)*(Math.PI/4);
+      dirx=Math.cos(tang+j); diry=Math.sin(tang+j);
+
+    } else if(this.shape==='ellipse'){
+      const a=Math.random()*TAU; const r=Math.sqrt(Math.random());
+      const rx=this.ellipse.rx*r, ry=this.ellipse.ry*r;
+      x=this.p0.x+Math.cos(a)*rx; y=this.p0.y+Math.sin(a)*ry;
+      const j=(Math.random()-0.5)*(Math.PI/2);
+      const tx=-Math.sin(a), ty=Math.cos(a);
+      const ca=Math.cos(j), sa=Math.sin(j); dirx=tx*ca-ty*sa; diry=tx*sa+ty*ca;
+
+    } else if(this.shape==='ellipse-ring'){
+      const a=Math.random()*TAU;
+      const rx=this.ellipse.rx, ry=this.ellipse.ry;
+      x=this.p0.x+Math.cos(a)*rx; y=this.p0.y+Math.sin(a)*ry;
+      let nx = Math.cos(a)/rx, ny=Math.sin(a)/ry;
+      const nl=Math.hypot(nx,ny)||1; nx/=nl; ny/=nl;
+      const j=(Math.random()-0.5)*(Math.PI/6);
+      const ca=Math.cos(j), sa=Math.sin(j); dirx=nx*ca-ny*sa; diry=nx*sa+ny*ca;
+
+    } else if(this.shape==='arc'){
+      const base=this.arc.angle, spread=this.arc.spread;
+      const a = base + (Math.random()-0.5)*2*spread;
+      const r = this.arc.r;
+      x=this.p0.x+Math.cos(a)*r; y=this.p0.y+Math.sin(a)*r;
+      const j=(Math.random()-0.5)*(Math.PI/8);
+      dirx=Math.cos(a+j); diry=Math.sin(a+j);
+
+    } else if(this.shape==='ngon'){
+      const n=Math.max(3,this.ngon.n), R=this.ngon.r;
+      const side=Math.floor(Math.random()*n);
+      const a0=side*TAU/n, a1=(side+1)*TAU/n;
+      const t=Math.random(); const a=lerp(a0,a1,t);
+      const x0=this.p0.x+Math.cos(a0)*R, y0=this.p0.y+Math.sin(a0)*R;
+      const x1=this.p0.x+Math.cos(a1)*R, y1=this.p0.y+Math.sin(a1)*R;
+      x=lerp(x0,x1,t); y=lerp(y0,y1,t);
+      const nx=Math.cos((a0+a1)/2), ny=Math.sin((a0+a1)/2);
+      dirx=nx; diry=ny;
+
+    } else if(this.shape==='star'){
+      const p=this.star.points|0, R1=this.star.r1, R2=this.star.r2;
+      const k=p*2;
+      const i=Math.floor(Math.random()*k);
+      const a0=i*TAU/k, a1=(i+1)*TAU/k;
+      const r0=i%2===0?R1:R2, r1=(i+1)%2===0?R1:R2;
+      const t=Math.random();
+      const x0=this.p0.x+Math.cos(a0)*r0, y0=this.p0.y+Math.sin(a0)*r0;
+      const x1=this.p0.x+Math.cos(a1)*r1, y1=this.p0.y+Math.sin(a1)*r1;
+      x=lerp(x0,x1,t); y=lerp(y0,y1,t);
+      const ang=(a0+a1)/2; dirx=Math.cos(ang); diry=Math.sin(ang);
+
+    } else if(this.shape==='vortex'){
+      const a=Math.random()*TAU; const r=Math.sqrt(Math.random())*this.radius;
+      x=this.p0.x+Math.cos(a)*r; y=this.p0.y+Math.sin(a)*r;
+      const tang=a+Math.PI/2;
+      dirx=Math.cos(tang)*1.0; diry=Math.sin(tang)*1.0;
+    }
+
+    return {x,y,vx:dirx*s,vy:diry*s};
+  }
+}
+
+class System {
+  constructor(ctx){
+    this.ctx=ctx; this.particles=[];
+    this.emissionRate=400; this.particleSize=3; this.speed=220; this.gravity=120; this.life=3;
+    this.colors=['#ff7a1a','#ffd9b8']; this.useGradient=true; this.additive=false;
+    this.additiveAlpha=0.45;
+    this.emitter=new Emitter(); this.accum=0;
+  }
+  spawn(n){
+    for(let i=0;i<n;i++){
+      const s=this.emitter.sampleSpawn(this.speed);
+      const baseAlpha = this.additive ? this.additiveAlpha : 1;
+      this.particles.push(new Particle(s.x,s.y,s.vx,s.vy,this.particleSize,this.life,this.colors,this.useGradient, baseAlpha));
+    }
+  }
+  update(dt){
+    this.accum += this.emissionRate * dt;
+    const count = Math.floor(this.accum);
+    if(count>0){ this.spawn(count); this.accum -= count; }
+    const ax=0, ay=this.gravity; let w=0;
+    for(let r=0;r<this.particles.length;r++){
+      const p=this.particles[r];
+      if(p.update(dt, ax, ay)) this.particles[w++]=p;
+    }
+    this.particles.length = w;
+  }
+  draw(){
+    const g=this.ctx;
+    g.globalCompositeOperation = this.additive ? ('plusLighter' in g ? 'plus-lighter' : 'lighter') : 'source-over';
+    for(const p of this.particles){ p.draw(g); }
+    g.globalAlpha=1;
+    g.globalCompositeOperation='source-over';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('c');
+  const ctx = canvas && canvas.getContext && canvas.getContext('2d', {alpha:true});
+  if(!ctx){ console.error('2D context unavailable'); return; }
+  const $ = id => document.getElementById(id);
+
+  function resize(){
+    const rect = canvas.getBoundingClientRect();
+    if(rect.width === 0 || rect.height === 0){ requestAnimationFrame(resize); return; }
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const w = Math.max(1, Math.floor(rect.width * dpr));
+    const h = Math.max(1, Math.floor(rect.height * dpr));
+    if(canvas.width !== w || canvas.height !== h){
+      canvas.width = w; canvas.height = h;
+    }
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  if('ResizeObserver' in window){ new ResizeObserver(resize).observe(canvas); }
+  window.addEventListener('orientationchange', resize);
+  resize();
+
+  const sys = new System(ctx);
+  const center = () => ({x: canvas.clientWidth/2, y: canvas.clientHeight/2});
+  const c0 = center(); sys.emitter.setPoint(c0.x, c0.y);
+
+  // Background mode
+  let bgMode = 'dark';
+  document.querySelectorAll('[data-bg]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('[data-bg]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      bgMode = btn.getAttribute('data-bg');
+    });
+  });
+
+  // Materials presets (multi-stop capable via c:[...])
+  const MATERIALS = {
+    fire:   {c:['#ff6a00','#ffd1a3'], add:true,  size:3.5, speed:260, grav:180, life:2.2},
+    ice:    {c:['#a0e9ff','#8ab6ff'], add:false, size:3.2, speed:140, grav:-40, life:3.5},
+    metal:  {c:['#ffd84a','#ffffff'], add:true,  size:2.6, speed:300, grav:260, life:1.1},
+    sparks: {c:['#fff3a1','#ffb300'], add:true,  size:2.2, speed:360, grav:380, life:0.9},
+    smoke:  {c:['#7f8a99','#0f1720'], add:false, size:5.0, speed:60,  grav:-10, life:4.5},
+    neon:   {c:['#6600ff','#33ffff'], add:true,  size:3.0, speed:220, grav: 20, life:2.8},
+    snow:   {c:['#eaf6ff','#ffffff'], add:false, size:3.8, speed:40,  grav:45,  life:5.0},
+    embers: {c:['#ff8a1a','#ff441a'], add:true,  size:2.8, speed:180, grav:-20, life:3.0},
+
+    plasma:  {c:['#8a2be2','#00e5ff'], add:true,  size:3.0, speed:260, grav: 20, life:2.4},
+    rainbow: {c:['#ff0040','#ff7a00','#ffe600','#2bd936','#2f7dff','#8a2be2'], add:true, size:2.8, speed:240, grav: 0, life:2.6},
+    bubbles: {c:['#bbdefb','#e3f2fd'], add:false, size:4.6, speed:60,  grav:-50, life:4.0},
+    confetti:{c:['#fbbf24','#ef4444','#22c55e','#60a5fa'], add:false, size:3.2, speed:280, grav:300, life:1.6},
+    ash:     {c:['#9aa3ad','#4b5563'], add:false, size:2.6, speed:90,  grav: 10, life:3.8},
+    rain:    {c:['#7dd3fc','#bae6fd'], add:false, size:2.0, speed:420, grav:600, life:1.2},
+    aurora:  {c:['#7ee787','#5ac8fa','#8b5cf6'], add:true, size:3.4, speed:180, grav:-15, life:3.2},
+    galaxy:  {c:['#b794f4','#60a5fa','#22d3ee'], add:true, size:2.4, speed:260, grav:-5,  life:2.6},
+    toxic:   {c:['#a3e635','#22c55e'], add:true,  size:2.8, speed:240, grav: 30, life:2.0},
+    pastel:  {c:['#fecdd3','#fde68a','#bfdbfe'], add:false,size:3.6, speed:160, grav: 10, life:3.4},
+    sand:    {c:['#f1d7b0','#d4a373'], add:false, size:2.2, speed:180, grav:360, life:1.8},
+    leaves:  {c:['#86efac','#22c55e','#16a34a'], add:false, size:3.2, speed:160, grav:220, life:2.4},
+  };
+
+  function applyMaterial(name){
+    if(name==='custom') return;
+    const m = MATERIALS[name]; if(!m) return;
+    sys.colors = m.c.slice(0,6);
+    sys.additive = !!m.add;
+    sys.particleSize=m.size; sys.speed=m.speed; sys.gravity=m.grav; sys.life=m.life;
+    renderStops();
+    syncBasics();
+  }
+
+  // UI sync (sliders etc.)
+  function syncBasics(){
+    const el=(id)=>document.getElementById(id);
+    el('shape').value = sys.emitter.shape;
+    el('rate').value = sys.emissionRate; el('rateOut').textContent = `${sys.emissionRate|0}/s`;
+    el('size').value = sys.particleSize; el('sizeOut').textContent = `${(+sys.particleSize).toFixed(1)} px`;
+    el('speed').value = sys.speed; el('speedOut').textContent = `${sys.speed|0}`;
+    el('gravity').value = sys.gravity; el('gravityOut').textContent = `${sys.gravity|0}`;
+    el('life').value = sys.life; el('lifeOut').textContent = `${(+sys.life).toFixed(1)} s`;
+    el('gradient').checked = sys.useGradient;
+    el('additive').checked = sys.additive;
+  }
+
+  // Gradient stops UI
+  const stopsList = document.getElementById('stopsList');
+  function renderStops(){
+    stopsList.innerHTML='';
+    sys.colors.forEach((hex, idx)=>{
+      const row = document.createElement('div');
+      row.className='stopItem';
+      row.draggable=true;
+      row.dataset.index=idx;
+
+      const drag = document.createElement('div');
+      drag.className='drag';
+      drag.textContent='≡';
+
+      const color = document.createElement('input');
+      color.type='color'; color.value=toHex(hex);
+      color.addEventListener('input',()=>{
+        sys.colors[idx]=color.value;
+        document.getElementById('material').value='custom';
+      });
+
+      const pos = document.createElement('input');
+      pos.type='number'; pos.min=0; pos.max=100; pos.step=1;
+      pos.value = Math.round(idx * 100 / Math.max(1, sys.colors.length-1));
+      pos.title='Relative position (preview only)';
+      pos.addEventListener('change',()=>{
+        // Reorder based on entered position
+        const pct = clamp(+pos.value,0,100);
+        row.dataset.pos=pct;
+        sortByEnteredPositions();
+        document.getElementById('material').value='custom';
+      });
+
+      const del = document.createElement('button');
+      del.textContent='✕';
+      del.addEventListener('click',()=>{
+        if(sys.colors.length<=1) return;
+        sys.colors.splice(idx,1);
+        renderStops();
+        document.getElementById('material').value='custom';
+      });
+
+      row.append(drag,color,pos,del);
+      stopsList.append(row);
+
+      // Drag and drop reorder
+      row.addEventListener('dragstart', e=>{
+        e.dataTransfer.setData('text/plain', idx.toString());
+      });
+      row.addEventListener('dragover', e=>{ e.preventDefault(); });
+      row.addEventListener('drop', e=>{
+        e.preventDefault();
+        const from = +e.dataTransfer.getData('text/plain');
+        const to = +row.dataset.index;
+        if(from===to) return;
+        const [item] = sys.colors.splice(from,1);
+        sys.colors.splice(to,0,item);
+        renderStops();
+        document.getElementById('material').value='custom';
+      });
+    });
+  }
+
+  function sortByEnteredPositions(){
+    const items=[...stopsList.children];
+    const pairs = items.map((el,i)=>({i, pos:+(el.dataset.pos ?? Math.round(i*100/Math.max(1,items.length-1)))}));
+    pairs.sort((a,b)=>a.pos-b.pos);
+    sys.colors = pairs.map(p=> sys.colors[p.i]);
+    renderStops();
+  }
+
+  document.getElementById('addStop').addEventListener('click', ()=>{
+    if(sys.colors.length>=6) return;
+    const last = sys.colors[sys.colors.length-1] || '#ffffff';
+    sys.colors.push(last);
+    renderStops();
+    document.getElementById('material').value='custom';
+  });
+  document.getElementById('evenStops').addEventListener('click', ()=>{
+    // Only UI distribution; actual shader uses equal segmenting anyway.
+    [...stopsList.children].forEach((row,i)=>{
+      const pos=row.querySelector('input[type="number"]');
+      pos.value = Math.round(i * 100 / Math.max(1, stopsList.children.length-1));
+    });
+  });
+
+  // Bind basics
+  const bind = (id, type, fn) => { const el=$(id); if(!el) return; el.addEventListener(type, fn); return el; };
+  bind('material','change', e=>applyMaterial(e.target.value));
+
+  bind('shape','change', e=>{ sys.emitter.shape=e.target.value; });
+  bind('rate','input', e=>{ sys.emissionRate=+e.target.value; $('#rateOut').textContent=`${sys.emissionRate|0}/s`; });
+  bind('size','input', e=>{ sys.particleSize=+e.target.value; $('#sizeOut').textContent=`${(+sys.particleSize).toFixed(1)} px`; });
+  bind('speed','input', e=>{ sys.speed=+e.target.value; $('#speedOut').textContent=`${sys.speed|0}`; });
+  bind('gravity','input', e=>{ sys.gravity=+e.target.value; $('#gravityOut').textContent=`${sys.gravity|0}`; });
+  bind('life','input', e=>{ sys.life=+e.target.value; $('#lifeOut').textContent=`${(+sys.life).toFixed(1)} s`; });
+
+  bind('gradient','change', e=>{ sys.useGradient=e.target.checked; $('#material').value='custom'; });
+  bind('additive','change', e=>{ sys.additive=e.target.checked; $('#material').value='custom'; });
+
+  let running = true;
+  bind('pause','click', ()=>{ running=!running; $('#pause').textContent = running ? 'Pause' : 'Resume'; });
+  bind('reset','click', ()=>{ sys.particles.length=0; sys.accum=0; });
+
+  bind('snapshot','click', ()=>{
+    const a = document.createElement('a'); a.download='particle.png'; a.href=canvas.toDataURL('image/png'); a.click();
+  });
+
+  // Pointer interaction
+  let dragging=false, start=null;
+  const getPos = e => { const r=canvas.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; };
+
+  canvas.addEventListener('pointerdown', e=>{
+    dragging=true; start=getPos(e);
+    const shape=$('shape').value;
+    if(shape==='point'){ sys.emitter.setPoint(start.x,start.y); }
+    else if(shape==='line'){ sys.emitter.setLine(start.x,start.y,start.x,start.y); }
+    else if(shape==='circle'){ sys.emitter.setCircle(start.x,start.y,10); }
+    else if(shape==='ring'){ sys.emitter.setRing(start.x,start.y,10); }
+    else if(shape==='rect' || shape==='rect-edge'){ sys.emitter.setRect(start.x,start.y,start.x,start.y); }
+    else if(shape==='cone'){ sys.emitter.setCone(start.x,start.y,start.x,start.y); }
+    else if(shape==='burst'){ sys.emitter.setPoint(start.x,start.y); }
+    else if(shape==='spiral'){ sys.emitter.setSpiral(start.x,start.y,10); }
+    else if(shape==='ellipse' || shape==='ellipse-ring'){ sys.emitter.setEllipse(start.x,start.y,10,6); }
+    else if(shape==='arc'){ sys.emitter.setArc(start.x,start.y,20,0); }
+    else if(shape==='ngon'){ sys.emitter.setNgon(start.x,start.y,20); }
+    else if(shape==='star'){ sys.emitter.setStar(start.x,start.y,20); }
+    else if(shape==='vortex'){ sys.emitter.setCircle(start.x,start.y,60); }
+  });
+
+  canvas.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const p=getPos(e), shape=$('shape').value;
+    if(shape==='line'){ sys.emitter.setLine(start.x,start.y,p.x,p.y); }
+    else if(shape==='circle'){ const r=Math.hypot(p.x-start.x,p.y-start.y); sys.emitter.setCircle(start.x,start.y,r); }
+    else if(shape==='ring'){ const r=Math.hypot(p.x-start.x,p.y-start.y); sys.emitter.setRing(start.x,start.y,r); }
+    else if(shape==='rect' || shape==='rect-edge'){ sys.emitter.setRect(start.x,start.y,p.x,p.y); }
+    else if(shape==='cone'){ sys.emitter.setCone(start.x,start.y,p.x,p.y); }
+    else if(shape==='spiral'){ const r=Math.hypot(p.x-start.x,p.y-start.y); sys.emitter.setSpiral(start.x,start.y,r); }
+    else if(shape==='ellipse' || shape==='ellipse-ring'){
+      const rx=Math.abs(p.x-start.x), ry=Math.abs(p.y-start.y); sys.emitter.setEllipse(start.x,start.y,rx,ry);
+    }
+    else if(shape==='arc'){
+      const r=Math.hypot(p.x-start.x,p.y-start.y);
+      const ang=Math.atan2(p.y-start.y,p.x-start.x);
+      sys.emitter.setArc(start.x,start.y,r,ang);
+    }
+    else if(shape==='ngon'){ const r=Math.hypot(p.x-start.x,p.y-start.y); sys.emitter.setNgon(start.x,start.y,r); }
+    else if(shape==='star'){ const r=Math.hypot(p.x-start.x,p.y-start.y); sys.emitter.setStar(start.x,start.y,r); }
+    else if(shape==='vortex'){ const r=Math.hypot(p.x-start.x,p.y-start.y); sys.emitter.setCircle(start.x,start.y,r); }
+    else { sys.emitter.setPoint(p.x,p.y); }
+  });
+  window.addEventListener('pointerup', ()=> dragging=false);
+
+  // FPS + stats
+  function syncStats(now, dt){
+    const fEl=document.getElementById('statFps');
+    const cEl=document.getElementById('statCount');
+    const bEl=document.getElementById('statBlend');
+    if(fEl && cEl && bEl){
+      const fps = 1 / Math.max(dt, 1/240);
+      if(!syncStats._s) syncStats._s=fps; else syncStats._s = syncStats._s*0.85 + fps*0.15;
+      fEl.textContent = syncStats._s.toFixed(1);
+      cEl.textContent = sys.particles.length.toLocaleString();
+      bEl.textContent = sys.additive?(ctx.globalCompositeOperation==='plus-lighter'?'plus-lighter':'lighter'):'source-over';
+    }
+  }
+
+  function clear(bg){
+    const c=ctx.canvas;
+    ctx.save();
+    ctx.setTransform(1,0,0,1,0,0);
+    if(bg==='grid'){
+      ctx.clearRect(0,0,c.width,c.height);
+      ctx.fillStyle='#06090f'; ctx.fillRect(0,0,c.width,c.height);
+      ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1; ctx.beginPath();
+      for(let x=0;x<c.width;x+=40){ ctx.moveTo(x,0); ctx.lineTo(x,c.height); }
+      for(let y=0;y<c.height;y+=40){ ctx.moveTo(0,y); ctx.lineTo(c.width,y); }
+      ctx.stroke();
+    } else if(bg==='clear'){
+      ctx.clearRect(0,0,c.width,c.height);
+    } else {
+      ctx.fillStyle='rgba(5,8,13,0.25)';
+      ctx.fillRect(0,0,c.width,c.height);
+    }
+    ctx.restore();
+  }
+
+  // Render loop
+  let last=performance.now();
+  function loop(t){
+    const now=t||performance.now(); let dt=(now-last)/1000; last=now; dt=Math.min(dt,0.05);
+    clear(bgMode);
+    if(running){ sys.update(dt); }
+    sys.draw();
+    syncStats(now, dt);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Initialize UI
+  renderStops();
+  syncBasics();
+
+  // Self-tests
+  try{
+    console.groupCollapsed('Self-tests');
+    console.assert(canvas.width>0 && canvas.height>0, 'canvas sized');
+    console.assert(document.getElementById('shape'), '#shape present');
+    console.assert(Array.isArray(sys.colors) && sys.colors.length>=1, 'colors array OK');
+    console.groupEnd();
+  }catch{}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Image → ASCII</title>
+  <meta name="color-scheme" content="dark" />
+  <style>
+    :root{
+      --bg:#0f1115;           /* base page */
+      --panel:#151821;        /* card */
+      --panel-2:#12151c;      /* card gradient end */
+      --border:rgba(255,255,255,.08);
+      --text:#e9edf2;
+      --muted:#aab5c2;
+      --accent:#ff7a18;       /* orange */
+      --accent-600:#d96511;   /* darker hover */
+      --ring:rgba(255,122,24,.28);
+      --radius:14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      font:14px var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 10% -10%, rgba(255,122,24,.10), transparent 60%),
+        radial-gradient(800px 500px at 110% 10%, rgba(255,122,24,.08), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+      display:flex;
+    }
+
+    .wrap{max-width:1200px; margin:auto; width:100%; padding:24px}
+
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:0 0 14px;border-bottom:1px solid var(--border); margin-bottom:16px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    h1{font-size:20px;letter-spacing:.2px;margin:0}
+    .pill{padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;opacity:.9}
+    .pill.mono{font-family:var(--mono)}
+
+    main{display:grid;grid-template-columns:360px 1fr;gap:18px}
+    @media (max-width:980px){ main{grid-template-columns:1fr} }
+
+    section{
+      background:linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+      border:1px solid var(--border); border-radius:var(--radius); padding:18px;
+      box-shadow:0 10px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    section h2{margin:0 0 10px;font-size:16px}
+
+    .hint{opacity:.9;color:var(--muted);font-size:12px}
+    .small{font-size:12px}
+    .ok{color:#63d18a;font-weight:600}
+    .error{color:#ef5350;font-weight:600}
+
+    .sep{height:1px;background:var(--border);margin:12px 0}
+
+    label{display:block;font-weight:600;margin:10px 0 6px}
+    .row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+
+    input[type="text"],input[type="number"],textarea,select{
+      width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);
+      background:#0f131a;color:var(--text);outline:none;transition:border-color .15s, box-shadow .15s, background .15s;
+    }
+    textarea{min-height:120px}
+    .mono{font-family:var(--mono)}
+    input:focus,textarea:focus,select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px var(--ring), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .toggle{display:flex;gap:8px;align-items:center;background:#0f131a;border:1px solid var(--border);padding:10px;border-radius:12px}
+    .toggles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+    .drop{
+      border:1px dashed var(--border); border-radius:12px; padding:16px; text-align:center; color:var(--muted); background:#0f131a;
+    }
+    .drop.drag{border-color:var(--accent); color:var(--text); background:#131923}
+
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    button{padding:10px 14px;border-radius:12px;border:1px solid var(--border);
+      background:#12161f;color:var(--text);cursor:pointer;transition:transform .02s, background .15s, border-color .15s}
+    button:hover{background:#161b26}
+    button:active{transform:translateY(1px)}
+    .primary{background:var(--accent);border-color:var(--accent);color:#1b0f07}
+    .primary:hover{background:var(--accent-600);border-color:var(--accent-600);color:#120a05}
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    /* Output */
+    pre#out{
+      margin:0; width:100%; height:60vh; min-height:360px; overflow:auto; background:#0a0c11; color:#d6dbe3; padding:16px; border-radius:12px;
+      tab-size:2; white-space:pre; line-height:1.05; font-size:10px; letter-spacing:0; font-family:var(--mono);
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+
+    .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center}
+    .kv div:nth-child(odd){opacity:.85}
+
+    footer{margin-top:16px;padding:10px 0;border-top:1px solid var(--border);opacity:.75;font-size:12px;text-align:center}
+
+    /* Scrollbar minimal */
+    ::-webkit-scrollbar { height: 10px; width: 10px }
+    ::-webkit-scrollbar-thumb { background: #2a3546; border-radius: 10px }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Image → ASCII</h1>
+      </div>
+      <div class="pill mono small" id="env">Local‑only • Client‑side</div>
+    </header>
+
+    <main>
+      <!-- Controls panel: mirrors DNSResolver layout/widgets -->
+      <section>
+        <h2>Source & Settings</h2>
+        <div class="drop" id="drop">
+          <div><strong>Drop image</strong> or choose file</div>
+          <div class="hint" style="margin-top:6px">PNG or JPG. Resolution scales below.</div>
+          <div style="margin-top:8px"><input id="file" type="file" accept="image/*" /></div>
+        </div>
+
+        <div class="sep"></div>
+
+        <label>Resolution scale <span class="hint">(<span id="scaleVal">0.25</span>×)</span></label>
+        <input id="scale" type="range" min="0.05" max="1" step="0.01" value="0.25" />
+
+        <label>Character set density <span class="hint">(<span id="densityVal">12</span> levels)</span></label>
+        <input id="density" type="range" min="2" max="32" step="1" value="12" />
+
+        <label>Contrast <span class="hint" id="contrastVal">0</span></label>
+        <input id="contrast" type="range" min="-100" max="100" step="1" value="0" />
+
+        <label>Brightness <span class="hint" id="brightnessVal">0</span></label>
+        <input id="brightness" type="range" min="-100" max="100" step="1" value="0" />
+
+        <div class="toggles" style="margin:10px 0">
+          <label class="toggle"><input id="invert" type="checkbox" /> Invert</label>
+          <label class="toggle"><input id="colorize" type="checkbox" checked /> Colorize</label>
+        </div>
+
+        <label for="charset">Character set <span class="hint">light → dark</span></label>
+        <input id="charset" class="mono" type="text" value=" .'`^:,;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$" />
+
+        <div class="actions">
+          <button class="primary" id="exportHtml">Export HTML</button>
+          <button id="exportTxt">Export TXT</button>
+        </div>
+
+        <div class="sep"></div>
+        <div class="kv small">
+          <div>Image</div><div id="metaImg">–</div>
+          <div>Output</div><div id="metaOut">–</div>
+        </div>
+        <div class="actions" style="margin-top:10px">
+          <button id="reset">Reset</button>
+        </div>
+      </section>
+
+      <!-- Output panel -->
+      <section>
+        <h2>Preview</h2>
+        <pre id="out" aria-label="ASCII output" tabindex="0"></pre>
+      </section>
+    </main>
+
+    <footer class="mono">
+      Webapp by <a href="https://raw-tech.co.uk">RAW-TECH</a>
+    </footer>
+  </div>
+
+  <canvas id="work" style="display:none"></canvas>
+
+  <script>
+  (function(){
+    const $ = (sel) => document.querySelector(sel);
+    const els = {
+      file: $('#file'), drop: $('#drop'),
+      scale: $('#scale'), scaleVal: $('#scaleVal'),
+      density: $('#density'), densityVal: $('#densityVal'),
+      contrast: $('#contrast'), contrastVal: $('#contrastVal'),
+      brightness: $('#brightness'), brightnessVal: $('#brightnessVal'),
+      invert: $('#invert'), colorize: $('#colorize'),
+      charset: $('#charset'),
+      out: $('#out'), canvas: $('#work'),
+      exportTxt: $('#exportTxt'), exportHtml: $('#exportHtml'),
+      reset: $('#reset'),
+      metaImg: $('#metaImg'), metaOut: $('#metaOut'),
+    };
+
+    const storeKey = 'asciiizer:v3:rawtech:orange';
+    const saveState = () => {
+      const s = {
+        scale: +els.scale.value,
+        density: +els.density.value,
+        contrast: +els.contrast.value,
+        brightness: +els.brightness.value,
+        invert: els.invert.checked,
+        colorize: els.colorize.checked,
+        charset: els.charset.value
+      };
+      localStorage.setItem(storeKey, JSON.stringify(s));
+    };
+    const loadState = () => {
+      const raw = localStorage.getItem(storeKey);
+      if (!raw) return;
+      try {
+        const s = JSON.parse(raw);
+        if (typeof s.scale === 'number') els.scale.value = s.scale;
+        if (typeof s.density === 'number') els.density.value = s.density;
+        if (typeof s.contrast === 'number') els.contrast.value = s.contrast;
+        if (typeof s.brightness === 'number') els.brightness.value = s.brightness;
+        if (typeof s.invert === 'boolean') els.invert.checked = s.invert;
+        if (typeof s.colorize === 'boolean') els.colorize.checked = s.colorize;
+        if (typeof s.charset === 'string') els.charset.value = s.charset;
+      } catch {}
+    };
+    loadState();
+
+    const Sampler = (() => {
+      const canvas = els.canvas;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const aspectFix = 0.48;
+      function fromImage(img, scale) {
+        const targetCols = Math.max(8, Math.floor(img.naturalWidth * scale));
+        const targetRows = Math.max(4, Math.floor(img.naturalHeight * scale * aspectFix));
+        const w = targetCols, h = targetRows;
+        canvas.width = w; canvas.height = h;
+        ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, w, h);
+        const data = ctx.getImageData(0, 0, w, h).data;
+        return { data, w, h };
+      }
+      return { fromImage };
+    })();
+
+    const Mapper = (() => {
+      function clamp01(x){ return x < 0 ? 0 : x > 1 ? 1 : x; }
+      function applyBCI(lum, brightness, contrast, invert){
+        const b = brightness / 200;
+        const c = contrast / 100;
+        let v = lum; v = clamp01((v - 0.5) * (1 + c) + 0.5 + b);
+        if (invert) v = 1 - v; return v;
+      }
+      function luminance(r,g,b){ return (0.2126*r + 0.7152*g + 0.0722*b) / 255; }
+      function pickChar(value01, levels, charset){
+        const step = Math.max(1, levels);
+        const bucket = Math.min(step - 1, Math.floor(value01 * step));
+        const idx = Math.round(bucket * (charset.length - 1) / (step - 1 || 1));
+        return charset[idx] || ' ';
+      }
+      function quantizeColor(r,g,b){
+        const q = (x)=> Math.round(x/51)*51; return [q(r), q(g), q(b)];
+      }
+      return { applyBCI, luminance, pickChar, quantizeColor };
+    })();
+
+    const Renderer = (() => {
+      let lastText = '', lastHtml = '';
+      function render(sample, opts){
+        const { data, w, h } = sample;
+        const { levels, charset, brightness, contrast, invert, colorize } = opts;
+        const chars = [], htmlParts = [];
+        for (let y=0; y<h; y++){
+          let line = '', htmlLine = '';
+          for (let x=0; x<w; x++){
+            const i = (y*w + x) * 4;
+            const r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
+            if (a === 0){ line += ' '; htmlLine += ' '; continue; }
+            const lum = Mapper.luminance(r,g,b);
+            const v = Mapper.applyBCI(lum, brightness, contrast, invert);
+            const ch = Mapper.pickChar(1 - v, levels, charset);
+            line += ch;
+            if (colorize){
+              const [rq,gq,bq] = Mapper.quantizeColor(r,g,b);
+              htmlLine += `<span style="color: rgb(${rq},${gq},${bq})">${escapeHtml(ch)}</span>`;
+            } else { htmlLine += escapeHtml(ch); }
+          }
+          chars.push(line); htmlParts.push(htmlLine);
+        }
+        lastText = chars.join('\n'); lastHtml = htmlParts.join('\n');
+        return { text: lastText, html: lastHtml, cols: w, rows: h };
+      }
+      function getText(){ return lastText }
+      function getHtml(){ return lastHtml }
+      function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+      return { render, getText, getHtml };
+    })();
+
+    const state = { img: null, sample: null };
+
+    function updateLabels(){
+      els.scaleVal.textContent = (+els.scale.value).toFixed(2);
+      els.densityVal.textContent = els.density.value;
+      els.contrastVal.textContent = els.contrast.value;
+      els.brightnessVal.textContent = els.brightness.value;
+    }
+
+    function readImage(file){
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file); const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = url;
+      });
+    }
+
+    function setImage(img){ state.img = img; els.metaImg.textContent = `${img.naturalWidth}×${img.naturalHeight}`; scheduleRender(); }
+
+    els.drop.addEventListener('dragover', e => { e.preventDefault(); els.drop.classList.add('drag'); });
+    els.drop.addEventListener('dragleave', () => els.drop.classList.remove('drag'));
+    els.drop.addEventListener('drop', async e => {
+      e.preventDefault(); els.drop.classList.remove('drag');
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) try { const img = await readImage(f); setImage(img); } catch(err){ alert(err.message); }
+    });
+
+    els.file.addEventListener('change', async e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) try { const img = await readImage(f); setImage(img); } catch(err){ alert(err.message); }
+    });
+
+    ['scale','density','contrast','brightness','invert','colorize','charset'].forEach(id => {
+      els[id].addEventListener('input', () => { updateLabels(); saveState(); scheduleRender(); });
+    });
+
+    let raf = 0, pending = false;
+    function scheduleRender(){ if (!state.img || pending) return; pending = true; cancelAnimationFrame(raf); raf = requestAnimationFrame(runRender); }
+
+    function runRender(){
+      pending = false; if (!state.img) return; updateLabels();
+      const scale = +els.scale.value; const levels = +els.density.value;
+      const brightness = +els.brightness.value; const contrast = +els.contrast.value;
+      const invert = els.invert.checked; const colorize = els.colorize.checked;
+      let charset = [...new Set(els.charset.value.split(''))].join(''); if (!charset) charset = ' .:-=+*#%@';
+      const sample = Sampler.fromImage(state.img, scale); state.sample = sample;
+      const { text, html, cols, rows } = Renderer.render(sample, { levels, charset, brightness, contrast, invert, colorize });
+      els.out.innerHTML = colorize ? html : ''; if (!colorize) els.out.textContent = text;
+      els.metaOut.textContent = `${cols} cols × ${rows} rows`;
+    }
+
+    function download(name, type, content){
+      const blob = new Blob([content], { type }); const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click();
+      setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 0);
+    }
+
+    els.exportTxt.addEventListener('click', () => {
+      const txt = Renderer.getText(); if (!txt) return alert('No ASCII to export');
+      download('ascii.txt', 'text/plain', txt);
+    });
+
+    els.exportHtml.addEventListener('click', () => {
+      const htmlBody = Renderer.getHtml(); if (!htmlBody) return alert('No ASCII to export');
+      const full = `<!doctype html><meta charset="utf-8"><title>ASCII Export</title><style>body{background:#0a0c11;color:#d6dbe3;margin:0}pre{font:10px/1.05 ${CSS.escape(getComputedStyle(document.body).getPropertyValue('--mono'))||'ui-monospace,Menlo,Consolas,monospace'};white-space:pre;margin:0;padding:16px}</style><pre>${htmlBody}</pre>`;
+      download('ascii.html', 'text/html', full);
+    });
+
+    els.reset.addEventListener('click', () => {
+      localStorage.removeItem(storeKey);
+      els.scale.value = 0.25; els.density.value = 12; els.contrast.value = 0; els.brightness.value = 0; els.invert.checked = false; els.colorize.checked = true;
+      scheduleRender(); updateLabels();
+    });
+
+    updateLabels();
+
+    (function demo(){
+      const svg = encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#0f1115"/><stop offset="1" stop-color="#2a2f3a"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><circle cx="160" cy="100" r="70" fill="#ff7a18"/><text x="50%" y="190" text-anchor="middle" font-family="monospace" font-size="22" fill="#fff">Drop an image</text></svg>');
+      const img = new Image(); img.onload = ()=> setImage(img); img.src = 'data:image/svg+xml;charset=utf-8,'+svg;
+    })();
+
+    (function(){
+      const parts=[ (navigator.onLine===false ? 'No network' : ''),  ];
+      document.getElementById('env').textContent=parts.join(' • ');
+    })();
+  })();
+  </script>
+</body>
+</html>
