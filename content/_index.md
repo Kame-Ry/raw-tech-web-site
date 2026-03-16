@@ -1,11 +1,7 @@
 ---
 title: "Welcome"
-description: "This is the homepage of RAW-TECH"
+description: "RAW-TECH"
 layout: "home"
----
-
-# Tech, Code, and Everything In-Between
-
 ---
 
 <style>
@@ -29,22 +25,22 @@ layout: "home"
 
 <script>
 const titles = [
-  "Digital Hermit",
   "Coffee-Fueled Sysadmin",
   "Film Addict",
-  "Gaming Nerd",
-  "Late-Night Reader",
-  "Trail Wanderer",
-  "Boulder Goblin"
+  "Weekend Hiker",
+  "Late-Night Gamer",
+  "Occasional Climber"
 ];
 
 let part = 0;
 let partIndex = 0;
 let direction = 1;
 let delay = 100;
-let element = document.getElementById("rotator");
 
 function typeLoop() {
+  const element = document.getElementById("rotator");
+  if (!element) return;
+
   if (direction === 1) {
     partIndex++;
     if (partIndex <= titles[part].length) {
@@ -67,14 +63,19 @@ function typeLoop() {
   delay = direction === 1 ? 100 : 50;
 }
 
-typeLoop();
+window.addEventListener("DOMContentLoaded", typeLoop);
 </script>
 
-This site is my digital hub for everything I build and explore — from tech projects to personal interests. 
+This site is a small corner of the internet where I share things I’m working on, learning, or exploring.
+
+Mostly tech.  
+Sometimes outdoors.  
+Occasionally film, games, and photography.
+
+---
+
 - [Tech](/tags/tech/)
-- [Electronics](/tags/electronics/)
 - [Hiking](/tags/hiking/)
-- [Climbing](/tags/climbing/)
 - [Gaming](/tags/gaming/)
 - [Photography](/tags/photography/)
 - [Film](/tags/film/)

@@ -1,329 +1,113 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
-
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Infinite Runner | RAW-TECH</title>
-<meta name="keywords" content="">
-<meta name="description" content="Keep going, then">
-<meta name="author" content="Ryan Witts">
-<link rel="canonical" href="https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fa382cd77ccc05462752d6a59c1e87f69503c45600807ebd4b65443726b7f475.css" integrity="sha256-&#43;jgs13zMBUYnUtalnB6H9pUDxFYAgH69S2VENya39HU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://raw-tech.co.uk/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://raw-tech.co.uk/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://raw-tech.co.uk/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://raw-tech.co.uk/apple-touch-icon.png">
-<link rel="mask-icon" href="https://raw-tech.co.uk/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript><meta property="og:url" content="https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html">
-  <meta property="og:site_name" content="RAW-TECH">
-  <meta property="og:title" content="Infinite Runner">
-  <meta property="og:description" content="Keep going, then">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="tools">
-      <meta property="og:image" content="https://raw-tech.co.uk/images/Logo.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://raw-tech.co.uk/images/Logo.png">
-<meta name="twitter:title" content="Infinite Runner">
-<meta name="twitter:description" content="Keep going, then">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Tools",
-      "item": "https://raw-tech.co.uk/tools/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Infinite Runner",
-      "item": "https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Infinite Runner",
-  "name": "Infinite Runner",
-  "description": "Keep going, then",
-  "keywords": [
-    
-  ],
-  "articleBody": "",
-  "wordCount" : "0",
-  "inLanguage": "en",
-  "image": "https://raw-tech.co.uk/images/Logo.png","datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
-  "author":{
-    "@type": "Person",
-    "name": "Ryan Witts"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://raw-tech.co.uk/tools/infinite-runner/infinite-runner.html"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "RAW-TECH",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://raw-tech.co.uk/favicon.ico"
-    }
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Infinite Runner</title>
+<style>
+  :root{
+    --bg:#1a1a1a; --panel:#262626; --text:#f2f2f2; --muted:#a6a6a6;
+    --accent:#ff6f00;
   }
-}
-</script>
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(#1a1a1a,#0d0d0d);color:var(--text);font:14px system-ui,sans-serif;}
+  .wrap{height:100%;display:grid;place-items:center;padding:16px}
+  .frame{width:min(1100px,95vw);height:min(620px,85vh);background:var(--panel);border:1px solid #333;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);position:relative;overflow:hidden}
+  canvas{display:block;width:100%;height:100%}
+  .hud{position:absolute;inset:12px 12px auto 12px;display:flex;gap:12px;align-items:center}
+  .pill{background:rgba(38,38,38,.85);border:1px solid #444;color:var(--text);padding:8px 12px;border-radius:999px;font-weight:600;display:flex;gap:10px;align-items:center}
+  .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .right{position:absolute;top:12px;right:12px;display:flex;gap:12px}
+  .center-msg{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+  .card{background:rgba(26,26,26,.85);border:1px solid #444;border-radius:14px;padding:16px 18px;text-align:center}
+  h1{margin:0 0 6px;font-weight:650;font-size:18px;color:var(--accent)}
+  .hint{color:var(--muted);font-size:12px}
+</style>
 </head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://raw-tech.co.uk/" accesskey="h" title="RAW-TECH (Alt + H)">RAW-TECH</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://raw-tech.co.uk/" title="Home">
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://raw-tech.co.uk/posts/" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://raw-tech.co.uk/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://raw-tech.co.uk/tools/" title="Tools">
-                    <span>Tools</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="https://raw-tech.co.uk/">Home</a>&nbsp;»&nbsp;<a href="https://raw-tech.co.uk/tools/">Tools</a></div>
-    <h1 class="post-title entry-hint-parent">
-      Infinite Runner
-    </h1>
-    <div class="post-meta">
-
+    <div class="brand">Webapp by <a href="https://raw-tech.co.uk">RAW-TECH</a></div>
+<body>
+<div class="wrap">
+  <div class="frame">
+    <canvas id="game" width="1100" height="620"></canvas>
+    <div class="hud">
+      <div class="pill"><span class="dot"></span><span id="score">0</span> m</div>
+      <div class="pill">Best: <span id="best">0</span> m</div>
+      <div class="pill">Speed: <span id="speed">0</span></div>
+    </div>
+    <div class="right">
+      <div class="pill">Space: jump</div>
+      <div class="pill">↓: slide</div>
+      <div class="pill">←/→: decel/accel</div>
+    </div>
+    <div class="center-msg" id="center">
+      <div class="card">
+        <h1>Infinite Runner</h1>
+        <div class="hint">Press Space to start. Jump with Space. Slide with Arrow Down. Adjust speed with Left/Right arrows.</div>
+      </div>
+    </div>
+  </div>
 </div>
-  </header> 
-
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-    </ul>
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2025 <a href="https://raw-tech.co.uk/">RAW-TECH</a></span> · 
-
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
-
 <script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+(() => {
+  const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, GROUND_Y = H - 120;
+  let running=false, paused=false, gameOver=false, time=0, last=performance.now();
+  let score=0, best=+localStorage.getItem('runner.best')||0;
+  let speed=420, maxSpeed=1000, accel=6, manualAccel=0;
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+  const player={x:160,y:GROUND_Y,w:56,h:84,color:'#ff6f00',vy:0,jumpForce:880,gravity:2200,sliding:false,slideTime:0,maxSlide:520,onGround:true,
+    getHitbox(){return(this.sliding&&this.onGround)?{x:this.x,y:this.y-44,w:this.w,h:44}:{x:this.x,y:this.y-this.h,w:this.w,h:this.h};}};
 
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
+  const keys=new Set();
+  addEventListener('keydown',e=>{
+    if(e.code==='Space') e.preventDefault();
+    keys.add(e.code);
+    if(!running && e.code==='Space') start();
+    if(e.code==='Space') jump();
+    if(e.code==='ArrowDown') slide(true);
+    if(e.code==='ArrowLeft') manualAccel=-150;
+    if(e.code==='ArrowRight') manualAccel=150;
+    if(gameOver && (e.code==='Space'||e.code==='Enter')) reset();
+  });
+  addEventListener('keyup',e=>{
+    keys.delete(e.code);
+    if(e.code==='ArrowDown') slide(false);
+    if(e.code==='ArrowLeft' || e.code==='ArrowRight') manualAccel=0;
+  });
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
+  const scoreEl=document.getElementById('score'),bestEl=document.getElementById('best'),speedEl=document.getElementById('speed'),center=document.getElementById('center');
+  bestEl.textContent=best;
 
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
+  const obstacles=[],clouds=[],decor=[]; let nextSpawnX=W+400;
 
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
+  function seedParallax(){
+    for(let i=0;i<8;i++) clouds.push({x:Math.random()*W*2,y:80+Math.random()*120,r:30+Math.random()*40,s:.2+.15*Math.random()});
+    for(let i=0;i<18;i++) decor.push({x:Math.random()*W*2,w:12+Math.random()*18,h:70+Math.random()*110,s:.55+.35*Math.random()});
+  }
+  seedParallax();
 
-        function copyingDone() {
-            copybutton.innerHTML = 'copied!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'copy';
-            }, 2000);
-        }
+  function start(){running=true;paused=false;gameOver=false;center.style.display='none';last=performance.now();}
+  function jump(){if(!player.onGround||paused||gameOver)return;player.vy=-player.jumpForce;player.onGround=false;player.sliding=false;}
+  function slide(down){if(paused||gameOver)return;player.sliding=down&&player.onGround;player.slideTime=0;}
+  function spawnObstacle(){const type=Math.random()<0.55?'crate':'bar';if(type==='crate'){const w=46+Math.floor(Math.random()*28),h=46+Math.floor(Math.random()*34);obstacles.push({type,x:W+40,y:GROUND_Y,w,h});}else{const gap=80+Math.random()*30,th=14+Math.random()*8,b=GROUND_Y-(player.h-44)-gap;obstacles.push({type,x:W+40,y:b,w:120+Math.random()*80,h:th});}}
+  function scheduleNext(){nextSpawnX+=260+Math.random()*260;}
+  function aabb(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
+  function reset(){obstacles.length=0;clouds.length=0;decor.length=0;seedParallax();score=0;speed=420;time=0;player.y=GROUND_Y;player.vy=0;player.onGround=true;player.sliding=false;gameOver=false;running=true;paused=false;center.style.display='none';last=performance.now();}
+  function die(){gameOver=true;running=false;best=Math.max(best,Math.floor(score));localStorage.setItem('runner.best',best);center.style.display='grid';center.querySelector('.card').innerHTML=`<h1>Game Over</h1><div class="hint">Score: <strong>${Math.floor(score)}</strong> m · Best: <strong>${best}</strong> m</div><div class="hint" style="margin-top:6px">Press Enter or Space to retry</div>`;}
 
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
+  function drawBackground(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(255,111,0,0.15)';for(let i=0;i<40;i++){let x=(i*53+(time*20)%W)%W,y=(i*71)%H;ctx.strokeRect(x,y,Math.random()*40,Math.random()*40);}for(const c of clouds){ctx.fillStyle='rgba(255,111,0,0.05)';ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fill();}for(const d of decor){ctx.fillStyle='#333';ctx.fillRect(d.x,GROUND_Y-d.h,d.w,d.h);}}
+  function drawGround(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,GROUND_Y+1,W,H-GROUND_Y);ctx.strokeStyle='#444';ctx.beginPath();ctx.moveTo(0,GROUND_Y+.5);ctx.lineTo(W,GROUND_Y+.5);ctx.stroke();}
+  function drawPlayer(){const hb=player.getHitbox();ctx.fillStyle=player.color;ctx.fillRect(hb.x,hb.y,hb.w,hb.h);}
+  function drawObstacles(){for(const o of obstacles){ctx.fillStyle=o.type==='crate'?'#555':'#444';ctx.fillRect(o.x,o.y-(o.type==='crate'?o.h:0),o.w,o.h);}}
 
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
+  function frame(ts){requestAnimationFrame(frame);const now=ts||performance.now();let dt=(now-last)/1000;if(dt>0.04)dt=0.04;if(!running||paused||gameOver){last=now;drawStatic();return;}time+=dt;last=now;speed=Math.min(maxSpeed,Math.max(200,speed+accel*dt+manualAccel*dt));score+=(speed*dt)/50;player.vy+=player.gravity*dt;player.y+=player.vy*dt;if(player.y>=GROUND_Y){player.y=GROUND_Y;player.vy=0;player.onGround=true;}if(player.sliding){player.slideTime+=dt*1000;if(player.slideTime>=player.maxSlide)player.sliding=false;}for(const c of clouds){c.x-=speed*dt*c.s*0.25;if(c.x<-120)c.x=W+Math.random()*W;}for(const d of decor){d.x-=speed*dt*d.s*0.45;if(d.x<-20){d.x=W+Math.random()*W;d.h=70+Math.random()*110;d.w=12+Math.random()*18;}}if(nextSpawnX<W){spawnObstacle();scheduleNext();}nextSpawnX-=speed*dt;for(const o of obstacles){o.x-=speed*dt;}while(obstacles.length&&obstacles[0].x+obstacles[0].w<-10)obstacles.shift();const hb=player.getHitbox();for(const o of obstacles){const ob=(o.type==='crate')?{x:o.x,y:o.y-o.h,w:o.w,h:o.h}:{x:o.x,y:o.y,w:o.w,h:o.h};if(aabb(hb,ob)){die();break;}}scoreEl.textContent=Math.floor(score);speedEl.textContent=Math.round(speed);bestEl.textContent=best;draw();}
 
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
+  function draw(){ctx.clearRect(0,0,W,H);drawBackground();drawGround();drawPlayer();drawObstacles();}
+  function drawStatic(){ctx.clearRect(0,0,W,H);drawBackground();drawGround();drawPlayer();drawObstacles();scoreEl.textContent=Math.floor(score);speedEl.textContent=Math.round(speed);bestEl.textContent=best;}
+
+  requestAnimationFrame(frame);
+})();
 </script>
 </body>
-
 </html>

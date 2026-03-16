@@ -2,176 +2,185 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on RAW-TECH</title>
-    <link>https://raw-tech.co.uk/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on RAW-TECH</description>
-    <image>
-      <title>RAW-TECH</title>
-      <url>https://raw-tech.co.uk/images/Logo.png</url>
-      <link>https://raw-tech.co.uk/images/Logo.png</link>
-    </image>
     <generator>Hugo -- 0.147.2</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Jul 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://raw-tech.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Apache</title>
-      <link>https://raw-tech.co.uk/tags/apache/</link>
-      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/apache/</guid>
+      <title>Education</title>
+      <link>http://localhost:1313/tags/education/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/education/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>IT</title>
+      <link>http://localhost:1313/tags/it/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/it/</guid>
       <description></description>
     </item>
     <item>
       <title>Tech</title>
-      <link>https://raw-tech.co.uk/tags/tech/</link>
+      <link>http://localhost:1313/tags/tech/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tech/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Apache</title>
+      <link>http://localhost:1313/tags/apache/</link>
       <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/tech/</guid>
+      <guid>http://localhost:1313/tags/apache/</guid>
       <description></description>
     </item>
     <item>
       <title>Web Development</title>
-      <link>https://raw-tech.co.uk/tags/web-development/</link>
+      <link>http://localhost:1313/tags/web-development/</link>
       <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/web-development/</guid>
+      <guid>http://localhost:1313/tags/web-development/</guid>
       <description></description>
     </item>
     <item>
       <title>Active Directory</title>
-      <link>https://raw-tech.co.uk/tags/active-directory/</link>
+      <link>http://localhost:1313/tags/active-directory/</link>
       <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/active-directory/</guid>
+      <guid>http://localhost:1313/tags/active-directory/</guid>
       <description></description>
     </item>
     <item>
       <title>Powershell</title>
-      <link>https://raw-tech.co.uk/tags/powershell/</link>
+      <link>http://localhost:1313/tags/powershell/</link>
       <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/powershell/</guid>
+      <guid>http://localhost:1313/tags/powershell/</guid>
       <description></description>
     </item>
     <item>
       <title>Sysyadmin</title>
-      <link>https://raw-tech.co.uk/tags/sysyadmin/</link>
+      <link>http://localhost:1313/tags/sysyadmin/</link>
       <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/sysyadmin/</guid>
+      <guid>http://localhost:1313/tags/sysyadmin/</guid>
       <description></description>
     </item>
     <item>
       <title>Hiking</title>
-      <link>https://raw-tech.co.uk/tags/hiking/</link>
+      <link>http://localhost:1313/tags/hiking/</link>
       <pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/hiking/</guid>
+      <guid>http://localhost:1313/tags/hiking/</guid>
       <description></description>
     </item>
     <item>
       <title>Art</title>
-      <link>https://raw-tech.co.uk/tags/art/</link>
+      <link>http://localhost:1313/tags/art/</link>
       <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/art/</guid>
+      <guid>http://localhost:1313/tags/art/</guid>
       <description></description>
     </item>
     <item>
       <title>Blender</title>
-      <link>https://raw-tech.co.uk/tags/blender/</link>
+      <link>http://localhost:1313/tags/blender/</link>
       <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/blender/</guid>
+      <guid>http://localhost:1313/tags/blender/</guid>
       <description></description>
     </item>
     <item>
       <title>Covid</title>
-      <link>https://raw-tech.co.uk/tags/covid/</link>
+      <link>http://localhost:1313/tags/covid/</link>
       <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/covid/</guid>
+      <guid>http://localhost:1313/tags/covid/</guid>
       <description></description>
     </item>
     <item>
       <title>Anime</title>
-      <link>https://raw-tech.co.uk/tags/anime/</link>
+      <link>http://localhost:1313/tags/anime/</link>
       <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/anime/</guid>
+      <guid>http://localhost:1313/tags/anime/</guid>
       <description></description>
     </item>
     <item>
       <title>Critical-Thinking</title>
-      <link>https://raw-tech.co.uk/tags/critical-thinking/</link>
+      <link>http://localhost:1313/tags/critical-thinking/</link>
       <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/critical-thinking/</guid>
+      <guid>http://localhost:1313/tags/critical-thinking/</guid>
       <description></description>
     </item>
     <item>
       <title>Science</title>
-      <link>https://raw-tech.co.uk/tags/science/</link>
+      <link>http://localhost:1313/tags/science/</link>
       <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/science/</guid>
+      <guid>http://localhost:1313/tags/science/</guid>
       <description></description>
     </item>
     <item>
       <title>Film</title>
-      <link>https://raw-tech.co.uk/tags/film/</link>
+      <link>http://localhost:1313/tags/film/</link>
       <pubDate>Wed, 21 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/film/</guid>
+      <guid>http://localhost:1313/tags/film/</guid>
       <description></description>
     </item>
     <item>
       <title>Docker</title>
-      <link>https://raw-tech.co.uk/tags/docker/</link>
+      <link>http://localhost:1313/tags/docker/</link>
       <pubDate>Sat, 17 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/docker/</guid>
+      <guid>http://localhost:1313/tags/docker/</guid>
       <description></description>
     </item>
     <item>
       <title>Linux</title>
-      <link>https://raw-tech.co.uk/tags/linux/</link>
+      <link>http://localhost:1313/tags/linux/</link>
       <pubDate>Sat, 17 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/linux/</guid>
+      <guid>http://localhost:1313/tags/linux/</guid>
       <description></description>
     </item>
     <item>
       <title>Plex</title>
-      <link>https://raw-tech.co.uk/tags/plex/</link>
+      <link>http://localhost:1313/tags/plex/</link>
       <pubDate>Sat, 17 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/plex/</guid>
+      <guid>http://localhost:1313/tags/plex/</guid>
       <description></description>
     </item>
     <item>
       <title>Proxmox</title>
-      <link>https://raw-tech.co.uk/tags/proxmox/</link>
+      <link>http://localhost:1313/tags/proxmox/</link>
       <pubDate>Sat, 17 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/proxmox/</guid>
+      <guid>http://localhost:1313/tags/proxmox/</guid>
       <description></description>
     </item>
     <item>
       <title>Gaming</title>
-      <link>https://raw-tech.co.uk/tags/gaming/</link>
+      <link>http://localhost:1313/tags/gaming/</link>
       <pubDate>Thu, 15 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/gaming/</guid>
+      <guid>http://localhost:1313/tags/gaming/</guid>
       <description></description>
     </item>
     <item>
       <title>Photography</title>
-      <link>https://raw-tech.co.uk/tags/photography/</link>
+      <link>http://localhost:1313/tags/photography/</link>
       <pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/photography/</guid>
+      <guid>http://localhost:1313/tags/photography/</guid>
       <description></description>
     </item>
     <item>
       <title>Ai</title>
-      <link>https://raw-tech.co.uk/tags/ai/</link>
+      <link>http://localhost:1313/tags/ai/</link>
       <pubDate>Fri, 14 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/ai/</guid>
+      <guid>http://localhost:1313/tags/ai/</guid>
       <description></description>
     </item>
     <item>
       <title>Python</title>
-      <link>https://raw-tech.co.uk/tags/python/</link>
+      <link>http://localhost:1313/tags/python/</link>
       <pubDate>Fri, 14 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/python/</guid>
+      <guid>http://localhost:1313/tags/python/</guid>
       <description></description>
     </item>
     <item>
       <title>Microsoft</title>
-      <link>https://raw-tech.co.uk/tags/microsoft/</link>
+      <link>http://localhost:1313/tags/microsoft/</link>
       <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://raw-tech.co.uk/tags/microsoft/</guid>
+      <guid>http://localhost:1313/tags/microsoft/</guid>
       <description></description>
     </item>
   </channel>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Education on RAW-TECH</title>
+    <link>http://localhost:1313/tags/education/</link>
+    <description>Recent content in Education on RAW-TECH</description>
+    <generator>Hugo -- 0.147.2</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/education/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lessons from a technician</title>
+      <link>http://localhost:1313/posts/techlessons/</link>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/techlessons/</guid>
+      <description>Lessons learned over years working in IT: documentation, automation, security fundamentals, and the habits that quietly make systems more reliable.</description>
+    </item>
+    <item>
+      <title>Schools of the Past, the Present, and the Future</title>
+      <link>http://localhost:1313/posts/edutech/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/edutech/</guid>
+      <description>Technology underpins modern education, yet many schools operate aging infrastructure under severe budget pressure.</description>
+    </item>
+  </channel>
+</rss>

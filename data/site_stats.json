@@ -1,12 +1,15 @@
 {
-  "pages": 15,
-  "posts": 12,
-  "nonPosts": 3,
+  "pages": 34,
+  "posts": 15,
+  "nonPosts": 19,
   "tags": [
     "Anime",
+    "Education",
+    "IT",
     "Science",
     "active directory",
     "ai",
+    "apache",
     "art",
     "blender",
     "covid",
@@ -27,6 +30,6 @@
     "web development"
   ],
   "categories": [],
-  "words": 14069,
-  "avgWords": 1172.42
+  "words": 19107,
+  "avgWords": 1273.8
 }
