@@ -3,55 +3,45 @@ title: "RAW-TECH"
 theme: "PaperMod"
 defaultContentLanguage: en
 enableRobotsTXT: true
-buildDrafts: false
 
 pagination:
   pagerSize: 10
 
 taxonomies:
   tag: "tags"
-  category: "categories"
+
+menu:
+  main:
+    - name: Posts
+      url: /posts/
+      weight: 1
+    - name: Tags
+      url: /tags/
+      weight: 2
 
 params:
   description: "RAW-TECH"
   author: "Ryan Witts"
-  env: production
-  images:
-    - "/images/Logo.png"
-  defaultSection: recipes
+
   ShowBreadCrumbs: true
+  ShowReadingTime: true
+  ShowWordCount: false
+  ShowShareButtons: false
   ShowCodeCopyButtons: true
   ShowToc: true
-
-  assets:
-    favicon: "/favicon.ico"
-
-  showRecent: true
-  homePostsSection: "posts"
-  recentPostsLimit: 5
+  ShowPostNavLinks: true
 
   ShowPostCover: true
   ShowPostCoverInList: true
   ShowPostCoverInSingle: true
-  ShowShareButtons: false
-  ShowReadingTime: true
-  ShowCodeCopyButtons: true
-  ShowWordCount: true
 
-markup:
-  goldmark:
-    renderer:
-      unsafe: true
-      
-  cover:
-    responsiveImages: true
-    hidden: false
-    linkFullImages: true
+  showRecent: true
+  homePostsSection: posts
+  recentPostsLimit: 5
 
   assets:
+    favicon: "/favicon.ico"
     disableFingerprinting: true
-  editPost:
-    showCodeCopyButtons: true
 
   socialIcons:
     - name: github
@@ -73,7 +63,10 @@ menu:
       name: Tags
       url: /tags/
       weight: 3
-    - identifier: tools
-      name: Tools
-      url: /tools/
-      weight: 4
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: monokai
