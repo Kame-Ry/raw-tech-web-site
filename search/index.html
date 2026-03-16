@@ -4,12 +4,17 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Categories | RAW-TECH</title>
+<meta name="robots" content="noindex, nofollow">
+<title>RAW-TECH</title>
 <meta name="keywords" content="">
-<meta name="description" content="RAW-TECH">
+<meta name="description" content="-&ndash;
+title: &ldquo;Search&rdquo;
+layout: &ldquo;search&rdquo;
+summary: &ldquo;search&rdquo;
+placeholder: &ldquo;Search&hellip;&rdquo;
+-&ndash;">
 <meta name="author" content="Ryan Witts">
-<link rel="canonical" href="http://localhost:1313/categories/">
+<link rel="canonical" href="http://localhost:1313/search/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,8 +23,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/index.xml">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/categories/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/search/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,21 +60,10 @@
         }
 
     </style>
-</noscript><meta property="og:url" content="http://localhost:1313/categories/">
-  <meta property="og:site_name" content="RAW-TECH">
-  <meta property="og:title" content="Categories">
-  <meta property="og:description" content="RAW-TECH">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="website">
-      <meta property="og:image" content="http://localhost:1313/images/Logo.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://localhost:1313/images/Logo.png">
-<meta name="twitter:title" content="Categories">
-<meta name="twitter:description" content="RAW-TECH">
-
+</noscript>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -129,12 +122,34 @@
     </nav>
 </header>
 <main class="main">
-<header class="page-header">
-    <h1>Categories</h1>
-</header>
 
-<ul class="terms-tags">
-</ul>
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a></div>
+    <h1 class="post-title entry-hint-parent">
+      
+    </h1>
+    <div class="post-meta">1 min&nbsp;·&nbsp;Ryan Witts
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>-&ndash;</p>
+<p>title: &ldquo;Search&rdquo;</p>
+<p>layout: &ldquo;search&rdquo;</p>
+<p>summary: &ldquo;search&rdquo;</p>
+<p>placeholder: &ldquo;Search&hellip;&rdquo;</p>
+<p>-&ndash;</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+
+  </footer>
+</article>
     </main>
     
 <footer class="footer">
@@ -205,6 +220,53 @@
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 
