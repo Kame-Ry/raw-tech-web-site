@@ -1,12 +1,12 @@
 ---
-title: "Building a Apache Launchpad for My Homelab"
+title: "Building an Apache Launchpad for My Homelab"
 date: 2025-07-08
 tags: ["web development", "tech", "apache"]
 summary: "Building a Dockerised Apache Launchpad for My Homelab"
 type: post
 cover:
   image: "/images/apache/launchpadtitle.png"
-  alt: "Terminal window open beside a Hugo website preview"
+  alt: "Apache homelab launchpad dashboard showing service status cards"
   relative: false
   hiddenInList: false
   hiddenInSingle: true
@@ -51,7 +51,7 @@ services:
     image: httpd:latest
     container_name: apache
     ports:
-      - "8080:80"
+      - "8088:80"
     volumes:
       - /mnt/ssd-linux/launchpad:/usr/local/apache2/htdocs/
     restart: unless-stopped

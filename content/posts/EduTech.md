@@ -6,7 +6,7 @@ summary: "Technology underpins modern education, yet many schools operate aging 
 type: post
 cover:
   image: "/images/Post_images/edutech.png"
-  alt: "Terminal window open beside a Hugo website preview"
+  alt: "Digital classroom with aging infrastructure and modern technology"
   relative: false
   hiddenInList: false
   hiddenInSingle: true

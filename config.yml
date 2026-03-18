@@ -11,7 +11,7 @@ taxonomies:
   tag: "tags"
 
 params:
-  description: "RAW-TECH"
+  description: "Ryan Witts — IT technician, homelab builder, and writer on tech, film, and the outdoors."
   author: "Ryan Witts"
 
   ShowBreadCrumbs: true

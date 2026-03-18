@@ -15,7 +15,7 @@ cover:
 draft: false
 ---
 
-# Why I Built This Homelab
+## Why I Built This Homelab
 
 Modern streaming culture is exhausting. Content is fragmented across too many services, each demanding money for one or two shows or films people actually care about. It’s frustrating to pay for access only to be served bloated catalogs, Marvel filler arcs, or algorithm-bait reality TV.
 
@@ -44,7 +44,7 @@ That’s why I started building my own infrastructure. It began as a simple setu
 
 ---
 
-# Phase 0: The Plan  
+## Phase 0: The Plan
 <small>*"I'm gonna make a homelab you can't refuse."*</small>
 
 
@@ -129,7 +129,7 @@ How I knew this project would be “done” (for now):
 
 ---
 
-# Phase 1: The Hardware  
+## Phase 1: The Hardware
 <small>*"Say hello to my little friend... the ProDesk."*</small>
 
 This phase was supposed to be simple: unbox, upgrade, install. In reality? It turned into a low-level boss fight with HP’s factory screws.
@@ -245,7 +245,7 @@ With the hardware stable, drives mounted, and BIOS dialed in, I was finally read
 
 ---
 
-# Phase 2: The Operating System
+## Phase 2: The Operating System
 <small>*"Yer a wizard, Debian."*</small>
 
 With the hardware finally stable (screw rage behind me), it was time to give this machine a brain.
@@ -378,7 +378,7 @@ All drives were passed through from Proxmox using raw disk passthrough `(scsiX)`
 
 ---
 
-# Phase 3: The Docker & Containers
+## Phase 3: The Docker & Containers
 
 <small>*"Dock Hard"*</small>
 
@@ -560,7 +560,7 @@ Phase 3 turned a VM into a self-sustaining, observable stack of services. Everyt
 
 ---
 
-# Phase 4: The Network
+## Phase 4: The Network
 
 Now that the Docker stack was humming along, it was time to address my nemesis.
 
@@ -568,7 +568,7 @@ Networking is where most people go overboard — VLANs, dual-NIC bonding, multi-
 
 ---
 
-## Goals for Networking
+### Goals for Networking
 
 - LAN access to all services without port collisions  
 - Remote access (secure) for Plex, Plexamp, and Minecraft  
@@ -578,7 +578,7 @@ Networking is where most people go overboard — VLANs, dual-NIC bonding, multi-
 
 ---
 
-## Baseline Network Layout
+### Baseline Network Layout
 
 <pre><code>
 [Internet]
@@ -594,11 +594,11 @@ Networking is where most people go overboard — VLANs, dual-NIC bonding, multi-
 
 ---
 
-## Tailscale: The Remote Access Backbone
+### Tailscale: The Remote Access Backbone
 
 Tailscale is a zero-config WireGuard overlay that just works.
 
-### Why Tailscale?
+#### Why Tailscale?
 
 - No port forwarding required  
 - Works behind NAT and CGNAT  
@@ -615,7 +615,7 @@ This replaced the need for OpenVPN or exposing sensitive ports to the public web
 
 ---
 
-## DDNS via DuckDNS
+### DDNS via DuckDNS
 
 For services I *did* want externally exposed (Plex, Minecraft), I set up a free DuckDNS subdomain:
 
@@ -625,7 +625,7 @@ For services I *did* want externally exposed (Plex, Minecraft), I set up a free 
 
 ---
 
-## Nginx Proxy Manager
+### Nginx Proxy Manager
 
 Some services needed SSL and custom hostnames, but I didn’t want to maintain Nginx by hand. NPM provided:
 
@@ -643,13 +643,13 @@ Everything else remains LAN-only behind Tailscale.
 
 ---
 
-## UFW Firewall Rules
+### UFW Firewall Rules
 
 Firewall is enforced *inside* the Debian VM using UFW.
 
 ---
 
-## Network Monitoring
+### Network Monitoring
 
 - Uptime Kuma monitors external endpoints (DuckDNS)
 - qBittorrent Gluetun container pings `ifconfig.me` to validate VPN IP
@@ -658,7 +658,7 @@ Firewall is enforced *inside* the Debian VM using UFW.
 
 ---
 
-## Lessons from Phase 4
+### Lessons from Phase 4
 
 | Service                 | Could've Been Better                          |
 |----------------------------------|-----------------------------------------------|
@@ -666,7 +666,7 @@ Firewall is enforced *inside* the Debian VM using UFW.
 
 ---
 
-## Status After Phase 4
+### Status After Phase 4
 
 - Plex, Minecraft reachable externally over HTTPS  
 - All other services only accessible via LAN or Tailscale  
@@ -677,14 +677,14 @@ Firewall is enforced *inside* the Debian VM using UFW.
 
 --- 
 
-# Phase 5: The Monitoring
+## Phase 5: The Monitoring
 <small>*"I'm always watching, Wazowski."*</small>
 
 I wanted eyes on everything: uptime, disk space, container health, and remote access status.
 
 ---
 
-## Monitoring Goals
+### Monitoring Goals
 
 - Track availability of every container (and the VM itself)  
 - Detect VPN leaks or tunnel failures  
@@ -693,7 +693,7 @@ I wanted eyes on everything: uptime, disk space, container health, and remote ac
 
 ---
 
-## Homepage
+### Homepage
 
 Homepage acts as a simple self-hosted dashboard to:
 
@@ -720,7 +720,7 @@ Accessible at `http://192.168.0.X:3005`
 
 ---
 
-## Uptime Kuma
+### Uptime Kuma
 
 Uptime Kuma tracks container availability via:
 
@@ -739,7 +739,7 @@ Kuma database is stored at:
 
 ---
 
-## Monitored Services
+### Monitored Services
 
 | Service       | Type         | Target                          |
 |---------------|--------------|----------------------------------|
@@ -757,7 +757,7 @@ Kuma database is stored at:
 
 ---
 
-## Discord Notifications
+### Discord Notifications
 
 Both Uptime Kuma, Plex watch status (Tautulli) and custom cronjobs send alerts via Discord webhook.
 
@@ -773,7 +773,7 @@ Kuma also uses the same webhook to send alerts for downed or restored services.
 
 ---
 
-## Log Management
+### Log Management
 
 - All script logs are dumped to `/mnt/ssd-linux/logs/`
 - Mover script log: `plex-mover.log`
@@ -788,7 +788,7 @@ Sample crontab entry:
 
 ---
 
-## Lessons from Phase 5
+### Lessons from Phase 5
 
 | Win                                  | Problem Solved                          |
 |--------------------------------------|------------------------------------------|
@@ -799,7 +799,7 @@ Sample crontab entry:
 
 ---
 
-## Status After Phase 5
+### Status After Phase 5
 
 - Every critical service monitored for uptime  
 - Discord alerts sent on all failures or mover script completions  
@@ -809,7 +809,7 @@ Sample crontab entry:
 
 ---
 
-# Phase 6: The Audit  
+## Phase 6: The Audit
 <small>*"You either die a hero, or live long enough to run your own compliance check."*</small>
 
 At this point, everything worked. But working isn’t the same as being reliable. That’s where the audit came in. A full walkthrough of every component, permission, port, and config.
@@ -818,7 +818,7 @@ This wasn’t just about validating what I had built. It was about **documenting
 
 ---
 
-## Audit Objectives
+### Audit Objectives
 
 - Ensure all mount points persist across reboots  
 - Confirm correct container state, health, and restart behavior  
@@ -829,7 +829,7 @@ This wasn’t just about validating what I had built. It was about **documenting
 
 ---
 
-## Filesystem & Mounts
+### Filesystem & Mounts
 
 All drives are mounted via `UUID` using `/etc/fstab`.
 
@@ -849,7 +849,7 @@ df -h
 
 ---
 
-## Docker Healthcheck
+### Docker Healthcheck
 
 ```bash
 docker ps -a
@@ -866,7 +866,7 @@ Confirmed:
 
 ---
 
-## VPN + Network Verification
+### VPN + Network Verification
 
 Verified Gluetun’s tunnel IP:
 
@@ -883,7 +883,7 @@ Also verified:
 
 ---
 
-## Firewall Rules (UFW)
+### Firewall Rules (UFW)
 
 Checked with:
 
@@ -898,7 +898,7 @@ Confirmed:
 
 ---
 
-## Backup Strategy
+### Backup Strategy
 
 - Plex metadata stored under `/mnt/ssd-linux/plex/`
 - Minecraft world backed up to tar.gz weekly
@@ -911,7 +911,7 @@ rsync -avh /mnt/ssd-linux/ /mnt/hdd/docker-backup/
 
 ---
 
-## Disaster Recovery Procedures
+### Disaster Recovery Procedures
 
 1. Proxmox snapshot or fresh install  
 2. Restore VM or rebuild from clean ISO  
@@ -924,7 +924,7 @@ rsync -avh /mnt/ssd-linux/ /mnt/hdd/docker-backup/
 
 ---
 
-## Lessons from Phase 6
+### Lessons from Phase 6
 
 | Good Habits                         | Pain Avoided                        |
 |-------------------------------------|-------------------------------------|
@@ -935,7 +935,7 @@ rsync -avh /mnt/ssd-linux/ /mnt/hdd/docker-backup/
 
 ---
 
-## Status After Phase 6
+### Status After Phase 6
 
 - Infrastructure fully audited and documented  
 - Mounts and configs persist after full shutdown  
@@ -950,7 +950,7 @@ The stack is now **reliable, recoverable, and repeatable**.
 
 ---
 
-# Final Thoughts
+## Final Thoughts
 
 What started as a way to escape the chaos of modern streaming became a deep dive into infrastructure, automation, and self-reliance. Plex was just the spark. The real fire came from building the ecosystem, the orchestration, the failure handling, the why behind the how.
 
