@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
     { text: "It does not matter how slowly you go as long as you do not stop", author: "Confucius" },
     { text: "Man cannot discover new oceans unless he has the courage to lose sight of the shore", author: "Andre Gide" },
     { text: "There is nothing noble in being superior to your fellow man; true nobility is being superior to your former self.", author: "Ernest Hemingway" },
-    { text: "There is nothing noble in being superior to your fellow man; true nobility is being superior to your former self.", author: "Ernest Hemingway" },
     { text: "Life shrinks or expands in proportion to one's courage", author: "Anais Nin" },
     { text: "The only way to make sense out of change is to plunge into it, move with it, and join the dance.", author: "Alan Watts" },
     { text: "Be Loyal to the nightmare of your choice", author: "Joseph Conrad" },
