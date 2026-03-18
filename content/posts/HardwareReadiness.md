@@ -1,7 +1,7 @@
 ---
 title: "Windows 11 Readiness Reporting via PowerShell + Active Directory"
 date: 2025-07-03
-tags: ["sysyadmin", "tech", "powershell", "active directory"]
+tags: ["sysadmin", "tech", "powershell", "active directory"]
 summary: "How to implement a domain-wide Windows 11 readiness audit using PowerShell and Active Directory to track compatibility across all machines."
 type: post
 cover:
