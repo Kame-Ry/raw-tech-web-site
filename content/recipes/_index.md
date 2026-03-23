@@ -114,7 +114,19 @@ Every recipe includes a **[Cook With Your Senses](/recipes/cook-with-your-senses
     {name:"Za'atar Chicken Thighs", url:"/recipes/middle-eastern/zaatar-chicken-thighs/", tags:["chicken","oven","one-pan"], protein:"chicken", effort:"medium", vibe:["bold","fresh"]},
     {name:"Vietnamese Caramel Garlic Chicken", url:"/recipes/vietnamese/caramel-garlic-chicken/", tags:["chicken","bold","comfort"], protein:"chicken", effort:"medium", vibe:["bold","comfort"]},
     {name:"Dakgalbi (Spicy Chicken Stir-Fry)", url:"/recipes/korean/dakgalbi/", tags:["chicken","spicy","stir-fry","bold"], protein:"chicken", effort:"quick", vibe:["bold"]},
-    {name:"Chicken Souvlaki", url:"/recipes/greek/chicken-souvlaki/", tags:["chicken","grill","bold"], protein:"chicken", effort:"medium", vibe:["bold","fresh"]}
+    {name:"Chicken Souvlaki", url:"/recipes/greek/chicken-souvlaki/", tags:["chicken","grill","bold"], protein:"chicken", effort:"medium", vibe:["bold","fresh"]},
+    {name:"Pasta all'Amatriciana", url:"/recipes/italian/amatriciana/", tags:["pasta","bold","comfort"], protein:"meat", effort:"medium", vibe:["comfort","bold"]},
+    {name:"Italian Sausage & Fennel Pasta", url:"/recipes/italian/sausage-fennel-pasta/", tags:["pasta","sausage","comfort"], protein:"meat", effort:"medium", vibe:["comfort"]},
+    {name:"Beef & Ale Stew", url:"/recipes/british/beef-ale-stew/", tags:["beef","slow-cook","comfort"], protein:"meat", effort:"involved", vibe:["comfort"]},
+    {name:"Chicken & Leek Traybake", url:"/recipes/british/chicken-leek-traybake/", tags:["chicken","one-pan","comfort"], protein:"chicken", effort:"medium", vibe:["comfort"]},
+    {name:"Mapo Tofu", url:"/recipes/chinese/mapo-tofu/", tags:["spicy","bold","comfort"], protein:"meat", effort:"quick", vibe:["bold"]},
+    {name:"Honey Garlic Sesame Chicken", url:"/recipes/chinese/honey-garlic-sesame-chicken/", tags:["chicken","quick","bold"], protein:"chicken", effort:"quick", vibe:["bold","comfort"]},
+    {name:"Chicken Tikka Masala", url:"/recipes/indian/chicken-tikka-masala/", tags:["curry","chicken","comfort","bold"], protein:"chicken", effort:"involved", vibe:["comfort","bold"]},
+    {name:"Tarka Dal", url:"/recipes/indian/tarka-dal/", tags:["vegetarian","comfort","bold"], protein:"veggie", effort:"medium", vibe:["comfort","bold"]},
+    {name:"Kimchi Fried Rice", url:"/recipes/korean/kimchi-fried-rice/", tags:["rice","spicy","quick","comfort"], protein:"any", effort:"quick", vibe:["bold","comfort"]},
+    {name:"Pork Carnitas", url:"/recipes/mexican/pork-carnitas/", tags:["pork","slow-cook","bold"], protein:"meat", effort:"involved", vibe:["bold","comfort"]},
+    {name:"Lamb Kofta", url:"/recipes/middle-eastern/lamb-kofta/", tags:["lamb","grill","bold"], protein:"meat", effort:"quick", vibe:["bold","fresh"]},
+    {name:"Teriyaki Chicken", url:"/recipes/japanese/teriyaki-chicken/", tags:["chicken","quick","bold"], protein:"chicken", effort:"quick", vibe:["bold","comfort"]}
   ];
 
   // Random recipe button
