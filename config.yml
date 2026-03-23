@@ -50,10 +50,14 @@ menu:
       name: Posts
       url: /posts/
       weight: 2
+    - identifier: ai-home
+      name: AI Home
+      url: /ai-home/
+      weight: 3
     - identifier: tags
       name: Tags
       url: /tags/
-      weight: 3
+      weight: 4
 
 markup:
   goldmark:
