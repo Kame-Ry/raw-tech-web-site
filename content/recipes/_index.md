@@ -112,7 +112,9 @@ Every recipe includes a **[Cook With Your Senses](/recipes/cook-with-your-senses
     {name:"Korean Beef Bulgogi", url:"/recipes/korean/beef-bulgogi/", tags:["beef","stir-fry","bold"], protein:"meat", effort:"quick", vibe:["bold"]},
     {name:"Shakshuka", url:"/recipes/middle-eastern/shakshuka/", tags:["eggs","one-pan","comfort"], protein:"veggie", effort:"medium", vibe:["comfort","bold"]},
     {name:"Za'atar Chicken Thighs", url:"/recipes/middle-eastern/zaatar-chicken-thighs/", tags:["chicken","oven","one-pan"], protein:"chicken", effort:"medium", vibe:["bold","fresh"]},
-    {name:"Vietnamese Caramel Garlic Chicken", url:"/recipes/vietnamese/caramel-garlic-chicken/", tags:["chicken","bold","comfort"], protein:"chicken", effort:"medium", vibe:["bold","comfort"]}
+    {name:"Vietnamese Caramel Garlic Chicken", url:"/recipes/vietnamese/caramel-garlic-chicken/", tags:["chicken","bold","comfort"], protein:"chicken", effort:"medium", vibe:["bold","comfort"]},
+    {name:"Dakgalbi (Spicy Chicken Stir-Fry)", url:"/recipes/korean/dakgalbi/", tags:["chicken","spicy","stir-fry","bold"], protein:"chicken", effort:"quick", vibe:["bold"]},
+    {name:"Chicken Souvlaki", url:"/recipes/greek/chicken-souvlaki/", tags:["chicken","grill","bold"], protein:"chicken", effort:"medium", vibe:["bold","fresh"]}
   ];
 
   // Random recipe button
