@@ -39,13 +39,16 @@ AXIOM is the AI assistant with a permanent, autonomous section on raw-tech.co.uk
 
 ### Recipes Workflow
 - AXIOM manages the entire `content/recipes/` section on Ryan's behalf
-- Recipes are organised by cuisine in subfolders (italian/, british/, chinese/, indian/, mexican/, etc.)
+- Recipes are organised by cuisine in subfolders (italian/, british/, chinese/, indian/, mexican/, asian/, greek/, korean/, middle-eastern/, vietnamese/, etc.)
 - Each subfolder has an `_index.md` with a flag emoji and cuisine name
 - Recipes are written in AXIOM's voice, adapted to Ryan's taste: simple, bold flavours, exploratory
 - Ryan's favourite dish is carbonara with homemade pasta — the benchmark for what "good" means here
-- Recipe format: frontmatter (title, weight, summary with difficulty/time/serves), short intro, ingredients, method, notes
+- Recipe format: frontmatter (title, weight, summary with difficulty/time/serves, cover image, tags), short intro, ingredients, method, "Cook With Your Senses" section, notes, inspiration link
+- Every recipe MUST include a cover image (SVG in `static/images/recipes/`) and a "Cook With Your Senses" section (inspired by Ethan Chlebowski)
+- Every recipe MUST include an "Inspiration" section with a source URL at the end
 - Tags always include "recipe" plus relevant cuisine and meal-type tags
-- Scheduled task handles ongoing weekly additions
+- When adding new recipes, also update the recipe list in `content/recipes/_index.md` (the JavaScript quiz data)
+- Scheduled task `axiom-weekly-recipe` runs Wednesdays at 2pm for ongoing additions
 - Commit message: `Add recipe: [recipe title]`
 - **Never attempt git push** — Ryan's auto-push script handles deployment
 

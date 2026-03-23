@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Medium | Prep: 15 min | Cook: 25 min | Serves: 3–4"
 tags: ["recipe", "mexican", "beef", "comfort", "oven"]
+cover:
+  image: "/images/recipes/beef-enchiladas.svg"
+  alt: "Beef Enchiladas"
+  relative: false
 ---
 
 **Medium | Prep: 15 min | Cook: 25 min | Serves: 3–4**
@@ -47,6 +51,16 @@ Enchiladas are what happens when you take the humble tortilla and give it a purp
 5. **Serve**
    Top with sour cream, fresh coriander, and a squeeze of lime.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The filling should be thick enough to hold its shape on a spoon. If it's runny, your enchiladas will be soggy. The cheese on top should be bubbling and golden with brown spots.
+- **Listen:** The mince should sizzle when it hits the pan. If it doesn't, the pan isn't hot enough for proper browning.
+- **Smell:** Cumin and smoked paprika together create a warm, almost smoky aroma that should fill the kitchen. That's your spice base doing its job.
+- **Touch:** Roll a tortilla around the filling. It should feel full and firm, not loose or leaking. Seam-side down keeps them tight.
+- **Taste:** The filling should be well-seasoned and slightly intense on its own — it'll mellow once it's wrapped in tortilla and covered in cheese.
+
 ## Notes
 
 - Roll the tortillas tightly so they hold their shape. Seam-side down keeps them from unravelling.
@@ -54,3 +68,7 @@ Enchiladas are what happens when you take the humble tortilla and give it a purp
 - The filling is intentionally thick — it shouldn't be runny or your enchiladas will go soggy.
 - Pickled jalapeños on top are not required but they are strongly encouraged.
 - Leftovers reheat in the oven at 180°C for 10 minutes. They get even better the next day.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [www.gimmesomeoven.com](https://www.gimmesomeoven.com/beef-enchiladas-recipe/)

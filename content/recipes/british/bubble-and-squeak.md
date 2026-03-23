@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 5 min | Cook: 15 min | Serves: 2"
 tags: ["recipe", "british", "comfort", "quick", "leftovers"]
+cover:
+  image: "/images/recipes/bubble-and-squeak.svg"
+  alt: "Bubble and Squeak"
+  relative: false
 ---
 
 **Easy | Prep: 5 min | Cook: 15 min | Serves: 2**
@@ -36,9 +40,23 @@ Bubble and squeak exists because someone looked at yesterday's leftover mash and
 4. **Serve**
    Slide onto plates and top with a fried egg. Brown sauce or ketchup on the side.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The bottom should be a deep, dark golden crust before you flip. Peek underneath — if it's pale, leave it longer. Patience is the only technique here.
+- **Listen:** A steady, quiet sizzle means the crust is forming. If it goes silent, the pan needs more butter.
+- **Smell:** Potato browning in butter has a nutty, toasty smell. When you notice it, it's nearly ready.
+- **Touch:** Press the top gently. It should feel firm and cohesive, not loose and crumbly. That means it'll hold together when you flip.
+- **Taste:** Season boldly. Leftover mash is often under-seasoned — taste the mix before it hits the pan and add more salt and pepper if needed.
+
 ## Notes
 
 - The trick is patience. Don't prod it. Let the bottom get properly crispy before you even think about flipping.
 - Any leftover veg works — cabbage is traditional, but sprouts, peas, leeks, or broccoli are all fair game.
 - If you're making this from scratch (no leftovers), boil and mash the potatoes, shred and blanch some cabbage, and carry on as normal.
 - A few rashers of crispy bacon mixed in never hurt anyone.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [www.kitchensanctuary.com](https://www.kitchensanctuary.com/bubble-and-squeak/)

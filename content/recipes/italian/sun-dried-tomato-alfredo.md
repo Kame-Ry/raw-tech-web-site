@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 5 min | Cook: 15 min | Serves: 2"
 tags: ["recipe", "italian", "pasta", "comfort", "quick"]
+cover:
+  image: "/images/recipes/sun-dried-tomato-alfredo.svg"
+  alt: "Sun-Dried Tomato Alfredo"
+  relative: false
 ---
 
 **Easy | Prep: 5 min | Cook: 15 min | Serves: 2**
@@ -40,9 +44,22 @@ Alfredo gets a bad reputation — usually because people make it too heavy and t
 5. **Serve**
    Top with remaining parmesan, fresh basil, and black pepper.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The sauce should be a warm, peachy-orange colour from the sun-dried tomato oil. It should coat the back of a spoon without dripping off immediately.
+- **Listen:** The cream should simmer gently, not boil. Bubbles should break lazily at the surface. Aggressive bubbling means the cream is splitting.
+- **Smell:** Sun-dried tomatoes in warm butter smell intensely sweet and savoury at the same time. That's your signal to add the cream.
+- **Taste:** Before adding pasta, taste the sauce alone. It should be rich but not heavy, with the sun-dried tomatoes cutting through the cream. If it's flat, add a pinch of salt or a squeeze of lemon.
+
 ## Notes
 
 - The oil from the sun-dried tomato jar is liquid gold. Use it.
 - If you want to add protein, sliced chicken breast or prawns both work brilliantly here.
 - Spinach is optional but recommended — it adds colour and a mild earthiness that balances the richness.
 - This is not the place for pre-grated parmesan. Grate it fresh. You'll taste the difference.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [damndelicious.net](https://damndelicious.net/2017/09/24/sun-dried-tomato-fettuccine-alfredo/)

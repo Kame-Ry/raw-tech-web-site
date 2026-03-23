@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 10 min | Cook: 30 min | Serves: 2–3"
 tags: ["recipe", "british", "comfort", "sausage", "oven"]
+cover:
+  image: "/images/recipes/toad-in-the-hole.svg"
+  alt: "Toad in the Hole"
+  relative: false
 ---
 
 **Easy | Prep: 10 min | Cook: 30 min | Serves: 2–3**
@@ -49,9 +53,23 @@ Sausages in Yorkshire pudding batter. That's it. That's the recipe. And yet, whe
 6. **Serve**
    Cut into portions, drown in onion gravy.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The oil in the tin should be shimmering and almost smoking before the batter goes in. The batter should sizzle and start setting immediately at the edges. When it's done, the top should be golden-brown and dramatically puffed.
+- **Listen:** The moment the batter hits the hot fat, you should hear an aggressive sizzle. If it's quiet, the fat isn't hot enough — put it back and try again.
+- **Smell:** Browned sausage fat and Yorkshire pudding batter create a smell that's basically encoded into British DNA. When you can smell it through the oven door, you're close.
+- **Touch:** The batter should be firm on top and slightly crisp at the edges. If you press the centre and it feels wet, give it another 5 minutes.
+- **Taste:** The gravy should taste of deeply caramelised onions with a savoury backbone from the stock. If it's thin and watery, it needs more time to reduce.
+
 ## Notes
 
 - The batter must hit smoking-hot fat. If the oil isn't shimmering and dangerous-looking, it's not ready.
 - Resting the batter makes it lighter. If you can manage an hour, even better.
 - Use proper butcher's sausages. Cheap ones split and leak water into the batter.
 - Mustard in the gravy is optional but recommended — it adds a quiet heat that rounds everything out.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [www.jamieoliver.com](https://www.jamieoliver.com/recipes/pork/classic-toad-in-the-hole/)

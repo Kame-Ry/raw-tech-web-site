@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 10 min | Cook: 10 min | Serves: 2"
 tags: ["recipe", "chinese", "beef", "stir-fry", "quick"]
+cover:
+  image: "/images/recipes/pepper-steak-stir-fry.svg"
+  alt: "Pepper Steak Stir Fry"
+  relative: false
 ---
 
 **Easy | Prep: 10 min | Cook: 10 min | Serves: 2**
@@ -48,9 +52,23 @@ A good stir fry happens in about five minutes of actual cooking. Everything befo
 6. **Serve**
    Over steamed rice with a crack of black pepper on top.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The beef should have char marks — actual browning, not just grey cooking. The peppers should be bright and slightly blistered, not limp.
+- **Listen:** The wok should sound angry the entire time you're cooking. If it goes quiet, you've added too much too fast and the temperature dropped.
+- **Smell:** Oyster sauce has a deep, almost mushroomy savouriness. When it hits the hot wok, you'll smell it immediately — that's the backbone of the dish.
+- **Touch:** The peppers should still have crunch. Bite one — if it snaps, you're good. If it bends, you've gone too far.
+- **Taste:** Stir fries need to be seasoned boldly. Taste a piece of sauced beef before serving. If it doesn't make you want more immediately, it needs more soy or a pinch of sugar.
+
 ## Notes
 
 - High heat is everything. If your wok isn't smoking, you're not ready.
 - Slice the beef against the grain and as thin as you can manage. Freezer trick: 20 minutes in the freezer firms it up for cleaner cuts.
 - Oyster sauce adds a savoury depth that soy sauce alone can't replicate. It's a store cupboard essential for stir fries.
 - The veg should still have crunch when you serve. If they're soft, you've gone too far.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [khinskitchen.com](https://khinskitchen.com/pepper-steak-stir-fry/)

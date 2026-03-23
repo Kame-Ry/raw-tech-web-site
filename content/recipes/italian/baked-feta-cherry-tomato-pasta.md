@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 5 min | Cook: 30 min | Serves: 2–3"
 tags: ["recipe", "italian", "pasta", "vegetarian", "oven"]
+cover:
+  image: "/images/recipes/baked-feta-cherry-tomato-pasta.svg"
+  alt: "Baked Feta & Cherry Tomato Pasta"
+  relative: false
 ---
 
 **Easy | Prep: 5 min | Cook: 30 min | Serves: 2–3**
@@ -41,9 +45,23 @@ The one that broke TikTok. And honestly? It deserved to. A block of feta roasted
 5. **Serve**
    Finish with torn basil and more olive oil.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The feta should be golden-brown on top and visibly soft — it should sag when you touch it with a fork. The tomatoes should have burst and released their juice, creating a natural sauce.
+- **Listen:** You'll hear the tomatoes pop and hiss as they burst in the oven. That's good — it means they're caramelising.
+- **Smell:** Roasted garlic has a sweet, mellow smell nothing like raw garlic. When you can smell it through the oven door, you're close.
+- **Touch:** When you mash the feta, it should yield immediately — creamy and spreadable, not crumbly.
+- **Taste:** The roasted tomatoes should be sweet and concentrated. The feta should be tangy and salty. Together they should balance without needing much else.
+
 ## Notes
 
 - Use a good feta — a proper block, not the pre-crumbled stuff. Greek feta in brine has the best flavour and melts beautifully.
 - Don't skip the garlic cloves. Roasted garlic is sweet and mellow and it rounds out the whole dish.
 - The chilli flakes are doing more work than you think. Don't leave them out.
 - Leftovers reheat well with a splash of water to loosen the sauce.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [feelgoodfoodie.net](https://feelgoodfoodie.net/recipe/baked-feta-pasta/)

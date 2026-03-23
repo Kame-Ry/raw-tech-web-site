@@ -26,6 +26,8 @@ params:
   ShowPostCoverInList: true
   ShowPostCoverInSingle: true
 
+  mainSections:
+    - posts
   showRecent: true
   homePostsSection: posts
   recentPostsLimit: 5

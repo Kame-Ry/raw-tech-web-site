@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 5 min | Cook: 12 min | Serves: 2"
 tags: ["recipe", "italian", "pasta", "quick", "vegetarian"]
+cover:
+  image: "/images/recipes/cacio-e-pepe.svg"
+  alt: "Cacio e Pepe"
+  relative: false
 ---
 
 **Easy | Prep: 5 min | Cook: 12 min | Serves: 2**
@@ -36,9 +40,23 @@ Three ingredients. No hiding. Cacio e pepe is the kind of dish that exposes your
 5. **Serve**
    Plate immediately. Top with more pecorino and a few cracks of pepper.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The sauce should be creamy and opaque, not watery and not clumpy. If you see grainy bits, the cheese seized — the pan was too hot.
+- **Listen:** When toasting the pepper, listen for the first few pops. That's the volatile oils releasing. Once you smell it, it's ready.
+- **Smell:** Toasted pepper smells completely different from raw pepper — warmer, rounder, almost floral. If you can't smell the difference, toast it longer.
+- **Touch:** When you toss the pasta, the sauce should feel like it's gripping the noodles. If it slides off, add more pasta water and keep tossing.
+- **Taste:** This dish is only three ingredients so each one has to earn its place. The pepper should be front and centre — sharp and warm. The cheese should be salty and tangy. If either is hiding, you haven't used enough.
+
 ## Notes
 
 - The pasta water is everything. Under-water your pot so the starch concentration is higher. This is what makes the sauce come together.
 - Grate the pecorino as fine as humanly possible. Microplane is ideal. Lumps are the enemy.
 - Remove from heat before adding the cheese paste. If the pan is too hot, the cheese seizes and you get grit instead of silk.
 - Don't even think about adding cream. Or garlic. This is a three-ingredient dish and it doesn't need saving.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [www.jamieoliver.com](https://www.jamieoliver.com/recipes/pasta/pici-cacio-e-pepe/)

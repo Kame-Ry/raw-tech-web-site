@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 10 min | Cook: 30 min | Serves: 3–4"
 tags: ["recipe", "indian", "curry", "beef", "quick"]
+cover:
+  image: "/images/recipes/beef-keema-curry.svg"
+  alt: "Beef Keema Curry"
+  relative: false
 ---
 
 **Easy | Prep: 10 min | Cook: 30 min | Serves: 3–4**
@@ -49,9 +53,23 @@ Keema is Indian comfort food in its most direct form — spiced mince, cooked un
 6. **Serve**
    Over rice or with naan. Top with coriander and a spoon of yoghurt.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The mince should be deeply browned before anything else goes in. The finished curry should be thick and dry-ish — the sauce coating the mince, not swimming around it.
+- **Listen:** Browning mince should sizzle constantly. If it goes quiet and water pools, the pan is too crowded.
+- **Smell:** When the spices hit the hot onion base, there should be an immediate, intense warmth in the air. That's cumin, coriander, and turmeric waking up. If you can't smell it, the spices need more time.
+- **Touch:** Stir the finished curry. It should feel thick and heavy on the spoon, not soupy.
+- **Taste:** Keema should be boldly spiced. Taste it and think: is there warmth? Depth? Salt? Freshness? If something's missing, a squeeze of lemon or a spoonful of yoghurt often fixes it.
+
 ## Notes
 
 - Browning the mince properly is critical. Don't skip this — it's the difference between deep, complex flavour and something flat.
 - Lamb mince is more traditional and slightly richer if you can get it.
 - The sauce should be thick and clinging to the mince, not soupy. If it's too wet, cook it down uncovered.
 - Leftovers make incredible toastie fillings. Seriously.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [www.bbcgoodfood.com](https://www.bbcgoodfood.com/recipes/keema-curry-and-raita)

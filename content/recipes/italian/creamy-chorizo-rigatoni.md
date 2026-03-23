@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 5 min | Cook: 18 min | Serves: 2"
 tags: ["recipe", "italian", "pasta", "chorizo", "comfort"]
+cover:
+  image: "/images/recipes/creamy-chorizo-rigatoni.svg"
+  alt: "Creamy Chorizo Rigatoni"
+  relative: false
 ---
 
 **Easy | Prep: 5 min | Cook: 18 min | Serves: 2**
@@ -41,9 +45,23 @@ Chorizo in a cream sauce shouldn't work as well as it does. The paprika-stained 
 5. **Serve**
    Top with parmesan, torn basil, and black pepper.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The chorizo oil should turn the entire sauce a deep smoky orange-red. If the sauce looks pale, the chorizo hasn't rendered enough. The tomatoes should be blistered and collapsing, not just warm.
+- **Listen:** Chorizo in a cold pan starts quiet. As the fat renders, you'll hear a gentle sizzle that builds. When it's crackling steadily, the edges should be crispy.
+- **Smell:** Rendered chorizo has a smoky paprika smell that's unmistakable. When the mascarpone goes in, the smell should soften and sweeten.
+- **Touch:** The rigatoni should feel like it's wearing the sauce, not sitting in it. The tubes should be coated inside and out.
+- **Taste:** This should be smoky first, then creamy, then slightly sweet from the tomatoes. If the smokiness is missing, the chorizo needed more time.
+
 ## Notes
 
 - Use cooking chorizo, not the cured slicing kind. You want it to render fat and get crispy.
 - Mascarpone gives a richer, silkier result than cream cheese, but both work.
 - The chorizo oil IS the flavour base. Don't drain it. That's the whole point.
 - Penne works if you don't have rigatoni, but the tubes catch more sauce.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [www.mob.co.uk](https://www.mob.co.uk/recipes/creamy-chorizo-mascarpone-rigatoni)

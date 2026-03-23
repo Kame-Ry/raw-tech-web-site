@@ -6,6 +6,10 @@ ShowWordCount: false
 ShowAuthor: false
 summary: "Easy | Prep: 5 min | Cook: 30 min | Serves: 2–3"
 tags: ["recipe", "italian", "chorizo", "comfort", "oven"]
+cover:
+  image: "/images/recipes/chorizo-mozzarella-gnocchi-bake.svg"
+  alt: "Chorizo & Mozzarella Gnocchi Bake"
+  relative: false
 ---
 
 **Easy | Prep: 5 min | Cook: 30 min | Serves: 2–3**
@@ -41,9 +45,23 @@ This is the kind of dish that has no right being as good as it is given how litt
 4. **Serve**
    Finish with fresh basil. Eat from the dish.
 
+## Cook With Your Senses
+
+> *Inspired by [Ethan Chlebowski's](https://www.ethanchlebowski.com/) sensory approach to cooking — the idea that your senses should tell you more than a timer ever could.*
+
+- **Look:** The top should be blistered and golden with the mozzarella forming brown-edged bubbles. The sauce around the edges should be actively bubbling.
+- **Listen:** When it comes out of the oven, it should still be sizzling. If it's silent, it hasn't been in long enough.
+- **Smell:** The chorizo oil perfumes the entire dish. You should be able to smell the smokiness from outside the oven.
+- **Touch:** The gnocchi should be soft and pillowy when you press one with a spoon. If they're still firm, they need more time.
+- **Taste:** The first bite should be smoky, then creamy, then the tomato tang comes through. The mozzarella adds a milky richness that ties it all together.
+
 ## Notes
 
 - Using the gnocchi straight from the packet (unboiled) is the move. They absorb the sauce and get a better texture in the oven.
 - The chorizo oil turns the entire dish smoky and slightly spicy. Don't drain it.
 - You can swap mozzarella for burrata if you want to be fancy. It melts even more beautifully.
 - Add spinach or kale to the sauce before baking if you want some green in there.
+
+## Inspiration
+
+Adapted for Ryan's kitchen. Original inspiration: [chefjonwatts.com](https://chefjonwatts.com/chorizo-mozzarella-gnocchi-bake/)
