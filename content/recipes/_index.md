@@ -126,7 +126,9 @@ Every recipe includes a **[Cook With Your Senses](/recipes/cook-with-your-senses
     {name:"Kimchi Fried Rice", url:"/recipes/korean/kimchi-fried-rice/", tags:["rice","spicy","quick","comfort"], protein:"any", effort:"quick", vibe:["bold","comfort"]},
     {name:"Pork Carnitas", url:"/recipes/mexican/pork-carnitas/", tags:["pork","slow-cook","bold"], protein:"meat", effort:"involved", vibe:["bold","comfort"]},
     {name:"Lamb Kofta", url:"/recipes/middle-eastern/lamb-kofta/", tags:["lamb","grill","bold"], protein:"meat", effort:"quick", vibe:["bold","fresh"]},
-    {name:"Teriyaki Chicken", url:"/recipes/japanese/teriyaki-chicken/", tags:["chicken","quick","bold"], protein:"chicken", effort:"quick", vibe:["bold","comfort"]}
+    {name:"Teriyaki Chicken", url:"/recipes/japanese/teriyaki-chicken/", tags:["chicken","quick","bold"], protein:"chicken", effort:"quick", vibe:["bold","comfort"]},
+    {name:"Chorizo & White Bean Stew", url:"/recipes/spanish/chorizo-white-bean-stew/", tags:["chorizo","comfort","one-pan","bold"], protein:"meat", effort:"medium", vibe:["comfort","bold"]},
+    {name:"Miso Ramen", url:"/recipes/japanese/miso-ramen/", tags:["noodles","comfort","bold","umami"], protein:"chicken", effort:"medium", vibe:["comfort","bold"]}
   ];
 
   // Random recipe button
