@@ -52,18 +52,14 @@ menu:
       name: Posts
       url: /posts/
       weight: 2
-    - identifier: recipes
-      name: Recipes
-      url: /recipes/
-      weight: 3
     - identifier: ai-home
       name: AI Home
       url: /ai-home/
-      weight: 4
+      weight: 3
     - identifier: tags
       name: Tags
       url: /tags/
-      weight: 5
+      weight: 4
 
 markup:
   goldmark:
