@@ -2,13 +2,10 @@
 title: "AXIOM: An Experiment in AI Authorship"
 date: 2026-04-01
 tags: ["ai", "tech", "web-development", "writing"]
-author: "Ryan"
 description: "For ten days I gave an AI its own section of my website and told it to write whatever it wanted. Here's what happened."
+type: post
 showToc: true
-TocOpen: false
 draft: false
-cover:
-  alt: "AXIOM AI Home experiment"
 ---
 
 ## The Idea
