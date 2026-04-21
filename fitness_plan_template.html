@@ -165,7 +165,7 @@
     #last-saved, .banner-clear, .dl-wrap, #importbtn,
     .header-right, .nav, .edit-banner, .lock-btn, .add-btn, .del-btn,
     .rest-toggle, .session-del, .session-dup, .row-del, .row-add-btn, .ms-del, .meal-dup,
-    .swap-type-toggle, .overlay { display:none !important; }
+    .swap-type-toggle, .ex-link-btn, .overlay { display:none !important; }
     .pg { display:block !important;break-inside:avoid; }
     .pg::before { content:attr(data-title);display:block;font-size:16px;font-weight:600;margin:1.5rem 0 .75rem;padding-top:1rem;border-top:1px solid #ddd; }
     #s::before { border-top:none;padding-top:0; }
@@ -248,6 +248,19 @@
   .lift-tag button { border:none;background:transparent;color:var(--teal-text);cursor:pointer;font-size:13px;padding:0;line-height:1;opacity:.6; }
   .lift-tag button:hover { opacity:1; }
   @media print { #tr { display:none !important; } }
+
+  /* Session letter badges */
+  .sess-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:700;flex-shrink:0;margin-right:4px;}
+  /* Exercise reference link */
+  .ex-link-wrap{display:inline-flex;align-items:center;}
+  .ex-link-btn{border:none;background:transparent;padding:0;cursor:pointer;color:var(--text3);vertical-align:middle;margin-left:2px;width:16px;height:16px;display:none;align-items:center;justify-content:center;border-radius:3px;flex-shrink:0;}
+  .ex-link-btn:hover{color:var(--blue);background:var(--blue-bg);}
+  body.edit-on .ex-link-btn{display:inline-flex;}
+  .ex-link-icon{color:var(--blue);margin-left:3px;vertical-align:middle;flex-shrink:0;line-height:1;}
+  .ex-link-icon:hover{opacity:0.7;}
+  .ex-link-icon svg{display:block;}
+  /* Duration in log form */
+  .sli-dur{color:var(--text3);}
   .app-toast { position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(120px);background:var(--text);color:#fff;border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;z-index:300;transition:transform .25s ease,opacity .25s ease;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.2);pointer-events:none;opacity:0; }
   .app-toast.on { transform:translateX(-50%) translateY(0);pointer-events:auto;opacity:1; }
   .app-toast button { background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit; }
@@ -327,7 +340,7 @@
   </div>
   <nav class="nav">
     <button class="nt on" onclick="sw(this,'s')">Schedule</button>
-    <button class="nt" onclick="sw(this,'t')">Training</button>
+    <button class="nt" onclick="sw(this,'t')">Sessions</button>
     <button class="nt" onclick="sw(this,'d')">Diet</button>
     <button class="nt" onclick="sw(this,'m')">Milestones</button>
     <button class="nt" onclick="sw(this,'tr')">Track</button>
@@ -409,7 +422,7 @@
     </div>
   </div>
 
-  <div id="t" class="pg" data-title="Training">
+  <div id="t" class="pg" data-title="Sessions">
     <div id="training-sessions"></div>
     <div class="section-head">
       <p class="eyebrow" style="margin:0">Notes</p>
@@ -488,6 +501,10 @@
                 <option value="">Select session…</option>
               </select>
             </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <label class="form-label">Duration (min)</label>
+            <input type="number" class="form-input" id="log-duration" min="1" max="300" placeholder="e.g. 60">
           </div>
           <label class="form-label">How did it feel?</label>
           <div class="diff-btns" style="margin-bottom:14px">
@@ -592,6 +609,42 @@
 </div>
 
 <script>
+  var SESSION_COLORS = [
+    {border:'#378ADD',bg:'#E6F1FB',text:'#0C447C'},
+    {border:'#1D9E75',bg:'#E1F5EE',text:'#085041'},
+    {border:'#E07B27',bg:'#FAEEDA',text:'#633806'},
+    {border:'#C0427A',bg:'#FBEAF0',text:'#72243E'},
+    {border:'#6C5CE7',bg:'#EEEDFE',text:'#3C3489'},
+    {border:'#D44B3C',bg:'#FAECE7',text:'#712B13'},
+    {border:'#2C9EAD',bg:'#E0F5F8',text:'#0B4E58'},
+    {border:'#7A8B2E',bg:'#F0F5D8',text:'#3A4A0E'}
+  ];
+  var SESSION_LETTERS = 'ABCDEFGH';
+
+  function updateSessionCardColors() {
+    document.querySelectorAll('#training-sessions .session-card').forEach(function(card, i) {
+      var col = SESSION_COLORS[i % SESSION_COLORS.length];
+      var letter = SESSION_LETTERS[i % SESSION_LETTERS.length];
+      var cardEl = card.querySelector('.card');
+      if (cardEl) {
+        cardEl.style.borderLeft = '3px solid ' + col.border;
+        cardEl.style.borderRadius = '0 var(--radius) var(--radius) 0';
+      }
+      var head = card.querySelector('.section-head');
+      if (head) {
+        var badge = head.querySelector('.sess-badge');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'sess-badge';
+          head.insertBefore(badge, head.firstChild);
+        }
+        badge.textContent = letter;
+        badge.style.background = col.bg;
+        badge.style.color = col.text;
+      }
+    });
+  }
+
   var unlocked = false;
 
   function handleLock() { unlocked ? lock() : openModal(); }
@@ -632,6 +685,7 @@
   var LS_KEY = 'fitplan_v1';
 
   function saveState() {
+    updateSessionCardColors();
     var state = { _saved: Date.now() };
     PERSIST_IDS.forEach(function(id) {
       var el = document.getElementById(id);
@@ -782,23 +836,49 @@
       + '<button class="row-add-btn" onclick="addExercise(this)">+ Add exercise</button>'
       + '</div>';
     container.appendChild(wrap);
-    // Add 3 starter exercises
     var list = wrap.querySelector('.exercises-list');
     for (var i = 0; i < 3; i++) {
       list.appendChild(buildExerciseRow());
     }
+    updateSessionCardColors();
   }
 
   function buildExerciseRow() {
     var row = document.createElement('div');
     row.className = 'row row-with-del';
     row.innerHTML = ''
+      + '<span style="display:flex;align-items:center;gap:2px;flex:1;min-width:0">'
       + '<span class="rn e" contenteditable="true">Exercise name</span>'
-      + '<span style="display:flex;align-items:center;gap:4px">'
+      + '<span class="ex-link-wrap"></span>'
+      + '<button class="ex-link-btn" onclick="editExerciseLink(this)" title="Add reference link">'
+      + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'
+      + '</button>'
+      + '</span>'
+      + '<span style="display:flex;align-items:center;gap:4px;flex-shrink:0">'
       + '<span class="rv e" contenteditable="true">3 × 10</span>'
       + '<button class="row-del" onclick="removeRow(this)" title="Remove">×</button>'
       + '</span>';
     return row;
+  }
+
+  function editExerciseLink(btn) {
+    var row = btn.closest('.row');
+    if (!row) return;
+    var wrap = row.querySelector('.ex-link-wrap');
+    var current = row.getAttribute('data-link') || '';
+    var url = prompt('Paste a link to a video or reference for this exercise.\nLeave blank to remove.', current);
+    if (url === null) return;
+    url = url.trim();
+    if (url) {
+      row.setAttribute('data-link', url);
+      wrap.innerHTML = '<a href="' + url.replace(/&/g,'&amp;').replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" class="ex-link-icon" title="Watch exercise">'
+        + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+        + '</a>';
+    } else {
+      row.removeAttribute('data-link');
+      wrap.innerHTML = '';
+    }
+    saveState();
   }
 
   function addExercise(btn) {
@@ -874,6 +954,7 @@
         else { card.insertBefore(btn, card.firstChild); }
       }
     });
+    updateSessionCardColors();
   }
 
   // Milestones
@@ -1114,9 +1195,12 @@
     var date = document.getElementById('log-date').value;
     var session = document.getElementById('log-session').value;
     if (!date || !session) { alert('Please pick a date and session.'); return; }
-    trackerData.checkins.unshift({ id: Date.now(), date: date, sessionName: session, difficulty: getSelectedDiff() });
+    var durInput = document.getElementById('log-duration');
+    var duration = durInput && durInput.value ? parseInt(durInput.value) : null;
+    trackerData.checkins.unshift({ id: Date.now(), date: date, sessionName: session, difficulty: getSelectedDiff(), duration: duration });
     saveTracker();
     document.getElementById('log-session').value = '';
+    if (durInput) durInput.value = '';
     renderCheckins();
     renderWeeklyChart();
     if (trackerData.checkins.length % 10 === 0) {
@@ -1133,14 +1217,20 @@
   function renderCheckins() {
     var el = document.getElementById('checkin-list');
     if (!el) return;
+    var sessions = getTrainingSessions();
     var list = trackerData.checkins.slice(0, 15);
     if (!list.length) { el.innerHTML = '<p class="no-data">No sessions logged yet.</p>'; return; }
     el.innerHTML = list.map(function(c) {
       var diff = c.difficulty || 'medium';
+      var sessIdx = sessions.indexOf(c.sessionName);
+      var col = SESSION_COLORS[sessIdx >= 0 ? sessIdx % SESSION_COLORS.length : 0];
+      var dot = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + col.border + ';flex-shrink:0;margin-top:4px"></span>';
+      var dur = c.duration ? ' <span class="sli-dur">· ' + c.duration + ' min</span>' : '';
       return '<div class="session-log-item">'
+        + dot
         + '<div class="sli-left">'
         + '<div class="sli-name">' + c.sessionName + '</div>'
-        + '<div class="sli-date">' + fmtDate(c.date) + '</div>'
+        + '<div class="sli-date">' + fmtDate(c.date) + dur + '</div>'
         + '</div>'
         + '<span class="diff-tag ' + diff + '">' + diff.charAt(0).toUpperCase() + diff.slice(1) + '</span>'
         + '<button class="sli-del" onclick="deleteCheckin(' + c.id + ')" title="Delete">\xd7</button>'
@@ -1373,6 +1463,7 @@
   }
 
   function renderTracker() {
+    updateSessionCardColors();
     populateSessionSelect();
     renderCheckins();
     renderWeeklyChart();
