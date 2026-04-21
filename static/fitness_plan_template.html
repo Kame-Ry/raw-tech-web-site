@@ -1265,32 +1265,52 @@
     for (var w = 7; w >= 0; w--) {
       var mon = new Date(mon0); mon.setDate(mon0.getDate() - w * 7); mon.setHours(0,0,0,0);
       var sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23,59,59,999);
-      buckets.push({ mon:mon, sun:sun, label: MONTHS[mon.getMonth()] + ' ' + mon.getDate(), count:0 });
+      buckets.push({ mon:mon, sun:sun, label: MONTHS[mon.getMonth()] + ' ' + mon.getDate(), sessions:{} });
     }
+    // Tally checkins per session per week
     trackerData.checkins.forEach(function(c) {
       var d = new Date(c.date + 'T12:00:00');
       for (var i = 0; i < buckets.length; i++) {
-        if (d >= buckets[i].mon && d <= buckets[i].sun) { buckets[i].count++; break; }
+        if (d >= buckets[i].mon && d <= buckets[i].sun) {
+          buckets[i].sessions[c.sessionName] = (buckets[i].sessions[c.sessionName] || 0) + 1;
+          break;
+        }
       }
     });
-    var hasData = buckets.some(function(b){ return b.count > 0; });
+    var hasData = trackerData.checkins.length > 0 && buckets.some(function(b){ return Object.keys(b.sessions).length > 0; });
     if (noData) noData.style.display = hasData ? 'none' : 'block';
     canvas.style.display = hasData ? 'block' : 'none';
     if (!hasData) return;
+    // Build one dataset per session, coloured to match session cards
+    var orderedSessions = getTrainingSessions();
+    var seenNames = {};
+    trackerData.checkins.forEach(function(c){ seenNames[c.sessionName] = true; });
+    var sessionNames = Object.keys(seenNames).sort(function(a, b) {
+      var ai = orderedSessions.indexOf(a); var bi = orderedSessions.indexOf(b);
+      return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
+    });
+    var datasets = sessionNames.map(function(name) {
+      var idx = orderedSessions.indexOf(name);
+      var col = SESSION_COLORS[idx >= 0 ? idx % SESSION_COLORS.length : 0];
+      return {
+        label: name,
+        data: buckets.map(function(b){ return b.sessions[name] || 0; }),
+        backgroundColor: col.border,
+        borderRadius: 3,
+        borderSkipped: false
+      };
+    });
     weeklyChartInst = new Chart(canvas, {
       type: 'bar',
-      data: {
-        labels: buckets.map(function(b){ return b.label; }),
-        datasets: [{ data: buckets.map(function(b){ return b.count; }),
-          backgroundColor: buckets.map(function(b,i){ return i === 7 ? 'rgba(29,158,117,0.85)' : 'rgba(29,158,117,0.38)'; }),
-          borderRadius: 4, borderSkipped: false }]
-      },
+      data: { labels: buckets.map(function(b){ return b.label; }), datasets: datasets },
       options: {
         responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{ display:false } },
+        plugins:{
+          legend:{ display: sessionNames.length > 1, labels:{ font:{size:10}, color:'#5a5955', boxWidth:10, padding:10 } }
+        },
         scales:{
-          x:{ grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
-          y:{ grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',stepSize:1,precision:0}, min:0, suggestedMax:5 }
+          x:{ stacked:true, grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
+          y:{ stacked:true, grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',stepSize:1,precision:0}, min:0, suggestedMax:5 }
         }
       }
     });
