@@ -254,6 +254,27 @@
   .app-toast .toast-dismiss { background:none;border:none;opacity:.5;padding:2px 6px;font-size:16px; }
   .app-toast .toast-dismiss:hover { opacity:1; }
   .app-toast.nudge { background:#1D9E75; }
+
+  /* ── KG weight badge ───────────────────────────────────── */
+  .kg-val { font-size:11px;color:var(--text3);background:var(--surface2);border-radius:4px;padding:1px 7px;min-width:38px;display:inline-block;text-align:center;cursor:text;transition:background .15s;border:1px solid transparent; }
+  .kg-val:hover { background:var(--surface3);border-color:var(--border); }
+  .kg-val:focus { outline:none;background:rgba(239,159,39,.15);border-color:rgba(239,159,39,.5);box-shadow:0 0 0 2px rgba(239,159,39,.25); }
+
+  /* ── Track filters ─────────────────────────────────────── */
+  .track-filters { display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:10px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm); }
+  .filter-group { display:flex;align-items:center;gap:5px;flex-wrap:wrap; }
+  .filter-label { font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);white-space:nowrap; }
+  .filter-btn { font-size:11px;font-weight:500;padding:3px 9px;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-family:inherit;background:var(--surface);color:var(--text2);transition:background .15s,border-color .15s,color .15s; }
+  .filter-btn:hover:not(.on) { background:var(--surface3); }
+  .filter-btn.on { background:var(--text);border-color:var(--text);color:#fff; }
+
+  /* ── Chart header + type cycle ─────────────────────────── */
+  .chart-header { display:flex;align-items:center;justify-content:space-between;margin:1.75rem 0 .75rem; }
+  .chart-header .eyebrow { margin:0; }
+  .chart-type-btn { font-size:11px;font-weight:500;padding:3px 10px;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-family:inherit;background:var(--surface);color:var(--text2);transition:background .15s; }
+  .chart-type-btn:hover { background:var(--surface2); }
+
+  @media print { .track-filters, .chart-type-btn { display:none !important; } }
 </style>
 </head>
 <body>
@@ -504,18 +525,41 @@
       </div>
       <div>
         <p class="eyebrow">Recent sessions</p>
+        <div class="track-filters" id="track-filters">
+          <div class="filter-group" data-filter-type="session">
+            <span class="filter-label">Type</span>
+            <button class="filter-btn on" data-value="all" onclick="setFilter('session','all',this)">All</button>
+          </div>
+          <div class="filter-group" data-filter-type="difficulty">
+            <span class="filter-label">Difficulty</span>
+            <button class="filter-btn on" data-value="all" onclick="setFilter('difficulty','all',this)">All</button>
+            <button class="filter-btn" data-value="easy" onclick="setFilter('difficulty','easy',this)">Easy</button>
+            <button class="filter-btn" data-value="medium" onclick="setFilter('difficulty','medium',this)">Medium</button>
+            <button class="filter-btn" data-value="hard" onclick="setFilter('difficulty','hard',this)">Hard</button>
+          </div>
+          <div class="filter-group" data-filter-type="duration">
+            <span class="filter-label">Duration</span>
+            <button class="filter-btn on" data-value="all" onclick="setFilter('duration','all',this)">All</button>
+            <button class="filter-btn" data-value="short" onclick="setFilter('duration','short',this)">&lt;30m</button>
+            <button class="filter-btn" data-value="mid" onclick="setFilter('duration','mid',this)">30–60m</button>
+            <button class="filter-btn" data-value="long" onclick="setFilter('duration','long',this)">&gt;60m</button>
+          </div>
+        </div>
         <div class="card" id="checkin-list">
           <p class="no-data">No sessions logged yet.</p>
         </div>
       </div>
     </div>
 
-    <p class="eyebrow">Consistency — last 8 weeks</p>
+    <div class="chart-header">
+      <p class="eyebrow" id="chart-title">Sessions — last 8 weeks</p>
+      <button class="chart-type-btn" id="chart-type-btn" onclick="cycleChartType()">Next: Line →</button>
+    </div>
     <div class="card">
-      <div class="chart-wrap" style="height:160px">
+      <div class="chart-wrap" id="chart-wrap" style="height:200px">
         <canvas id="weekly-chart" style="display:none"></canvas>
       </div>
-      <p class="no-data" id="weekly-no-data">Log sessions to see your weekly consistency.</p>
+      <p class="no-data" id="weekly-no-data">Log sessions to see your chart.</p>
     </div>
 
   </div>
@@ -567,6 +611,90 @@
   ];
   var SESSION_LETTERS = 'ABCDEFGH';
 
+  // ── KG editable fields ───────────────────────────────────────
+  function ensureKgEditable() {
+    document.querySelectorAll('.kg-val').forEach(function(el){
+      el.setAttribute('contenteditable','true');
+    });
+  }
+
+  // ── Tracker filters ──────────────────────────────────────────
+  var activeFilters = { difficulty:'all', duration:'all', session:'all' };
+
+  function setFilter(type, value, btn) {
+    activeFilters[type] = value;
+    var group = btn.closest('.filter-group');
+    group.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('on'); });
+    btn.classList.add('on');
+    renderCheckins();
+    renderWeeklyChart();
+  }
+
+  function applyFilters(list) {
+    return list.filter(function(c) {
+      if (activeFilters.difficulty !== 'all' && (c.difficulty || 'medium') !== activeFilters.difficulty) return false;
+      if (activeFilters.session !== 'all' && c.sessionName !== activeFilters.session) return false;
+      if (activeFilters.duration !== 'all') {
+        var dur = c.duration || 0;
+        if (activeFilters.duration === 'short' && dur >= 30) return false;
+        if (activeFilters.duration === 'mid' && (dur < 30 || dur > 60)) return false;
+        if (activeFilters.duration === 'long' && dur <= 60) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderSessionFilterButtons() {
+    var group = document.querySelector('.filter-group[data-filter-type="session"]');
+    if (!group) return;
+    var sessions = getTrainingSessions();
+    // Rebuild buttons: keep All, then one per session
+    group.innerHTML = '<span class="filter-label">Type</span>';
+    var allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn' + (activeFilters.session === 'all' ? ' on' : '');
+    allBtn.setAttribute('data-value','all');
+    allBtn.textContent = 'All';
+    allBtn.onclick = function(){ setFilter('session','all',allBtn); };
+    group.appendChild(allBtn);
+    sessions.forEach(function(name) {
+      var b = document.createElement('button');
+      b.className = 'filter-btn' + (activeFilters.session === name ? ' on' : '');
+      b.setAttribute('data-value', name);
+      var label = name.length > 14 ? name.slice(0,14)+'…' : name;
+      b.textContent = label;
+      b.onclick = function(){ setFilter('session', name, b); };
+      group.appendChild(b);
+    });
+    // Reset if active session was removed
+    if (activeFilters.session !== 'all' && sessions.indexOf(activeFilters.session) < 0) {
+      activeFilters.session = 'all';
+      allBtn.classList.add('on');
+    }
+  }
+
+  // ── Chart type cycling ───────────────────────────────────────
+  var chartType = 'bar';
+  var CHART_TYPES = ['bar','line','doughnut'];
+
+  function cycleChartType() {
+    var idx = CHART_TYPES.indexOf(chartType);
+    chartType = CHART_TYPES[(idx + 1) % CHART_TYPES.length];
+    renderWeeklyChart();
+  }
+
+  function getWeekBuckets() {
+    var now = new Date(); now.setHours(12,0,0,0);
+    var day = now.getDay();
+    var mon0 = new Date(now); mon0.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+    var buckets = [];
+    for (var w = 7; w >= 0; w--) {
+      var mon = new Date(mon0); mon.setDate(mon0.getDate() - w * 7); mon.setHours(0,0,0,0);
+      var sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23,59,59,999);
+      buckets.push({ mon:mon, sun:sun, label:MONTHS[mon.getMonth()]+' '+mon.getDate(), sessions:{}, totalDur:0 });
+    }
+    return buckets;
+  }
+
   function updateSessionCardColors() {
     document.querySelectorAll('#training-sessions .session-card').forEach(function(card, i) {
       var col = SESSION_COLORS[i % SESSION_COLORS.length];
@@ -617,6 +745,7 @@
   function lock() {
     unlocked = false;
     document.querySelectorAll('.e').forEach(function(el){ el.removeAttribute('contenteditable'); });
+    ensureKgEditable();
     document.body.classList.remove('edit-on');
     document.getElementById('lockbtn').classList.remove('unlocked');
     document.getElementById('lockico').innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>';
@@ -655,6 +784,7 @@
       if (restored) {
         updateBars();
         document.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
+        ensureKgEditable();
       }
       return restored;
     } catch(e) { return false; }
@@ -802,6 +932,7 @@
       + '</span>'
       + '<span style="display:flex;align-items:center;gap:4px;flex-shrink:0">'
       + '<span class="rv e" contenteditable="true">3 × 10</span>'
+      + '<span class="kg-val" contenteditable="true" title="Working weight (always editable)">-- kg</span>'
       + '<button class="row-del" onclick="removeRow(this)" title="Remove">×</button>'
       + '</span>';
     return row;
@@ -1047,6 +1178,7 @@
   initTrackDates();
   if (!restoreState()) seedDefaults();
   injectDuplicateButtons();
+  ensureKgEditable();
 
   function sw(btn, id) {
     document.querySelectorAll('.nt').forEach(function(b){ b.classList.remove('on'); });
@@ -1159,7 +1291,7 @@
     var el = document.getElementById('checkin-list');
     if (!el) return;
     var sessions = getTrainingSessions();
-    var list = trackerData.checkins.slice(0, 15);
+    var list = applyFilters(trackerData.checkins).slice(0, 15);
     if (!list.length) { el.innerHTML = '<p class="no-data">No sessions logged yet.</p>'; return; }
     el.innerHTML = list.map(function(c) {
       var diff = c.difficulty || 'medium';
@@ -1197,69 +1329,142 @@
   function renderWeeklyChart() {
     var canvas = document.getElementById('weekly-chart');
     var noData = document.getElementById('weekly-no-data');
+    var titleEl = document.getElementById('chart-title');
+    var btn = document.getElementById('chart-type-btn');
     if (!canvas) return;
     if (weeklyChartInst) { weeklyChartInst.destroy(); weeklyChartInst = null; }
-    var now = new Date(); now.setHours(12,0,0,0);
-    var day = now.getDay();
-    var mon0 = new Date(now); mon0.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-    var buckets = [];
-    for (var w = 7; w >= 0; w--) {
-      var mon = new Date(mon0); mon.setDate(mon0.getDate() - w * 7); mon.setHours(0,0,0,0);
-      var sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23,59,59,999);
-      buckets.push({ mon:mon, sun:sun, label: MONTHS[mon.getMonth()] + ' ' + mon.getDate(), sessions:{} });
-    }
-    // Tally checkins per session per week
-    trackerData.checkins.forEach(function(c) {
-      var d = new Date(c.date + 'T12:00:00');
-      for (var i = 0; i < buckets.length; i++) {
-        if (d >= buckets[i].mon && d <= buckets[i].sun) {
-          buckets[i].sessions[c.sessionName] = (buckets[i].sessions[c.sessionName] || 0) + 1;
-          break;
-        }
-      }
-    });
-    var hasData = trackerData.checkins.length > 0 && buckets.some(function(b){ return Object.keys(b.sessions).length > 0; });
+
+    var TITLES = { bar:'Sessions — last 8 weeks', line:'Duration — last 8 weeks (min)', doughnut:'Difficulty breakdown' };
+    var SHORT = { bar:'Bar', line:'Line', doughnut:'Split' };
+    var nextType = CHART_TYPES[(CHART_TYPES.indexOf(chartType) + 1) % CHART_TYPES.length];
+    if (titleEl) titleEl.textContent = TITLES[chartType];
+    if (btn) btn.textContent = 'Next: ' + SHORT[nextType] + ' →';
+
+    var filtered = applyFilters(trackerData.checkins);
+    var hasData = filtered.length > 0;
     if (noData) noData.style.display = hasData ? 'none' : 'block';
     canvas.style.display = hasData ? 'block' : 'none';
     if (!hasData) return;
-    // Build one dataset per session, coloured to match session cards
+
     var orderedSessions = getTrainingSessions();
-    var seenNames = {};
-    trackerData.checkins.forEach(function(c){ seenNames[c.sessionName] = true; });
-    var sessionNames = Object.keys(seenNames).sort(function(a, b) {
-      var ai = orderedSessions.indexOf(a); var bi = orderedSessions.indexOf(b);
-      return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
-    });
-    var datasets = sessionNames.map(function(name) {
-      var idx = orderedSessions.indexOf(name);
-      var col = SESSION_COLORS[idx >= 0 ? idx % SESSION_COLORS.length : 0];
-      return {
-        label: name,
-        data: buckets.map(function(b){ return b.sessions[name] || 0; }),
-        backgroundColor: col.border,
-        borderRadius: 3,
-        borderSkipped: false
-      };
-    });
-    weeklyChartInst = new Chart(canvas, {
-      type: 'bar',
-      data: { labels: buckets.map(function(b){ return b.label; }), datasets: datasets },
-      options: {
-        responsive:true, maintainAspectRatio:false,
-        plugins:{
-          legend:{ display: sessionNames.length > 1, labels:{ font:{size:10}, color:'#5a5955', boxWidth:10, padding:10 } }
-        },
-        scales:{
-          x:{ stacked:true, grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
-          y:{ stacked:true, grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',stepSize:1,precision:0}, min:0, suggestedMax:5 }
+
+    if (chartType === 'bar') {
+      var buckets = getWeekBuckets();
+      filtered.forEach(function(c) {
+        var d = new Date(c.date + 'T12:00:00');
+        for (var i = 0; i < buckets.length; i++) {
+          if (d >= buckets[i].mon && d <= buckets[i].sun) {
+            buckets[i].sessions[c.sessionName] = (buckets[i].sessions[c.sessionName] || 0) + 1;
+            break;
+          }
         }
-      }
-    });
+      });
+      var seenNames = {};
+      filtered.forEach(function(c){ seenNames[c.sessionName] = true; });
+      var sessionNames = Object.keys(seenNames).sort(function(a, b) {
+        var ai = orderedSessions.indexOf(a); var bi = orderedSessions.indexOf(b);
+        return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
+      });
+      var datasets = sessionNames.map(function(name) {
+        var idx = orderedSessions.indexOf(name);
+        var col = SESSION_COLORS[idx >= 0 ? idx % SESSION_COLORS.length : 0];
+        return { label:name, data:buckets.map(function(b){ return b.sessions[name]||0; }), backgroundColor:col.border, borderRadius:3, borderSkipped:false };
+      });
+      weeklyChartInst = new Chart(canvas, {
+        type: 'bar',
+        data: { labels:buckets.map(function(b){ return b.label; }), datasets:datasets },
+        options: {
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:sessionNames.length>1, labels:{ font:{size:10}, color:'#5a5955', boxWidth:10, padding:10 } } },
+          scales:{
+            x:{ stacked:true, grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
+            y:{ stacked:true, grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',stepSize:1,precision:0}, min:0, suggestedMax:5 }
+          }
+        }
+      });
+
+    } else if (chartType === 'line') {
+      var buckets = getWeekBuckets();
+      var hasDur = filtered.some(function(c){ return c.duration && c.duration > 0; });
+      filtered.forEach(function(c) {
+        var d = new Date(c.date + 'T12:00:00');
+        for (var i = 0; i < buckets.length; i++) {
+          if (d >= buckets[i].mon && d <= buckets[i].sun) {
+            buckets[i].totalDur += hasDur ? (c.duration || 0) : 1;
+            break;
+          }
+        }
+      });
+      if (!hasDur && titleEl) titleEl.textContent = 'Sessions — last 8 weeks (line)';
+      weeklyChartInst = new Chart(canvas, {
+        type: 'line',
+        data: {
+          labels: buckets.map(function(b){ return b.label; }),
+          datasets: [{
+            label: hasDur ? 'Minutes' : 'Sessions',
+            data: buckets.map(function(b){ return b.totalDur; }),
+            borderColor: '#1D9E75',
+            backgroundColor: 'rgba(29,158,117,.1)',
+            fill: true,
+            tension: 0.35,
+            pointRadius: 4,
+            pointBackgroundColor: '#1D9E75',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:false } },
+          scales:{
+            x:{ grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
+            y:{ grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',precision:0}, min:0 }
+          }
+        }
+      });
+
+    } else {
+      var counts = { easy:0, medium:0, hard:0 };
+      filtered.forEach(function(c){ var d = c.difficulty||'medium'; if (counts[d]!==undefined) counts[d]++; });
+      var total = counts.easy + counts.medium + counts.hard;
+      weeklyChartInst = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+          labels: ['Easy','Medium','Hard'],
+          datasets: [{
+            data: [counts.easy, counts.medium, counts.hard],
+            backgroundColor: ['#1D9E75','#E07B27','#E24B4A'],
+            borderColor: '#fff',
+            borderWidth: 2,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend:{
+              position:'right',
+              labels:{
+                font:{size:11}, color:'#5a5955', boxWidth:12, padding:14,
+                generateLabels: function(chart) {
+                  return chart.data.labels.map(function(label, i) {
+                    var val = chart.data.datasets[0].data[i];
+                    var pct = total > 0 ? Math.round(val/total*100) : 0;
+                    return { text:label+' ('+pct+'%)', fillStyle:chart.data.datasets[0].backgroundColor[i], strokeStyle:'#fff', lineWidth:2, index:i };
+                  });
+                }
+              }
+            }
+          },
+          cutout: '60%'
+        }
+      });
+    }
   }
 
   function renderTracker() {
     updateSessionCardColors();
     populateSessionSelect();
+    renderSessionFilterButtons();
     renderCheckins();
     renderWeeklyChart();
   }
