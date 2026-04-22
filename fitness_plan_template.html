@@ -51,7 +51,7 @@
 
   /* Two-column layouts on desktop */
   @media (min-width: 720px) {
-    .stat-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .stat-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
     .day-grid { grid-template-columns:repeat(7,minmax(0,1fr)); }
     .day.span2 { grid-column:span 1; }
     #training-sessions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start; }
@@ -76,10 +76,9 @@
   .rest-toggle:hover { background:#FFF8E6;border-color:#EF9F27;color:#854F0B; }
   .day.rest .rest-toggle { background:var(--amber-bg);border-color:#EF9F27;color:var(--amber-text); }
   body.edit-on .rest-toggle { display:flex; }
-  .d-label { font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px; }
-  .d-title { font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;line-height:1.4; }
-  .d-sub { font-size:11px;color:var(--text2); }
+  .d-label { font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px; }
   .pill { display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-bottom:6px;letter-spacing:.02em; }
+  .day .type-pill { display:block;width:100%;text-align:center;font-size:13px;padding:8px 10px;margin-bottom:0;letter-spacing:0; }
   .p-teal { background:var(--teal-bg);color:var(--teal-text); }
   .p-blue { background:var(--blue-bg);color:var(--blue-text); }
   .p-amber { background:var(--amber-bg);color:var(--amber-text); }
@@ -275,6 +274,17 @@
   .chart-type-btn:hover { background:var(--surface2); }
 
   @media print { .track-filters, .chart-type-btn { display:none !important; } }
+
+  /* ── Drag to reorder ───────────────────────────────────── */
+  .drag-handle { display:none;cursor:grab;color:var(--text3);font-size:15px;padding:0 5px 0 0;flex-shrink:0;align-items:center;line-height:1;user-select:none; }
+  body.edit-on .drag-handle { display:flex; }
+  .drag-handle:active { cursor:grabbing; }
+  .is-dragging { opacity:0.3; }
+  .drop-before { border-top:2px solid var(--teal) !important; }
+  .drop-after { border-bottom:2px solid var(--teal) !important; }
+  .meal-drag-handle { display:none;position:absolute;top:50%;left:8px;transform:translateY(-50%);cursor:grab;color:var(--text3);font-size:15px;line-height:1;user-select:none; }
+  body.edit-on .meal-drag-handle { display:block; }
+  body.edit-on .meal-card { padding-left:1.75rem; }
 </style>
 </head>
 <body>
@@ -292,7 +302,7 @@
 
 <div class="edit-banner" id="banner">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-  Edit mode — tap any field to edit it. Click coloured pills to change session type.
+  Edit mode — tap any field to edit. Click session pills to cycle. Drag ⠿ to reorder.
   <span>Ctrl/Cmd+E to toggle.</span>
   <button class="banner-clear" onclick="clearSaved()">Reset to defaults</button>
 </div>
@@ -343,7 +353,6 @@
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </button>
-      <div class="avatar e">[X]</div>
     </div>
   </div>
   <nav class="nav">
@@ -372,60 +381,42 @@
         <div class="stat-label">Session length</div>
         <div class="stat-val"><span class="e">[X]</span> <span class="stat-unit">min</span></div>
       </div>
-      <div class="stat">
-        <div class="stat-label">Preferred time</div>
-        <div class="stat-val" style="font-size:15px;padding-top:3px"><span class="e">Morning</span></div>
-      </div>
     </div>
     <div class="day-grid" id="day-grid">
       <div class="day" data-day="mon">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Monday</div>
-        <button class="pill type-pill" data-type="push" onclick="cycleType(this)">Push</button>
-        <div class="d-title e">[Session focus]</div>
-        <div class="d-sub e">[Duration · time]</div>
+        <button class="pill type-pill" data-session-idx="0" onclick="cycleSession(this)">Session A</button>
       </div>
       <div class="day" data-day="tue">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Tuesday</div>
-        <button class="pill type-pill" data-type="cardio" onclick="cycleType(this)">Cardio</button>
-        <div class="d-title e">[Session focus]</div>
-        <div class="d-sub e">[Duration]</div>
+        <button class="pill type-pill" data-session-idx="1" onclick="cycleSession(this)">Session B</button>
       </div>
       <div class="day" data-day="wed">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Wednesday</div>
-        <button class="pill type-pill" data-type="pull" onclick="cycleType(this)">Pull</button>
-        <div class="d-title e">[Session focus]</div>
-        <div class="d-sub e">[Duration · time]</div>
+        <button class="pill type-pill" data-session-idx="2" onclick="cycleSession(this)">Session C</button>
       </div>
       <div class="day rest" data-day="thu">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Thursday</div>
-        <button class="pill type-pill" data-type="rest" onclick="cycleType(this)">Rest</button>
-        <div class="d-title e">Recovery</div>
-        <div class="d-sub e">[Optional note]</div>
+        <button class="pill type-pill" data-type="rest" onclick="cycleSession(this)">Rest</button>
       </div>
       <div class="day" data-day="fri">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Friday</div>
-        <button class="pill type-pill" data-type="cardio" onclick="cycleType(this)">Cardio</button>
-        <div class="d-title e">[Session focus]</div>
-        <div class="d-sub e">[Duration]</div>
+        <button class="pill type-pill" data-session-idx="0" onclick="cycleSession(this)">Session A</button>
       </div>
       <div class="day rest" data-day="sat">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Saturday</div>
-        <button class="pill type-pill" data-type="rest" onclick="cycleType(this)">Rest</button>
-        <div class="d-title e">[Rest or activity]</div>
-        <div class="d-sub e">[Optional note]</div>
+        <button class="pill type-pill" data-type="rest" onclick="cycleSession(this)">Rest</button>
       </div>
       <div class="day span2" data-day="sun">
         <button class="rest-toggle" onclick="toggleRest(this)" title="Toggle rest day">Z</button>
         <div class="d-label">Sunday</div>
-        <button class="pill type-pill" data-type="full" onclick="cycleType(this)">Full body</button>
-        <div class="d-title e">[Session focus]</div>
-        <div class="d-sub e">[Duration · time]</div>
+        <button class="pill type-pill" data-session-idx="1" onclick="cycleSession(this)">Session B</button>
       </div>
     </div>
   </div>
@@ -618,6 +609,20 @@
     });
   }
 
+  function injectKgFields() {
+    document.querySelectorAll('.exercises-list .row-with-del').forEach(function(row) {
+      if (row.querySelector('.kg-val')) return;
+      var rv = row.querySelector('.rv');
+      if (!rv) return;
+      var kg = document.createElement('span');
+      kg.className = 'kg-val';
+      kg.setAttribute('contenteditable', 'true');
+      kg.title = 'Working weight (always editable)';
+      kg.textContent = '-- kg';
+      rv.insertAdjacentElement('afterend', kg);
+    });
+  }
+
   // ── Tracker filters ──────────────────────────────────────────
   var activeFilters = { difficulty:'all', duration:'all', session:'all' };
 
@@ -710,13 +715,15 @@
         if (!badge) {
           badge = document.createElement('span');
           badge.className = 'sess-badge';
-          head.insertBefore(badge, head.firstChild);
+          var handle = head.querySelector('.drag-handle');
+          head.insertBefore(badge, handle ? handle.nextSibling : head.firstChild);
         }
         badge.textContent = letter;
         badge.style.background = col.bg;
         badge.style.color = col.text;
       }
     });
+    refreshSchedulePills();
   }
 
   var unlocked = false;
@@ -864,6 +871,11 @@
           if (el && state[id] !== undefined) el.innerHTML = state[id];
         });
         updateBars();
+        injectDuplicateButtons();
+        injectDragHandles();
+        injectKgFields();
+        ensureKgEditable();
+        refreshSchedulePills();
         if (state._tracker) {
           trackerData = state._tracker;
           saveTracker();
@@ -903,6 +915,7 @@
     wrap.className = 'session-card';
     wrap.innerHTML = ''
       + '<div class="section-head">'
+      + '<span class="drag-handle" title="Drag to reorder">⠿</span>'
       + '<p class="eyebrow e" contenteditable="true" style="margin:0;flex:1">Session — [focus] ([day])</p>'
       + '<button class="session-dup" onclick="duplicateSession(this)">Duplicate</button>'
       + '<button class="session-del" onclick="removeSession(this)">Remove</button>'
@@ -912,6 +925,7 @@
       + '<button class="row-add-btn" onclick="addExercise(this)">+ Add exercise</button>'
       + '</div>';
     container.appendChild(wrap);
+    makeDraggable(wrap);
     var list = wrap.querySelector('.exercises-list');
     for (var i = 0; i < 3; i++) {
       list.appendChild(buildExerciseRow());
@@ -923,6 +937,7 @@
     var row = document.createElement('div');
     row.className = 'row row-with-del';
     row.innerHTML = ''
+      + '<span class="drag-handle" title="Drag to reorder">⠿</span>'
       + '<span style="display:flex;align-items:center;gap:2px;flex:1;min-width:0">'
       + '<span class="rn e" contenteditable="true">Exercise name</span>'
       + '<span class="ex-link-wrap"></span>'
@@ -935,6 +950,7 @@
       + '<span class="kg-val" contenteditable="true" title="Working weight (always editable)">-- kg</span>'
       + '<button class="row-del" onclick="removeRow(this)" title="Remove">×</button>'
       + '</span>';
+    makeDraggable(row);
     return row;
   }
 
@@ -1040,9 +1056,11 @@
     var row = document.createElement('div');
     row.className = 'ms-row ms-row-editable';
     row.innerHTML = ''
+      + '<span class="drag-handle" title="Drag to reorder">⠿</span>'
       + '<div class="ms-tag e" contenteditable="true">Wks X</div>'
       + '<div class="ms-text e" contenteditable="true" style="flex:1">[What happens at this stage.]</div>'
       + '<button class="ms-del" onclick="removeMilestone(this)" title="Remove">×</button>';
+    makeDraggable(row);
     container.appendChild(row);
   }
 
@@ -1065,45 +1083,83 @@
     container.appendChild(row);
   }
 
-  // Rest day toggle
-  var TYPES = ['push', 'pull', 'full', 'cardio', 'core', 'mobility'];
-  var TYPE_LABELS = { push:'Push', pull:'Pull', full:'Full body', cardio:'Cardio', core:'Core', mobility:'Mobility', rest:'Rest' };
+  // ── Schedule session pills ───────────────────────────────────
+  function applySessionPill(btn, idx) {
+    var col = SESSION_COLORS[idx % SESSION_COLORS.length];
+    var letter = SESSION_LETTERS[idx % SESSION_LETTERS.length];
+    btn.setAttribute('data-session-idx', idx);
+    btn.removeAttribute('data-type');
+    var cards = document.querySelectorAll('#training-sessions .session-card');
+    var eyebrow = cards[idx] ? cards[idx].querySelector('.eyebrow') : null;
+    var focus = eyebrow ? eyebrow.innerText.trim() : '';
+    btn.innerText = focus ? 'Session ' + letter + ' — ' + focus : 'Session ' + letter;
+    btn.style.background = col.bg;
+    btn.style.color = col.text;
+  }
 
-  function cycleType(btn) {
+  function setRestPill(btn) {
+    btn.setAttribute('data-type', 'rest');
+    btn.removeAttribute('data-session-idx');
+    btn.innerText = 'Rest';
+    btn.style.background = '';
+    btn.style.color = '';
+  }
+
+  function refreshSchedulePills() {
+    var sessionCount = document.querySelectorAll('#training-sessions .session-card').length;
+    document.querySelectorAll('#day-grid .type-pill').forEach(function(btn) {
+      // Migrate old saved state: data-type="push/pull/etc" → session index 0
+      if (!btn.getAttribute('data-session-idx') && btn.getAttribute('data-type') !== 'rest') {
+        btn.setAttribute('data-session-idx', '0');
+        btn.removeAttribute('data-type');
+      }
+      var idx = btn.getAttribute('data-session-idx');
+      if (idx !== null) {
+        var i = parseInt(idx);
+        if (sessionCount === 0 || i >= sessionCount) {
+          btn.closest('.day').classList.add('rest');
+          setRestPill(btn);
+        } else {
+          applySessionPill(btn, i);
+        }
+      }
+    });
+  }
+
+  // Backward compat: old saved state may have onclick="cycleType(this)"
+  function cycleType(btn) { cycleSession(btn); }
+
+  function cycleSession(btn) {
     if (!unlocked) return;
-    var current = btn.getAttribute('data-type');
     var day = btn.closest('.day');
-    if (current === 'rest') {
-      // Coming off rest — go to push as default
+    var sessionCount = document.querySelectorAll('#training-sessions .session-card').length;
+    var isRest = btn.getAttribute('data-type') === 'rest';
+    var nextIdx;
+    if (isRest) {
+      nextIdx = 0;
       day.classList.remove('rest');
-      btn.setAttribute('data-type', 'push');
-      btn.innerText = TYPE_LABELS.push;
     } else {
-      var idx = TYPES.indexOf(current);
-      var next = TYPES[(idx + 1) % TYPES.length];
-      btn.setAttribute('data-type', next);
-      btn.innerText = TYPE_LABELS[next];
+      var currentIdx = parseInt(btn.getAttribute('data-session-idx') || '0');
+      nextIdx = currentIdx + 1;
+      if (sessionCount === 0 || nextIdx >= sessionCount) {
+        day.classList.add('rest');
+        setRestPill(btn);
+        return;
+      }
     }
+    applySessionPill(btn, nextIdx);
   }
 
   function toggleRest(btn) {
     if (!unlocked) return;
     var day = btn.closest('.day');
     var pill = day.querySelector('.type-pill');
-    var title = day.querySelector('.d-title');
-    var sub = day.querySelector('.d-sub');
     if (day.classList.contains('rest')) {
       day.classList.remove('rest');
-      pill.setAttribute('data-type', 'push');
-      pill.innerText = TYPE_LABELS.push;
-      title.innerText = '[Session focus]';
-      sub.innerText = '[Duration · time]';
+      applySessionPill(pill, 0);
     } else {
       day.classList.add('rest');
-      pill.setAttribute('data-type', 'rest');
-      pill.innerText = 'Rest';
-      title.innerText = 'Recovery';
-      sub.innerText = '[Optional note]';
+      setRestPill(pill);
     }
   }
 
@@ -1113,11 +1169,13 @@
     var card = document.createElement('div');
     card.className = 'card card-accent meal-card';
     card.innerHTML = ''
+      + '<span class="meal-drag-handle" title="Drag to reorder">⠿</span>'
       + '<button class="del-btn" onclick="removeCard(this)" title="Remove">×</button>'
       + '<button class="meal-dup" onclick="duplicateMeal(this)" title="Duplicate">⧉</button>'
       + '<div class="meal-label e" contenteditable="true">Meal — time</div>'
       + '<div class="meal-main e" contenteditable="true">[Meal description]</div>'
       + '<div class="note"><strong class="e" contenteditable="true">Note title</strong><span class="e" contenteditable="true">[Suggested swap or improvement.]</span></div>';
+    makeDraggable(card);
     container.appendChild(card);
   }
 
@@ -1177,8 +1235,16 @@
   loadTracker();
   initTrackDates();
   if (!restoreState()) seedDefaults();
+  // Remove legacy "Preferred time" stat if restored from old saved state
+  document.querySelectorAll('#stat-grid .stat').forEach(function(stat) {
+    var label = stat.querySelector('.stat-label');
+    if (label && label.textContent.trim() === 'Preferred time') stat.remove();
+  });
   injectDuplicateButtons();
+  injectDragHandles();
+  injectKgFields();
   ensureKgEditable();
+  refreshSchedulePills();
 
   function sw(btn, id) {
     document.querySelectorAll('.nt').forEach(function(b){ b.classList.remove('on'); });
@@ -1469,6 +1535,107 @@
     renderWeeklyChart();
   }
   // ─────────────────────────────────────────────────────────────
+
+  // ── Drag to reorder ──────────────────────────────────────────
+  var dnd = { src: null, srcParent: null };
+
+  function onDragStart(e) {
+    if (!unlocked) { e.preventDefault(); return; }
+    dnd.src = this;
+    dnd.srcParent = this.parentNode;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', '');
+    setTimeout(function(){ if (dnd.src) dnd.src.classList.add('is-dragging'); }, 0);
+  }
+
+  function onDragOver(e) {
+    if (!dnd.src || dnd.src === this || dnd.srcParent !== this.parentNode) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    clearDropLines();
+    var rect = this.getBoundingClientRect();
+    if (e.clientY < rect.top + rect.height / 2) this.classList.add('drop-before');
+    else this.classList.add('drop-after');
+  }
+
+  function onDragLeave() {
+    this.classList.remove('drop-before', 'drop-after');
+  }
+
+  function onDrop(e) {
+    e.stopPropagation(); e.preventDefault();
+    clearDropLines();
+    if (!dnd.src || dnd.src === this || dnd.srcParent !== this.parentNode) return;
+    var rect = this.getBoundingClientRect();
+    if (e.clientY < rect.top + rect.height / 2) this.parentNode.insertBefore(dnd.src, this);
+    else this.parentNode.insertBefore(dnd.src, this.nextSibling);
+    saveState();
+    updateSessionCardColors();
+  }
+
+  function onDragEnd() {
+    if (dnd.src) dnd.src.classList.remove('is-dragging');
+    clearDropLines();
+    dnd.src = null; dnd.srcParent = null;
+  }
+
+  function clearDropLines() {
+    document.querySelectorAll('.drop-before, .drop-after').forEach(function(el) {
+      el.classList.remove('drop-before', 'drop-after');
+    });
+  }
+
+  function makeDraggable(el) {
+    if (el.getAttribute('data-draggable')) return;
+    el.setAttribute('draggable', 'true');
+    el.setAttribute('data-draggable', '1');
+    el.addEventListener('dragstart', onDragStart);
+    el.addEventListener('dragover', onDragOver);
+    el.addEventListener('dragleave', onDragLeave);
+    el.addEventListener('drop', onDrop);
+    el.addEventListener('dragend', onDragEnd);
+  }
+
+  function addDragHandle(parent, insertBefore, isMeal) {
+    var container = insertBefore || parent;
+    if (isMeal) {
+      if (container.querySelector('.meal-drag-handle')) return;
+      var h = document.createElement('span');
+      h.className = 'meal-drag-handle'; h.title = 'Drag to reorder'; h.textContent = '⠿';
+      container.insertBefore(h, container.firstChild);
+    } else {
+      if (container.querySelector('.drag-handle')) return;
+      var h = document.createElement('span');
+      h.className = 'drag-handle'; h.title = 'Drag to reorder'; h.textContent = '⠿';
+      container.insertBefore(h, container.firstChild);
+    }
+  }
+
+  function injectDragHandles() {
+    document.querySelectorAll('#training-sessions .session-card').forEach(function(card) {
+      var head = card.querySelector('.section-head');
+      if (head) addDragHandle(null, head, false);
+      makeDraggable(card);
+    });
+    document.querySelectorAll('.exercises-list .row-with-del').forEach(function(row) {
+      addDragHandle(row, null, false);
+      makeDraggable(row);
+    });
+    document.querySelectorAll('#weekday-meals .meal-card, #weekend-meals .meal-card').forEach(function(card) {
+      addDragHandle(card, null, true);
+      makeDraggable(card);
+    });
+    document.querySelectorAll('#milestones-card .ms-row').forEach(function(row) {
+      addDragHandle(row, null, false);
+      makeDraggable(row);
+    });
+  }
+  // ─────────────────────────────────────────────────────────────
+
+  // Live-update schedule pills when session titles are edited
+  document.getElementById('training-sessions').addEventListener('input', function(e) {
+    if (e.target.classList.contains('eyebrow')) refreshSchedulePills();
+  });
 
   // Keyboard shortcut: Ctrl/Cmd + E to toggle edit mode
   document.addEventListener('keydown', function(e) {
