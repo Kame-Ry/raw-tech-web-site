@@ -6,7 +6,6 @@
 <title>Fitness Plan</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -60,8 +59,7 @@
     #weekday-meals .meal-card, #weekend-meals .meal-card { margin:0; }
     .diet-top { display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start; }
     .diet-top > * { margin:0 !important; }
-    .m-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start; }
-    .day { padding:.75rem; }
+.day { padding:.75rem; }
     .day .d-title { font-size:12px; }
     .day .d-sub { font-size:10px; }
   }
@@ -203,37 +201,7 @@
   .dl-menu button svg { width:14px;height:14px;stroke:var(--text2);flex-shrink:0; }
   .dl-capturing * { -webkit-print-color-adjust:exact;print-color-adjust:exact; }
 
-  /* ── Track tab ─────────────────────────────────────────────── */
-  .track-two { display:grid;grid-template-columns:1fr;gap:10px;align-items:start;margin-bottom:10px; }
-  @media (min-width:720px) { .track-two { grid-template-columns:1fr 1fr; } }
-  .track-form { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem; }
-  .form-label { font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block;letter-spacing:.04em; }
-  .form-input { width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s; }
-  .form-input:focus { border-color:rgba(0,0,0,.3); }
-  .form-select { appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a5955' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px; }
-  .diff-btns { display:flex;gap:6px; }
-  .diff-btn { flex:1;padding:7px 4px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;background:var(--surface);color:var(--text2);transition:background .15s,border-color .15s,color .15s; }
-  .diff-btn:hover:not(.on) { background:var(--surface2); }
-  .diff-btn.easy.on  { background:#E1F5EE;border-color:#1D9E75;color:#085041; }
-  .diff-btn.medium.on { background:var(--amber-bg);border-color:#EF9F27;color:var(--amber-text); }
-  .diff-btn.hard.on  { background:#FCEBEB;border-color:#E24B4A;color:#A32D2D; }
-  .save-btn { width:100%;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:var(--text);border:1px solid var(--text);color:#fff;margin-top:10px;transition:opacity .15s; }
-  .save-btn:hover { opacity:.85; }
-  .diff-tag { display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;letter-spacing:.02em;flex-shrink:0;white-space:nowrap; }
-  .diff-tag.easy   { background:#E1F5EE;color:#085041; }
-  .diff-tag.medium { background:var(--amber-bg);color:var(--amber-text); }
-  .diff-tag.hard   { background:#FCEBEB;color:#A32D2D; }
-  .session-log-item { padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start; }
-  .session-log-item:last-child { border-bottom:none; }
-  .sli-left { flex:1;min-width:0; }
-  .sli-date { font-size:11px;color:var(--text3);margin-bottom:2px; }
-  .sli-name { font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px; }
-  .sli-exs { font-size:11px;color:var(--text2);line-height:1.6; }
-  .sli-del { width:22px;height:22px;border:none;background:transparent;color:var(--text3);cursor:pointer;border-radius:50%;font-size:14px;padding:0;flex-shrink:0;display:flex;align-items:center;justify-content:center; }
-  .sli-del:hover { background:#FCEBEB;color:#A32D2D; }
-  .chart-wrap { position:relative;height:200px;margin-top:8px; }
   .no-data { font-size:12px;color:var(--text3);text-align:center;padding:1.5rem 0; }
-  @media print { #tr { display:none !important; } }
 
   /* Session letter badges */
   .sess-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:700;flex-shrink:0;margin-right:4px;}
@@ -258,22 +226,6 @@
   .kg-val { font-size:11px;color:var(--text3);background:var(--surface2);border-radius:4px;padding:1px 7px;min-width:38px;display:inline-block;text-align:center;cursor:text;transition:background .15s;border:1px solid transparent; }
   .kg-val:hover { background:var(--surface3);border-color:var(--border); }
   .kg-val:focus { outline:none;background:rgba(239,159,39,.15);border-color:rgba(239,159,39,.5);box-shadow:0 0 0 2px rgba(239,159,39,.25); }
-
-  /* ── Track filters ─────────────────────────────────────── */
-  .track-filters { display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:10px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-sm); }
-  .filter-group { display:flex;align-items:center;gap:5px;flex-wrap:wrap; }
-  .filter-label { font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);white-space:nowrap; }
-  .filter-btn { font-size:11px;font-weight:500;padding:3px 9px;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-family:inherit;background:var(--surface);color:var(--text2);transition:background .15s,border-color .15s,color .15s; }
-  .filter-btn:hover:not(.on) { background:var(--surface3); }
-  .filter-btn.on { background:var(--text);border-color:var(--text);color:#fff; }
-
-  /* ── Chart header + type cycle ─────────────────────────── */
-  .chart-header { display:flex;align-items:center;justify-content:space-between;margin:1.75rem 0 .75rem; }
-  .chart-header .eyebrow { margin:0; }
-  .chart-type-btn { font-size:11px;font-weight:500;padding:3px 10px;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-family:inherit;background:var(--surface);color:var(--text2);transition:background .15s; }
-  .chart-type-btn:hover { background:var(--surface2); }
-
-  @media print { .track-filters, .chart-type-btn { display:none !important; } }
 
   /* ── Drag to reorder ───────────────────────────────────── */
   .drag-handle { display:none;cursor:grab;color:var(--text3);font-size:15px;padding:0 5px 0 0;flex-shrink:0;align-items:center;line-height:1;user-select:none; }
@@ -359,8 +311,6 @@
     <button class="nt on" onclick="sw(this,'s')">Schedule</button>
     <button class="nt" onclick="sw(this,'t')">Sessions</button>
     <button class="nt" onclick="sw(this,'d')">Diet</button>
-    <button class="nt" onclick="sw(this,'m')">Milestones</button>
-    <button class="nt" onclick="sw(this,'tr')">Track</button>
   </nav>
   </div>
 </div>
@@ -483,103 +433,6 @@
     <div class="card" id="swaps-card"></div>
   </div>
 
-  <div id="tr" class="pg" data-title="Track">
-
-    <div class="track-two">
-      <div>
-        <p class="eyebrow">Log a session</p>
-        <div class="track-form">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-            <div>
-              <label class="form-label">Date</label>
-              <input type="date" class="form-input" id="log-date">
-            </div>
-            <div>
-              <label class="form-label">Session</label>
-              <select class="form-input form-select" id="log-session">
-                <option value="">Select session…</option>
-              </select>
-            </div>
-          </div>
-          <div style="margin-bottom:12px">
-            <label class="form-label">Duration (min)</label>
-            <input type="number" class="form-input" id="log-duration" min="1" max="300" placeholder="e.g. 60">
-          </div>
-          <label class="form-label">How did it feel?</label>
-          <div class="diff-btns" style="margin-bottom:14px">
-            <button class="diff-btn easy" data-diff="easy" onclick="setDiff(this)">Easy</button>
-            <button class="diff-btn medium on" data-diff="medium" onclick="setDiff(this)">Medium</button>
-            <button class="diff-btn hard" data-diff="hard" onclick="setDiff(this)">Hard</button>
-          </div>
-          <button class="save-btn" onclick="saveCheckin()">Log session</button>
-        </div>
-      </div>
-      <div>
-        <p class="eyebrow">Recent sessions</p>
-        <div class="track-filters" id="track-filters">
-          <div class="filter-group" data-filter-type="session">
-            <span class="filter-label">Type</span>
-            <button class="filter-btn on" data-value="all" onclick="setFilter('session','all',this)">All</button>
-          </div>
-          <div class="filter-group" data-filter-type="difficulty">
-            <span class="filter-label">Difficulty</span>
-            <button class="filter-btn on" data-value="all" onclick="setFilter('difficulty','all',this)">All</button>
-            <button class="filter-btn" data-value="easy" onclick="setFilter('difficulty','easy',this)">Easy</button>
-            <button class="filter-btn" data-value="medium" onclick="setFilter('difficulty','medium',this)">Medium</button>
-            <button class="filter-btn" data-value="hard" onclick="setFilter('difficulty','hard',this)">Hard</button>
-          </div>
-          <div class="filter-group" data-filter-type="duration">
-            <span class="filter-label">Duration</span>
-            <button class="filter-btn on" data-value="all" onclick="setFilter('duration','all',this)">All</button>
-            <button class="filter-btn" data-value="short" onclick="setFilter('duration','short',this)">&lt;30m</button>
-            <button class="filter-btn" data-value="mid" onclick="setFilter('duration','mid',this)">30–60m</button>
-            <button class="filter-btn" data-value="long" onclick="setFilter('duration','long',this)">&gt;60m</button>
-          </div>
-        </div>
-        <div class="card" id="checkin-list">
-          <p class="no-data">No sessions logged yet.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="chart-header">
-      <p class="eyebrow" id="chart-title">Sessions — last 8 weeks</p>
-      <button class="chart-type-btn" id="chart-type-btn" onclick="cycleChartType()">Next: Line →</button>
-    </div>
-    <div class="card">
-      <div class="chart-wrap" id="chart-wrap" style="height:200px">
-        <canvas id="weekly-chart" style="display:none"></canvas>
-      </div>
-      <p class="no-data" id="weekly-no-data">Log sessions to see your chart.</p>
-    </div>
-
-  </div>
-
-  <div id="m" class="pg" data-title="Milestones">
-    <div class="m-grid">
-      <div>
-        <div class="section-head">
-          <p class="eyebrow" style="margin:0">What to expect</p>
-          <button class="add-btn edit-only" onclick="addMilestone()">+ Add milestone</button>
-        </div>
-        <div class="card" id="milestones-card"></div>
-      </div>
-      <div id="goals-section">
-        <p class="eyebrow">Goals</p>
-        <div class="card">
-          <div class="row"><span class="rn">Primary goal</span><span class="rv e">[e.g. lose fat]</span></div>
-          <div class="row"><span class="rn">Secondary goal</span><span class="rv e">[e.g. build arms]</span></div>
-          <div class="row"><span class="rn">Start date</span><span class="rv e">[date]</span></div>
-          <div class="row"><span class="rn">Check-in cadence</span><span class="rv e">[e.g. every 2 weeks]</span></div>
-        </div>
-        <div class="section-head" style="margin-top:1.25rem">
-          <p class="eyebrow" style="margin:0">Tracking</p>
-          <button class="add-btn edit-only" onclick="addTracking()">+ Add row</button>
-        </div>
-        <div class="card" id="tracking-card"></div>
-      </div>
-    </div>
-  </div>
 
 </div>
 
@@ -621,83 +474,6 @@
       kg.textContent = '-- kg';
       rv.insertAdjacentElement('afterend', kg);
     });
-  }
-
-  // ── Tracker filters ──────────────────────────────────────────
-  var activeFilters = { difficulty:'all', duration:'all', session:'all' };
-
-  function setFilter(type, value, btn) {
-    activeFilters[type] = value;
-    var group = btn.closest('.filter-group');
-    group.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('on'); });
-    btn.classList.add('on');
-    renderCheckins();
-    renderWeeklyChart();
-  }
-
-  function applyFilters(list) {
-    return list.filter(function(c) {
-      if (activeFilters.difficulty !== 'all' && (c.difficulty || 'medium') !== activeFilters.difficulty) return false;
-      if (activeFilters.session !== 'all' && c.sessionName !== activeFilters.session) return false;
-      if (activeFilters.duration !== 'all') {
-        var dur = c.duration || 0;
-        if (activeFilters.duration === 'short' && dur >= 30) return false;
-        if (activeFilters.duration === 'mid' && (dur < 30 || dur > 60)) return false;
-        if (activeFilters.duration === 'long' && dur <= 60) return false;
-      }
-      return true;
-    });
-  }
-
-  function renderSessionFilterButtons() {
-    var group = document.querySelector('.filter-group[data-filter-type="session"]');
-    if (!group) return;
-    var sessions = getTrainingSessions();
-    // Rebuild buttons: keep All, then one per session
-    group.innerHTML = '<span class="filter-label">Type</span>';
-    var allBtn = document.createElement('button');
-    allBtn.className = 'filter-btn' + (activeFilters.session === 'all' ? ' on' : '');
-    allBtn.setAttribute('data-value','all');
-    allBtn.textContent = 'All';
-    allBtn.onclick = function(){ setFilter('session','all',allBtn); };
-    group.appendChild(allBtn);
-    sessions.forEach(function(name) {
-      var b = document.createElement('button');
-      b.className = 'filter-btn' + (activeFilters.session === name ? ' on' : '');
-      b.setAttribute('data-value', name);
-      var label = name.length > 14 ? name.slice(0,14)+'…' : name;
-      b.textContent = label;
-      b.onclick = function(){ setFilter('session', name, b); };
-      group.appendChild(b);
-    });
-    // Reset if active session was removed
-    if (activeFilters.session !== 'all' && sessions.indexOf(activeFilters.session) < 0) {
-      activeFilters.session = 'all';
-      allBtn.classList.add('on');
-    }
-  }
-
-  // ── Chart type cycling ───────────────────────────────────────
-  var chartType = 'bar';
-  var CHART_TYPES = ['bar','line','doughnut'];
-
-  function cycleChartType() {
-    var idx = CHART_TYPES.indexOf(chartType);
-    chartType = CHART_TYPES[(idx + 1) % CHART_TYPES.length];
-    renderWeeklyChart();
-  }
-
-  function getWeekBuckets() {
-    var now = new Date(); now.setHours(12,0,0,0);
-    var day = now.getDay();
-    var mon0 = new Date(now); mon0.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-    var buckets = [];
-    for (var w = 7; w >= 0; w--) {
-      var mon = new Date(mon0); mon.setDate(mon0.getDate() - w * 7); mon.setHours(0,0,0,0);
-      var sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23,59,59,999);
-      buckets.push({ mon:mon, sun:sun, label:MONTHS[mon.getMonth()]+' '+mon.getDate(), sessions:{}, totalDur:0 });
-    }
-    return buckets;
   }
 
   function updateSessionCardColors() {
@@ -762,8 +538,8 @@
 
   // ── localStorage persistence ─────────────────────────────────
   var PERSIST_IDS = ['header-top','stat-grid','day-grid','training-sessions',
-    'weekday-meals','weekend-meals','swaps-card','milestones-card',
-    'diet-top','goals-section','training-note','tracking-card'];
+    'weekday-meals','weekend-meals','swaps-card',
+    'diet-top','training-note'];
   var LS_KEY = 'fitplan_v1';
 
   function saveState() {
@@ -813,7 +589,6 @@
       var el = document.getElementById(id);
       if (el) state[id] = el.innerHTML;
     });
-    state._tracker = JSON.parse(JSON.stringify(trackerData));
     var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -876,11 +651,6 @@
         injectKgFields();
         ensureKgEditable();
         refreshSchedulePills();
-        if (state._tracker) {
-          trackerData = state._tracker;
-          saveTracker();
-          if (document.getElementById('tr') && document.getElementById('tr').classList.contains('on')) renderTracker();
-        }
         state._saved = Date.now();
         try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(err) {}
         showTimestamp(state._saved);
@@ -1050,39 +820,6 @@
     updateSessionCardColors();
   }
 
-  // Milestones
-  function addMilestone() {
-    var container = document.getElementById('milestones-card');
-    var row = document.createElement('div');
-    row.className = 'ms-row ms-row-editable';
-    row.innerHTML = ''
-      + '<span class="drag-handle" title="Drag to reorder">⠿</span>'
-      + '<div class="ms-tag e" contenteditable="true">Wks X</div>'
-      + '<div class="ms-text e" contenteditable="true" style="flex:1">[What happens at this stage.]</div>'
-      + '<button class="ms-del" onclick="removeMilestone(this)" title="Remove">×</button>';
-    makeDraggable(row);
-    container.appendChild(row);
-  }
-
-  function removeMilestone(btn) {
-    var row = btn.closest('.ms-row');
-    if (row) removeDOMEl(row, 'Milestone');
-  }
-
-  // Tracking rows (fully customisable label + value)
-  function addTracking() {
-    var container = document.getElementById('tracking-card');
-    var row = document.createElement('div');
-    row.className = 'row row-with-del';
-    row.innerHTML = ''
-      + '<span class="rn e" contenteditable="true">Metric</span>'
-      + '<span style="display:flex;align-items:center;gap:4px">'
-      + '<span class="rv e" contenteditable="true">—</span>'
-      + '<button class="row-del" onclick="removeRow(this)" title="Remove">×</button>'
-      + '</span>';
-    container.appendChild(row);
-  }
-
   // ── Schedule session pills ───────────────────────────────────
   function applySessionPill(btn, idx) {
     var col = SESSION_COLORS[idx % SESSION_COLORS.length];
@@ -1225,15 +962,7 @@
     if (document.getElementById('training-sessions').children.length === 0) {
       addSession(); addSession(); addSession();
     }
-    if (document.getElementById('milestones-card').children.length === 0) {
-      for (var i = 0; i < 4; i++) addMilestone();
-    }
-    if (document.getElementById('tracking-card').children.length === 0) {
-      addTracking(); addTracking(); addTracking();
-    }
   }
-  loadTracker();
-  initTrackDates();
   if (!restoreState()) seedDefaults();
   // Remove legacy "Preferred time" stat if restored from old saved state
   document.querySelectorAll('#stat-grid .stat').forEach(function(stat) {
@@ -1251,24 +980,6 @@
     document.querySelectorAll('.pg').forEach(function(p){ p.classList.remove('on'); });
     btn.classList.add('on');
     document.getElementById(id).classList.add('on');
-    if (id === 'tr') renderTracker();
-  }
-
-  // ── Tracker ──────────────────────────────────────────────────
-  var TK_KEY = 'fitplan_tracker_v1';
-  var trackerData = { checkins:[] };
-  var weeklyChartInst = null;
-  function loadTracker() {
-    try {
-      var r = localStorage.getItem(TK_KEY);
-      if (r) {
-        var d = JSON.parse(r);
-        trackerData.checkins = d.checkins || d.sessions || [];
-      }
-    } catch(e) {}
-  }
-  function saveTracker() {
-    try { localStorage.setItem(TK_KEY, JSON.stringify(trackerData)); } catch(e) {}
   }
 
   // ── Toast ────────────────────────────────────────────────────
@@ -1295,246 +1006,7 @@
   }
   // ─────────────────────────────────────────────────────────────
 
-  function initTrackDates() {
-    var today = new Date().toISOString().slice(0,10);
-    var ld = document.getElementById('log-date');
-    if (ld && !ld.value) ld.value = today;
-  }
-
-  function setDiff(btn) {
-    document.querySelectorAll('.diff-btn').forEach(function(b){ b.classList.remove('on'); });
-    btn.classList.add('on');
-  }
-  function getSelectedDiff() {
-    var b = document.querySelector('.diff-btn.on');
-    return b ? b.getAttribute('data-diff') : 'medium';
-  }
-
-  function getTrainingSessions() {
-    var sessions = [];
-    document.querySelectorAll('#training-sessions .session-card .eyebrow').forEach(function(el) {
-      var t = el.innerText.trim();
-      if (t) sessions.push(t);
-    });
-    if (!sessions.length) sessions = ['Push','Pull','Full body','Cardio','Core','Mobility'];
-    return sessions;
-  }
-
-  function populateSessionSelect() {
-    var sel = document.getElementById('log-session');
-    if (!sel) return;
-    var current = sel.value;
-    sel.innerHTML = '<option value="">Select session\u2026</option>'
-      + getTrainingSessions().map(function(s) {
-          return '<option value="' + s.replace(/"/g,'&quot;') + '"' + (s === current ? ' selected':'') + '>' + s + '</option>';
-        }).join('');
-  }
-
-  function saveCheckin() {
-    var date = document.getElementById('log-date').value;
-    var session = document.getElementById('log-session').value;
-    if (!date || !session) { alert('Please pick a date and session.'); return; }
-    var durInput = document.getElementById('log-duration');
-    var duration = durInput && durInput.value ? parseInt(durInput.value) : null;
-    trackerData.checkins.unshift({ id: Date.now(), date: date, sessionName: session, difficulty: getSelectedDiff(), duration: duration });
-    saveTracker();
-    document.getElementById('log-session').value = '';
-    if (durInput) durInput.value = '';
-    renderCheckins();
-    renderWeeklyChart();
-    if (trackerData.checkins.length % 10 === 0) {
-      showToast(trackerData.checkins.length + ' sessions logged — nice work! Back up your data?', 'Export now', exportJSON, false);
-    }
-  }
-
   var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  function fmtDate(dateStr) {
-    var d = new Date(dateStr + 'T12:00:00');
-    return MONTHS[d.getMonth()] + ' ' + d.getDate();
-  }
-
-  function renderCheckins() {
-    var el = document.getElementById('checkin-list');
-    if (!el) return;
-    var sessions = getTrainingSessions();
-    var list = applyFilters(trackerData.checkins).slice(0, 15);
-    if (!list.length) { el.innerHTML = '<p class="no-data">No sessions logged yet.</p>'; return; }
-    el.innerHTML = list.map(function(c) {
-      var diff = c.difficulty || 'medium';
-      var sessIdx = sessions.indexOf(c.sessionName);
-      var col = SESSION_COLORS[sessIdx >= 0 ? sessIdx % SESSION_COLORS.length : 0];
-      var dot = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + col.border + ';flex-shrink:0;margin-top:4px"></span>';
-      var dur = c.duration ? ' <span class="sli-dur">· ' + c.duration + ' min</span>' : '';
-      return '<div class="session-log-item">'
-        + dot
-        + '<div class="sli-left">'
-        + '<div class="sli-name">' + c.sessionName + '</div>'
-        + '<div class="sli-date">' + fmtDate(c.date) + dur + '</div>'
-        + '</div>'
-        + '<span class="diff-tag ' + diff + '">' + diff.charAt(0).toUpperCase() + diff.slice(1) + '</span>'
-        + '<button class="sli-del" onclick="deleteCheckin(' + c.id + ')" title="Delete">\xd7</button>'
-        + '</div>';
-    }).join('');
-  }
-
-  function deleteCheckin(id) {
-    var saved = null, savedIdx = -1;
-    for (var i = 0; i < trackerData.checkins.length; i++) {
-      if (trackerData.checkins[i].id === id) { saved = trackerData.checkins[i]; savedIdx = i; break; }
-    }
-    trackerData.checkins = trackerData.checkins.filter(function(c){ return c.id !== id; });
-    saveTracker(); renderCheckins(); renderWeeklyChart();
-    if (saved) {
-      showToast('Session deleted.', 'Undo', function() {
-        trackerData.checkins.splice(savedIdx, 0, saved);
-        saveTracker(); renderCheckins(); renderWeeklyChart();
-      }, 5000);
-    }
-  }
-
-  function renderWeeklyChart() {
-    var canvas = document.getElementById('weekly-chart');
-    var noData = document.getElementById('weekly-no-data');
-    var titleEl = document.getElementById('chart-title');
-    var btn = document.getElementById('chart-type-btn');
-    if (!canvas) return;
-    if (weeklyChartInst) { weeklyChartInst.destroy(); weeklyChartInst = null; }
-
-    var TITLES = { bar:'Sessions — last 8 weeks', line:'Duration — last 8 weeks (min)', doughnut:'Difficulty breakdown' };
-    var SHORT = { bar:'Bar', line:'Line', doughnut:'Split' };
-    var nextType = CHART_TYPES[(CHART_TYPES.indexOf(chartType) + 1) % CHART_TYPES.length];
-    if (titleEl) titleEl.textContent = TITLES[chartType];
-    if (btn) btn.textContent = 'Next: ' + SHORT[nextType] + ' →';
-
-    var filtered = applyFilters(trackerData.checkins);
-    var hasData = filtered.length > 0;
-    if (noData) noData.style.display = hasData ? 'none' : 'block';
-    canvas.style.display = hasData ? 'block' : 'none';
-    if (!hasData) return;
-
-    var orderedSessions = getTrainingSessions();
-
-    if (chartType === 'bar') {
-      var buckets = getWeekBuckets();
-      filtered.forEach(function(c) {
-        var d = new Date(c.date + 'T12:00:00');
-        for (var i = 0; i < buckets.length; i++) {
-          if (d >= buckets[i].mon && d <= buckets[i].sun) {
-            buckets[i].sessions[c.sessionName] = (buckets[i].sessions[c.sessionName] || 0) + 1;
-            break;
-          }
-        }
-      });
-      var seenNames = {};
-      filtered.forEach(function(c){ seenNames[c.sessionName] = true; });
-      var sessionNames = Object.keys(seenNames).sort(function(a, b) {
-        var ai = orderedSessions.indexOf(a); var bi = orderedSessions.indexOf(b);
-        return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
-      });
-      var datasets = sessionNames.map(function(name) {
-        var idx = orderedSessions.indexOf(name);
-        var col = SESSION_COLORS[idx >= 0 ? idx % SESSION_COLORS.length : 0];
-        return { label:name, data:buckets.map(function(b){ return b.sessions[name]||0; }), backgroundColor:col.border, borderRadius:3, borderSkipped:false };
-      });
-      weeklyChartInst = new Chart(canvas, {
-        type: 'bar',
-        data: { labels:buckets.map(function(b){ return b.label; }), datasets:datasets },
-        options: {
-          responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{ display:sessionNames.length>1, labels:{ font:{size:10}, color:'#5a5955', boxWidth:10, padding:10 } } },
-          scales:{
-            x:{ stacked:true, grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
-            y:{ stacked:true, grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',stepSize:1,precision:0}, min:0, suggestedMax:5 }
-          }
-        }
-      });
-
-    } else if (chartType === 'line') {
-      var buckets = getWeekBuckets();
-      var hasDur = filtered.some(function(c){ return c.duration && c.duration > 0; });
-      filtered.forEach(function(c) {
-        var d = new Date(c.date + 'T12:00:00');
-        for (var i = 0; i < buckets.length; i++) {
-          if (d >= buckets[i].mon && d <= buckets[i].sun) {
-            buckets[i].totalDur += hasDur ? (c.duration || 0) : 1;
-            break;
-          }
-        }
-      });
-      if (!hasDur && titleEl) titleEl.textContent = 'Sessions — last 8 weeks (line)';
-      weeklyChartInst = new Chart(canvas, {
-        type: 'line',
-        data: {
-          labels: buckets.map(function(b){ return b.label; }),
-          datasets: [{
-            label: hasDur ? 'Minutes' : 'Sessions',
-            data: buckets.map(function(b){ return b.totalDur; }),
-            borderColor: '#1D9E75',
-            backgroundColor: 'rgba(29,158,117,.1)',
-            fill: true,
-            tension: 0.35,
-            pointRadius: 4,
-            pointBackgroundColor: '#1D9E75',
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{ display:false } },
-          scales:{
-            x:{ grid:{display:false}, ticks:{font:{size:10},color:'#9a9894',maxRotation:0} },
-            y:{ grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:11},color:'#9a9894',precision:0}, min:0 }
-          }
-        }
-      });
-
-    } else {
-      var counts = { easy:0, medium:0, hard:0 };
-      filtered.forEach(function(c){ var d = c.difficulty||'medium'; if (counts[d]!==undefined) counts[d]++; });
-      var total = counts.easy + counts.medium + counts.hard;
-      weeklyChartInst = new Chart(canvas, {
-        type: 'doughnut',
-        data: {
-          labels: ['Easy','Medium','Hard'],
-          datasets: [{
-            data: [counts.easy, counts.medium, counts.hard],
-            backgroundColor: ['#1D9E75','#E07B27','#E24B4A'],
-            borderColor: '#fff',
-            borderWidth: 2,
-            hoverOffset: 4
-          }]
-        },
-        options: {
-          responsive:true, maintainAspectRatio:false,
-          plugins:{
-            legend:{
-              position:'right',
-              labels:{
-                font:{size:11}, color:'#5a5955', boxWidth:12, padding:14,
-                generateLabels: function(chart) {
-                  return chart.data.labels.map(function(label, i) {
-                    var val = chart.data.datasets[0].data[i];
-                    var pct = total > 0 ? Math.round(val/total*100) : 0;
-                    return { text:label+' ('+pct+'%)', fillStyle:chart.data.datasets[0].backgroundColor[i], strokeStyle:'#fff', lineWidth:2, index:i };
-                  });
-                }
-              }
-            }
-          },
-          cutout: '60%'
-        }
-      });
-    }
-  }
-
-  function renderTracker() {
-    updateSessionCardColors();
-    populateSessionSelect();
-    renderSessionFilterButtons();
-    renderCheckins();
-    renderWeeklyChart();
-  }
-  // ─────────────────────────────────────────────────────────────
 
   // ── Drag to reorder ──────────────────────────────────────────
   var dnd = { src: null, srcParent: null };
@@ -1624,10 +1096,6 @@
     document.querySelectorAll('#weekday-meals .meal-card, #weekend-meals .meal-card').forEach(function(card) {
       addDragHandle(card, null, true);
       makeDraggable(card);
-    });
-    document.querySelectorAll('#milestones-card .ms-row').forEach(function(row) {
-      addDragHandle(row, null, false);
-      makeDraggable(row);
     });
   }
   // ─────────────────────────────────────────────────────────────
