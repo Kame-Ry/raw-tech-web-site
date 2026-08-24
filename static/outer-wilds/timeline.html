@@ -1,0 +1,3548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark light" />
+<meta name="description" content="A fan-made, spoiler-complete timeline of Outer Wilds and Echoes of the Eye: six eras, an interactive orrery of the 22-minute loop, and a searchable record of every event." />
+<title>The Outer Wilds Timeline</title>
+
+<style>
+
+/* ============ TOKENS: dark is the default ground (deep space) ============ */
+
+:root{
+
+  --ground:#0B0A12;
+
+  --surface:#15121E;
+
+  --surface-2:#1E1A2B;
+
+  --raised:#262134;
+
+  --ink:#EFE8DB;
+
+  --ink-dim:#A79CB4;
+
+  --ink-faint:#6F6681;
+
+  --line:#2B2537;
+
+  --line-soft:#201B2C;
+
+  --nomai:#E3B45E;
+
+  --hearth:#F2673E;
+
+  --owlk:#55BE8C;
+
+  --eye:#7FDCEE;
+
+  --cosmos:#9C80E6;
+
+  --glow:0 0 24px -6px currentColor;
+
+  --shadow:0 18px 48px -24px rgba(0,0,0,.9);
+
+  --star-op:.85;
+
+  --scheme:dark;
+
+}
+
+@media (prefers-color-scheme: light){
+
+  :root:not([data-theme="dark"]){
+
+    --ground:#F0EADC;
+
+    --surface:#FAF6EC;
+
+    --surface-2:#F3ECDC;
+
+    --raised:#EAE0CB;
+
+    --ink:#211C2B;
+
+    --ink-dim:#5B5268;
+
+    --ink-faint:#8C8296;
+
+    --line:#DCD0B9;
+
+    --line-soft:#E6DCC8;
+
+    --nomai:#8E6212;
+
+    --hearth:#BE3E17;
+
+    --owlk:#1F7150;
+
+    --eye:#116D82;
+
+    --cosmos:#5B3FB0;
+
+    --shadow:0 18px 40px -28px rgba(60,45,20,.65);
+
+    --star-op:.28;
+
+    --scheme:light;
+
+  }
+
+}
+
+:root[data-theme="light"]{
+
+  --ground:#F0EADC;
+
+  --surface:#FAF6EC;
+
+  --surface-2:#F3ECDC;
+
+  --raised:#EAE0CB;
+
+  --ink:#211C2B;
+
+  --ink-dim:#5B5268;
+
+  --ink-faint:#8C8296;
+
+  --line:#DCD0B9;
+
+  --line-soft:#E6DCC8;
+
+  --nomai:#8E6212;
+
+  --hearth:#BE3E17;
+
+  --owlk:#1F7150;
+
+  --eye:#116D82;
+
+  --cosmos:#5B3FB0;
+
+  --shadow:0 18px 40px -28px rgba(60,45,20,.65);
+
+  --star-op:.28;
+
+  --scheme:light;
+
+}
+
+
+
+/* ============ BASE ============ */
+
+*{box-sizing:border-box}
+
+body{
+
+  margin:0;
+
+  background:var(--ground);
+
+  color:var(--ink);
+
+  font-family:Candara,Optima,"Gill Sans MT","Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;
+
+  font-size:16.5px;
+
+  line-height:1.62;
+
+  -webkit-font-smoothing:antialiased;
+
+  overflow-x:hidden;
+
+}
+
+h1,h2,h3,h4{
+
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+
+  font-weight:600;
+
+  text-wrap:balance;
+
+  margin:0;
+
+  letter-spacing:-.012em;
+
+}
+
+p{margin:0}
+
+a{color:inherit}
+
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+:focus-visible{outline:2px solid var(--eye);outline-offset:3px;border-radius:3px}
+
+.mono{font-family:Consolas,"SF Mono",ui-monospace,"DejaVu Sans Mono",monospace;font-variant-numeric:tabular-nums}
+
+.eyebrow{
+
+  font-family:Consolas,"SF Mono",ui-monospace,monospace;
+
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
+
+}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+
+.ico{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+
+
+/* ============ STARFIELD ============ */
+
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--star-op)}
+
+
+
+/* ============ SPOILER GATE ============ */
+
+#gate{
+
+  position:fixed;inset:0;z-index:200;background:var(--ground);
+
+  display:flex;align-items:center;justify-content:center;padding:26px;
+
+  transition:opacity .5s ease;
+
+}
+
+#gate.gone{opacity:0;pointer-events:none}
+
+.gate-card{max-width:520px;text-align:center;display:flex;flex-direction:column;gap:22px;align-items:center}
+
+.gate-card h2{font-size:30px;line-height:1.2}
+
+.gate-card p{color:var(--ink-dim);font-size:15.5px}
+
+.gate-eye{width:88px;height:88px;color:var(--eye)}
+
+.btn{
+
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+
+  padding:11px 22px;border-radius:2px;font-size:14px;letter-spacing:.03em;
+
+  transition:background .18s,border-color .18s,transform .18s;
+
+  display:inline-flex;align-items:center;gap:9px;
+
+}
+
+.btn:hover{background:var(--raised);border-color:var(--ink-faint)}
+
+.btn-key{border-color:var(--eye);color:var(--eye)}
+
+.btn-key:hover{background:color-mix(in srgb,var(--eye) 14%,transparent)}
+
+
+
+/* ============ HEADER ============ */
+
+header{position:relative;z-index:2;padding:54px 0 0}
+
+.masthead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+
+  border-bottom:1px solid var(--line);padding-bottom:20px}
+
+.title-block{display:flex;flex-direction:column;gap:8px}
+
+h1{font-size:clamp(38px,6.2vw,62px);line-height:1.02}
+
+h1 em{font-style:italic;color:var(--nomai)}
+
+.sub{color:var(--ink-dim);font-size:16px;max-width:56ch}
+
+.head-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+.clock{
+
+  display:flex;align-items:center;gap:10px;border:1px solid var(--line);
+
+  padding:7px 13px;border-radius:2px;background:var(--surface);
+
+}
+
+.clock-val{font-size:19px;letter-spacing:.06em;color:var(--hearth)}
+
+.clock.idle .clock-val{color:var(--ink-faint)}
+
+.clock-btn{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);border-left:1px solid var(--line);padding-left:11px}
+
+.clock-btn:hover{color:var(--ink)}
+
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:300}
+
+#flash.go{animation:nova 1.5s ease-out}
+
+@keyframes nova{0%{opacity:0}8%{opacity:1}100%{opacity:0}}
+
+
+
+/* ============ ORRERY / SIMULATOR ============ */
+
+.orrery-sec{position:relative;z-index:2;padding:34px 0 6px}
+
+.orrery-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+
+.sim{display:grid;grid-template-columns:minmax(0,1fr) 288px;gap:18px;align-items:start}
+
+/* the stage is a window onto space: it keeps its own dark palette in both themes,
+
+   so the planet art reads the same way on a parchment page as on a black one */
+
+.sim-stage{
+
+  --line:#2E2840;--line-soft:#211C2E;--ink:#EFE8DB;--ink-dim:#A79CB4;--ink-faint:#7C7290;--hearth:#F2673E;
+
+  position:relative;border:1px solid var(--line);border-radius:2px;overflow:hidden;
+
+  background:radial-gradient(ellipse at 50% 45%,rgba(156,128,230,.11),transparent 62%),#0C0A14}
+
+#orrery{display:block;width:100%;height:auto;touch-action:none}
+
+.orbit{fill:none;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+
+.orbit-ghost{stroke-dasharray:2 6;stroke:var(--line-soft)}
+
+.orbit-hot{stroke:color-mix(in srgb,var(--cosmos) 55%,transparent)}
+
+.bd{cursor:pointer}
+
+.bd .halo{fill:transparent;stroke:transparent;stroke-width:3;vector-effect:non-scaling-stroke}
+
+.bd:hover .halo,.bd.on .halo{stroke:color-mix(in srgb,var(--ink) 45%,transparent)}
+
+.blabel{font-family:Consolas,ui-monospace,monospace;font-size:8.5px;letter-spacing:.09em;
+
+  fill:var(--ink-faint);text-transform:uppercase;pointer-events:none;opacity:0;transition:opacity .18s}
+
+.bd:hover .blabel,.bd.on .blabel,.labels-on .blabel{opacity:1;fill:var(--ink-dim)}
+
+.sig{animation:blip 1.4s steps(1,end) infinite}
+
+@keyframes blip{0%,49%{opacity:1}50%,100%{opacity:.12}}
+
+@media (prefers-reduced-motion: reduce){.sig{animation:none;opacity:.85}}
+
+
+
+.sim-hud{position:absolute;left:12px;top:11px;display:flex;flex-direction:column;gap:2px;pointer-events:none}
+
+.hud-clock{font-family:Consolas,ui-monospace,monospace;font-size:27px;letter-spacing:.05em;
+
+  font-variant-numeric:tabular-nums;color:var(--hearth);line-height:1}
+
+.hud-clock.calm{color:var(--ink-faint)}
+
+.hud-sub{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
+
+  font-family:Consolas,ui-monospace,monospace}
+
+.sim-read{position:absolute;right:12px;top:11px;text-align:right;pointer-events:none;max-width:52%}
+
+.sim-read b{display:block;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:15px;font-weight:600}
+
+.sim-read span{font-family:Consolas,ui-monospace,monospace;font-size:10.5px;color:var(--ink-faint);line-height:1.5}
+
+
+
+/* console */
+
+.sim-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+
+.panel{border:1px solid var(--line);background:var(--surface);border-radius:2px;padding:13px 14px}
+
+.panel > .eyebrow{display:block;margin-bottom:9px}
+
+.ctl-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+
+.ctl{border:1px solid var(--line);border-radius:2px;padding:5px 10px;font-size:12px;color:var(--ink-dim);
+
+  transition:background .15s,color .15s,border-color .15s}
+
+.ctl:hover{color:var(--ink);border-color:var(--ink-faint)}
+
+.ctl.on{color:var(--ground);background:var(--ink);border-color:var(--ink)}
+
+.ctl.wide{flex:1;text-align:center;justify-content:center}
+
+.ctl-nova{border-color:var(--hearth);color:var(--hearth)}
+
+.ctl-nova:hover{background:color-mix(in srgb,var(--hearth) 15%,transparent);color:var(--hearth)}
+
+.field{display:flex;align-items:center;gap:9px;font-size:11.5px;color:var(--ink-faint);margin-top:7px}
+
+.field input[type=range]{flex:1;accent-color:var(--eye);height:16px;min-width:0}
+
+
+
+/* points of interest */
+
+.poi{max-height:322px;overflow-y:auto;display:flex;flex-direction:column;gap:1px}
+
+.poi-grp{font-family:Consolas,ui-monospace,monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+
+  color:var(--ink-faint);padding:11px 0 4px;border-bottom:1px solid var(--line-soft);margin-bottom:3px}
+
+.poi-grp:first-child{padding-top:0}
+
+.poi-item{display:flex;gap:8px;align-items:baseline;padding:5px 6px;border-radius:2px;text-align:left;
+
+  font-size:13px;color:var(--ink-dim);transition:background .14s,color .14s;width:100%}
+
+.poi-item:hover{background:var(--surface-2);color:var(--ink)}
+
+.poi-item i{font-style:normal;font-size:9px;color:var(--c);flex:none;line-height:1.9}
+
+.poi-item .red{color:#E8443A}
+
+.poi-item em{font-style:normal;color:var(--ink-faint);font-size:11px}
+
+
+
+/* loop track */
+
+.track{margin-top:16px;border:1px solid var(--line);background:var(--surface);border-radius:2px;padding:16px 18px 12px}
+
+.track-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+
+.scrub-wrap{position:relative;padding-top:2px}
+
+#scrub{width:100%;accent-color:var(--hearth);height:20px;margin:0;display:block}
+
+.marks{position:relative;height:40px;margin-top:2px}
+
+.mark{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;
+
+  font-family:Consolas,ui-monospace,monospace;font-size:9px;letter-spacing:.06em;color:var(--ink-faint);
+
+  white-space:nowrap;transition:color .15s}
+
+.mark:hover,.mark.on{color:var(--ink)}
+
+.mark .pip{width:1px;height:9px;background:var(--line);display:block}
+
+.mark:hover .pip,.mark.on .pip{background:var(--hearth)}
+
+.mark.approx .pip{background:repeating-linear-gradient(var(--line) 0 2px,transparent 2px 4px)}
+
+.mark span{transform:rotate(-38deg);transform-origin:top center;display:block}
+
+.sched-note{font-size:13px;color:var(--ink-dim);margin-top:26px;min-height:40px}
+
+.sched-note b{color:var(--ink);font-weight:600}
+
+.sim-note{font-size:12px;color:var(--ink-faint);margin-top:14px;max-width:82ch}
+
+.sim-note b{color:var(--ink-dim);font-weight:600}
+
+
+
+#novaflash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+
+@media (max-width:900px){
+
+  .sim{grid-template-columns:minmax(0,1fr)}
+
+  .poi{max-height:260px}
+
+}
+
+
+
+/* ============ FILTER RAIL ============ */
+
+.rail{
+
+  position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 92%,transparent);
+
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-top:26px;
+
+}
+
+.rail-in{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 0}
+
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+
+.chip{
+
+  border:1px solid var(--line);border-radius:99px;padding:5px 13px 5px 9px;font-size:12.5px;
+
+  display:inline-flex;align-items:center;gap:7px;color:var(--ink-dim);
+
+  transition:color .16s,border-color .16s,background .16s;
+
+}
+
+.chip .dot{width:7px;height:7px;border-radius:99px;background:currentColor;flex:none}
+
+.chip:hover{color:var(--ink);border-color:var(--ink-faint)}
+
+.chip.on{color:var(--ink);border-color:currentColor;background:color-mix(in srgb,currentColor 12%,transparent)}
+
+.chip.f-nomai{--c:var(--nomai)} .chip.f-hearth{--c:var(--hearth)}
+
+.chip.f-owlk{--c:var(--owlk)} .chip.f-eye{--c:var(--eye)} .chip.f-cosmos{--c:var(--cosmos)}
+
+.chip.on,.chip.on .dot{color:var(--c)}
+
+.chip .dot{color:var(--c);background:var(--c)}
+
+.search{
+
+  margin-left:auto;display:flex;align-items:center;gap:8px;border:1px solid var(--line);
+
+  padding:6px 12px;border-radius:99px;background:var(--surface);
+
+}
+
+.search input{background:none;border:none;color:var(--ink);font:inherit;font-size:13.5px;width:170px;outline:none}
+
+.search input::placeholder{color:var(--ink-faint)}
+
+.filter-note{font-size:12.5px;color:var(--ink-faint);display:flex;gap:10px;align-items:center;padding-bottom:10px}
+
+.filter-note[hidden]{display:none}
+
+.filter-note button{color:var(--eye);font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
+
+
+
+/* ============ TIMELINE ============ */
+
+main{position:relative;z-index:2;padding-bottom:60px}
+
+.era{padding:52px 0 4px}
+
+.era-head{display:flex;gap:18px;align-items:baseline;border-top:1px solid var(--line);padding-top:18px;margin-bottom:8px;flex-wrap:wrap}
+
+.era-num{font-size:12px;letter-spacing:.2em;color:var(--ink-faint);padding-top:6px}
+
+.era-title{font-size:clamp(24px,3.4vw,34px);line-height:1.12}
+
+.era-when{color:var(--ink-dim);font-size:13px;margin-left:auto;padding-top:8px}
+
+.era-blurb{color:var(--ink-dim);font-size:15px;max-width:62ch;margin:2px 0 22px 0}
+
+
+
+.thread{position:relative;padding-left:34px}
+
+.thread::before{
+
+  content:"";position:absolute;left:9px;top:4px;bottom:14px;width:1px;
+
+  background:linear-gradient(180deg,transparent,var(--line) 6%,var(--line) 94%,transparent);
+
+}
+
+.node{position:relative;display:block;width:100%;text-align:left;padding:13px 18px 15px 20px;margin:0 0 9px 0;
+
+  border:1px solid var(--line-soft);border-left:2px solid var(--c,var(--line));border-radius:2px;
+
+  background:var(--surface);transition:background .16s,border-color .16s,transform .16s;color:var(--ink)}
+
+.node:hover{background:var(--surface-2);border-color:var(--line);border-left-color:var(--c);transform:translateX(3px)}
+
+.node::before{
+
+  content:"";position:absolute;left:-30px;top:22px;width:9px;height:9px;border-radius:99px;
+
+  background:var(--ground);border:1.5px solid var(--c,var(--ink-faint));
+
+}
+
+.node::after{content:"";position:absolute;left:-21px;top:26px;width:19px;height:1px;background:var(--line)}
+
+.node.branch{margin-left:38px}
+
+.node.branch::after{width:57px;left:-59px}
+
+.node.branch::before{left:-68px;width:7px;height:7px;top:23px;background:var(--c);border-color:var(--c)}
+
+.node-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:3px}
+
+.node-when{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);opacity:.9}
+
+.node-tag{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+
+  border:1px solid var(--line);border-radius:99px;padding:1px 8px}
+
+.node h3{font-size:19.5px;line-height:1.22;margin-bottom:4px}
+
+.node p{font-size:14.5px;color:var(--ink-dim);max-width:66ch}
+
+.node-ico{position:absolute;right:16px;top:16px;width:19px;height:19px;color:var(--c);opacity:.42}
+
+.node.hidden{display:none}
+
+.era.hidden{display:none}
+
+.f-nomai{--c:var(--nomai)} .f-hearth{--c:var(--hearth)}
+
+.f-owlk{--c:var(--owlk)} .f-eye{--c:var(--eye)} .f-cosmos{--c:var(--cosmos)}
+
+.empty{padding:60px 0;text-align:center;color:var(--ink-faint);font-size:15px}
+
+
+
+/* ============ DRAWER ============ */
+
+#scrim{position:fixed;inset:0;z-index:98;background:rgba(4,3,8,.6);opacity:0;pointer-events:none;transition:opacity .3s}
+
+#scrim.on{opacity:1;pointer-events:auto}
+
+#drawer{
+
+  position:fixed;top:0;right:0;bottom:0;width:min(470px,100%);z-index:99;
+
+  background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow);
+
+  transform:translateX(102%);transition:transform .34s cubic-bezier(.32,.72,.3,1);
+
+  display:flex;flex-direction:column;
+
+}
+
+#drawer.on{transform:none}
+
+@media (prefers-reduced-motion: reduce){#drawer{transition:none}}
+
+.dr-strip{height:3px;background:var(--c,var(--line));flex:none}
+
+.dr-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 0;flex:none}
+
+.dr-close{color:var(--ink-dim);font-size:13px;display:flex;gap:7px;align-items:center}
+
+.dr-close:hover{color:var(--ink)}
+
+.dr-body{overflow-y:auto;padding:14px 26px 44px;display:flex;flex-direction:column;gap:18px}
+
+.dr-glyph{width:82px;height:82px;color:var(--c);opacity:.9;margin-top:4px}
+
+.dr-body h2{font-size:29px;line-height:1.13}
+
+.dr-meta{display:flex;flex-direction:column;gap:1px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
+
+.dr-row{display:flex;gap:14px;font-size:13.5px;padding:3px 0}
+
+.dr-row dt{color:var(--ink-faint);width:82px;flex:none;font-size:11px;letter-spacing:.13em;text-transform:uppercase;padding-top:4px}
+
+.dr-row dd{margin:0;color:var(--ink-dim)}
+
+.dr-text{display:flex;flex-direction:column;gap:13px;font-size:15.5px}
+
+.dr-text b{color:var(--ink);font-weight:600}
+
+.dr-links{display:flex;flex-direction:column;gap:6px}
+
+.dr-links .eyebrow{margin-bottom:4px}
+
+.lnk{border:1px solid var(--line);border-radius:2px;padding:9px 12px;font-size:13.5px;text-align:left;
+
+  display:flex;justify-content:space-between;gap:12px;align-items:center;transition:background .16s,border-color .16s}
+
+.lnk:hover{background:var(--surface-2);border-color:var(--ink-faint)}
+
+.lnk span:last-child{font-size:16px;line-height:1}
+
+
+
+/* ============ CODEX ============ */
+
+.codex{padding:64px 0 10px;border-top:1px solid var(--line);margin-top:56px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px;margin-top:26px}
+
+.being{border:1px solid var(--line-soft);background:var(--surface);border-radius:2px;padding:20px;
+
+  display:flex;flex-direction:column;gap:12px;text-align:left;transition:background .16s,border-color .16s;
+
+  border-top:2px solid var(--c)}
+
+.being:hover{background:var(--surface-2);border-color:var(--line);border-top-color:var(--c)}
+
+.being svg.port{width:100%;height:118px;color:var(--c)}
+
+.being h3{font-size:19px}
+
+.being p{font-size:13.5px;color:var(--ink-dim)}
+
+.being .eyebrow{color:var(--c)}
+
+
+
+/* ============ DEPENDENCY DIAGRAM ============ */
+
+.dep{padding:64px 0 20px;border-top:1px solid var(--line);margin-top:56px}
+
+.dep-shell{overflow-x:auto;margin-top:24px;padding-bottom:8px}
+
+.dep svg{display:block;min-width:820px;width:100%;height:auto}
+
+.dn rect{fill:var(--surface);stroke:var(--c);stroke-width:1.2;rx:2}
+
+.dn:hover rect{fill:var(--surface-2)}
+
+.dn text.t{fill:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:14px}
+
+.dn text.s{fill:var(--ink-dim);font-size:11px;font-family:Consolas,ui-monospace,monospace}
+
+.dn{cursor:pointer}
+
+.dep-line{stroke:var(--line);stroke-width:1.4;fill:none}
+
+.dep-line.opt{stroke-dasharray:3 5}
+
+.dep-cap{fill:var(--ink-faint);font-size:10px;font-family:Consolas,ui-monospace,monospace;letter-spacing:.12em}
+
+
+
+/* ============ FOOTER ============ */
+
+footer{border-top:1px solid var(--line);margin-top:60px;padding:30px 0 60px;position:relative;z-index:2}
+
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-faint)}
+
+.foot p{max-width:60ch}
+
+
+
+@media (max-width:720px){
+
+  .wrap{padding:0 18px}
+
+  .node.branch{margin-left:20px}
+
+  .node.branch::after{width:39px;left:-41px}
+
+  .node.branch::before{left:-50px}
+
+  .search{margin-left:0;width:100%}
+
+  .search input{width:100%}
+
+  .dr-body{padding:14px 20px 44px}
+
+}
+
+</style>
+</head>
+<body>
+
+
+
+<canvas id="stars"></canvas>
+
+<div id="flash"></div>
+
+
+
+<!-- ============ SPOILER GATE ============ -->
+
+<div id="gate">
+
+  <div class="gate-card">
+
+    <svg class="gate-eye" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2">
+
+      <circle cx="50" cy="50" r="30" opacity=".35"/>
+
+      <circle cx="50" cy="50" r="21"/>
+
+      <circle cx="50" cy="50" r="9" fill="currentColor" opacity=".22"/>
+
+      <circle cx="50" cy="50" r="3.4" fill="currentColor" stroke="none"/>
+
+      <path d="M50 8v12M50 80v12M8 50h12M80 50h12" opacity=".5"/>
+
+      <circle cx="50" cy="50" r="40" stroke-dasharray="1 6" opacity=".5"/>
+
+    </svg>
+
+    <div class="eyebrow">Complete spoilers ahead</div>
+
+    <h2>This page tells the whole story, ending included.</h2>
+
+    <p>Outer Wilds is a game made entirely of things you work out for yourself. Knowing them in advance is the one thing that cannot be undone. If you have not finished it, close this tab and go play. It will still be here.</p>
+
+    <button class="btn btn-key" id="enter">I have finished it. Open the timeline.</button>
+
+  </div>
+
+</div>
+
+
+
+<div id="page" hidden>
+
+
+
+<!-- ============ HEADER ============ -->
+
+<header>
+
+  <div class="wrap">
+
+    <div class="masthead">
+
+      <div class="title-block">
+
+        <div class="eyebrow">Solar system chronicle &middot; four peoples &middot; one dying star</div>
+
+        <h1>The Outer Wilds<br><em>Timeline</em></h1>
+
+        <p class="sub">Every era of the story, from a signal older than the universe to the campfire at the end of it. Filter by people or by world, follow the branches, and open any moment to see where it sits in the game.</p>
+
+      </div>
+
+      <div class="head-tools">
+
+        <div class="clock idle" id="audiobox">
+
+          <svg class="ico" viewBox="0 0 24 24" style="width:15px;height:15px;color:var(--ink-faint)" id="spk">
+
+            <path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 010 7" id="spkw"/>
+
+          </svg>
+
+          <button class="clock-btn" id="audiobtn" style="border-left:none;padding-left:0">Music off</button>
+
+          <input id="vol" type="range" min="0" max="100" value="60" aria-label="Ambience volume"
+
+                 style="width:70px;accent-color:var(--eye)">
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- ============ ORRERY ============ -->
+
+<section class="orrery-sec">
+
+  <div class="wrap">
+
+    <div class="orrery-head">
+
+      <div>
+
+        <div class="eyebrow">The system, to scale</div>
+
+        <h2 style="font-size:clamp(22px,3vw,29px);margin-top:6px">Twenty-two minutes, running</h2>
+
+        <p style="color:var(--ink-dim);font-size:14.5px;margin-top:5px;max-width:62ch">Real orbital radii and periods, on Kepler's third law. Scrub the loop, click a world to filter the story below, and watch the sun finish.</p>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="sim">
+
+      <div class="sim-stage">
+
+        <svg id="orrery" viewBox="-370 -370 740 740" role="img" aria-label="Simulated orrery of the Outer Wilds solar system">
+
+          <defs>
+
+            <radialGradient id="gSun"><stop offset="0" stop-color="#FFF3CE"/><stop offset=".5" stop-color="#FFC24A"/><stop offset="1" stop-color="#E85F1E"/></radialGradient>
+
+            <radialGradient id="gCorona"><stop offset=".55" stop-color="#FFB03A" stop-opacity=".5"/><stop offset="1" stop-color="#FF7A2A" stop-opacity="0"/></radialGradient>
+
+            <radialGradient id="gNova"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".45" stop-color="#BFD8FF"/><stop offset="1" stop-color="#6E9BFF" stop-opacity="0"/></radialGradient>
+
+            <radialGradient id="gEye"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".38" stop-color="#9FE6F5"/><stop offset="1" stop-color="#2E6C8A" stop-opacity="0"/></radialGradient>
+
+            <radialGradient id="gDeep" cx=".38" cy=".33"><stop offset="0" stop-color="#8FE0C4"/><stop offset=".55" stop-color="#2FA588"/><stop offset="1" stop-color="#14584F"/></radialGradient>
+
+            <radialGradient id="gHearth" cx=".37" cy=".32"><stop offset="0" stop-color="#7FC98D"/><stop offset=".6" stop-color="#3E8C5A"/><stop offset="1" stop-color="#1F4A34"/></radialGradient>
+
+            <radialGradient id="gHollow" cx=".38" cy=".33"><stop offset="0" stop-color="#6E5F8C"/><stop offset=".62" stop-color="#3F3557"/><stop offset="1" stop-color="#231D33"/></radialGradient>
+
+            <radialGradient id="gBramble" cx=".36" cy=".3"><stop offset="0" stop-color="#F2FAFC"/><stop offset=".6" stop-color="#BCD8DE"/><stop offset="1" stop-color="#7C9DA6"/></radialGradient>
+
+            <radialGradient id="gEmber" cx=".36" cy=".32"><stop offset="0" stop-color="#E08A55"/><stop offset=".6" stop-color="#A44F2C"/><stop offset="1" stop-color="#5E2A18"/></radialGradient>
+
+            <radialGradient id="gAsh" cx=".36" cy=".32"><stop offset="0" stop-color="#D8CBB4"/><stop offset=".6" stop-color="#9C8D77"/><stop offset="1" stop-color="#5B5145"/></radialGradient>
+
+            <radialGradient id="gLantern"><stop offset="0" stop-color="#FFD08A"/><stop offset=".5" stop-color="#E8622B"/><stop offset="1" stop-color="#8E2A12"/></radialGradient>
+
+            <radialGradient id="gIce" cx=".36" cy=".3"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#C9E9F5"/><stop offset="1" stop-color="#7FB4C9"/></radialGradient>
+
+            <radialGradient id="gQuantum" cx=".36" cy=".32"><stop offset="0" stop-color="#B9E6D8"/><stop offset=".6" stop-color="#4E8C86"/><stop offset="1" stop-color="#2A4A50"/></radialGradient>
+
+          </defs>
+
+          <g id="orbits"></g>
+
+          <g id="bodies"></g>
+
+          <g id="fx"></g>
+
+        </svg>
+
+        <div class="sim-hud">
+
+          <div class="hud-clock calm" id="hudclock">00:00</div>
+
+          <div class="hud-sub" id="hudsub">paused &middot; loop start</div>
+
+        </div>
+
+        <div class="sim-read" id="simread"><b>&nbsp;</b><span>Hover a body</span></div>
+
+        <div id="novaflash"></div>
+
+      </div>
+
+
+
+      <aside class="sim-side">
+
+        <div class="panel">
+
+          <span class="eyebrow">Controls</span>
+
+          <div class="ctl-row">
+
+            <button class="ctl wide" id="playbtn">Play</button>
+
+            <button class="ctl" id="resetbtn">Reset</button>
+
+          </div>
+
+          <div class="ctl-row" role="group" aria-label="Playback speed">
+
+            <button class="ctl on" data-spd="1">Real time</button>
+
+            <button class="ctl" data-spd="6">6&times;</button>
+
+            <button class="ctl" data-spd="30">30&times;</button>
+
+            <button class="ctl" data-spd="120">120&times;</button>
+
+          </div>
+
+          <div class="ctl-row">
+
+            <button class="ctl ctl-nova wide" id="novabtn">Watch the supernova</button>
+
+          </div>
+
+          <div class="ctl-row">
+
+            <button class="ctl" id="scalebtn">Body sizes: readable</button>
+
+            <button class="ctl" id="labelbtn">Labels</button>
+
+          </div>
+
+          <div class="ctl-row">
+
+            <button class="ctl wide" id="cloakbtn">Reveal the Stranger</button>
+
+          </div>
+
+          <label class="field">Zoom <input id="zoom" type="range" min="100" max="340" value="100"></label>
+
+        </div>
+
+
+
+        <div class="panel">
+
+          <span class="eyebrow">Points of interest</span>
+
+          <div class="poi" id="poi"></div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+
+
+    <div class="track">
+
+      <div class="track-head">
+
+        <div>
+
+          <span class="eyebrow">The loop schedule</span>
+
+          <p style="color:var(--ink-dim);font-size:13.5px;margin-top:4px">Drag anywhere. Solid marks are times the game states outright; dashed marks are approximate.</p>
+
+        </div>
+
+      </div>
+
+      <div class="scrub-wrap">
+
+        <input id="scrub" type="range" min="0" max="1320" step="1" value="0" aria-label="Loop time in seconds">
+
+        <div class="marks" id="marks"></div>
+
+      </div>
+
+      <p class="sched-note" id="schednote"></p>
+
+    </div>
+
+
+
+    <p class="sim-note" id="simnote"></p>
+  </div>
+</section>
+
+
+
+<!-- ============ FILTER RAIL ============ -->
+
+<div class="rail">
+
+  <div class="wrap">
+
+    <div class="rail-in">
+
+      <div class="chips" id="chips">
+
+        <button class="chip f-eye" data-fac="eye"><span class="dot"></span>The Eye</button>
+
+        <button class="chip f-owlk" data-fac="owlk"><span class="dot"></span>The Strangers</button>
+
+        <button class="chip f-nomai" data-fac="nomai"><span class="dot"></span>The Nomai</button>
+
+        <button class="chip f-hearth" data-fac="hearth"><span class="dot"></span>The Hearthians</button>
+
+        <button class="chip f-cosmos" data-fac="cosmos"><span class="dot"></span>Cosmic events</button>
+
+      </div>
+
+      <label class="search">
+
+        <svg class="ico" viewBox="0 0 24 24" style="color:var(--ink-faint)"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+
+        <input id="q" type="search" placeholder="Search the record" aria-label="Search the timeline">
+
+      </label>
+
+    </div>
+
+    <div class="filter-note" id="fnote" hidden><span id="fnotetext"></span><button id="clearf">Clear filters</button></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ============ TIMELINE ============ -->
+
+<main>
+
+  <div class="wrap" id="timeline"></div>
+
+  <div class="wrap"><div class="empty" id="empty" hidden>Nothing in the record matches that. The Nomai would have written it down if it happened.</div></div>
+
+
+
+  <!-- ============ CODEX ============ -->
+
+  <section class="codex">
+
+    <div class="wrap">
+
+      <div class="eyebrow">Codex</div>
+
+      <h2 style="font-size:clamp(26px,3.6vw,36px);margin-top:8px">Who and what is out there</h2>
+
+      <p class="era-blurb" style="margin-top:8px">Four peoples, two of them extinct before you were born, plus the things that live in the gaps between them.</p>
+
+      <div class="grid" id="codex"></div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ============ DEPENDENCY DIAGRAM ============ -->
+
+  <section class="dep">
+
+    <div class="wrap">
+
+      <div class="eyebrow">The final fork</div>
+
+      <h2 style="font-size:clamp(26px,3.6vw,36px);margin-top:8px">What you actually need to finish</h2>
+
+      <p class="era-blurb" style="margin-top:8px">Nothing in Outer Wilds is gated by an item or an upgrade. Every lock is a thing you know. These are the three pieces of knowledge that end the loop, and the two optional threads that change who is sitting at the fire when it does.</p>
+
+      <p class="era-blurb" style="margin-top:-14px">One nuance the diagram flattens: only the warp core is a physical object, and taking it out of Ash Twin is what switches the loop off. The Vessel's location and the Eye's coordinates are things you have to have read and understood, because the game makes you enter the coordinates by hand.</p>
+
+      <div class="dep-shell">
+
+        <svg viewBox="0 0 900 430" role="img" aria-label="Diagram of the knowledge required to reach the ending">
+
+          <path class="dep-line" d="M170 96 C 260 96 260 200 340 200"/>
+
+          <path class="dep-line" d="M170 200 C 250 200 250 200 340 200"/>
+
+          <path class="dep-line" d="M170 304 C 260 304 260 200 340 200"/>
+
+          <path class="dep-line" d="M530 200 C 590 200 590 200 640 200"/>
+
+          <path class="dep-line opt" d="M170 380 C 300 380 470 360 640 250"/>
+
+          <path class="dep-line opt" d="M170 24 C 300 24 470 60 640 158"/>
+
+          <text class="dep-cap" x="342" y="252">all three required</text>
+
+          <text class="dep-cap" x="404" y="392">optional: who joins you</text>
+
+
+
+          <g class="dn f-owlk" data-open="free-prisoner" tabindex="0" role="button">
+
+            <rect x="20" y="4" width="150" height="42"/>
+
+            <text class="t" x="34" y="24">The Prisoner</text><text class="s" x="34" y="38">optional thread</text>
+
+          </g>
+
+          <g class="dn f-nomai" data-open="probe-hit" tabindex="0" role="button">
+
+            <rect x="20" y="72" width="150" height="48"/>
+
+            <text class="t" x="34" y="94">The Eye's location</text><text class="s" x="34" y="109">probe 9,318,054</text>
+
+          </g>
+
+          <g class="dn f-nomai" data-open="ash-twin" tabindex="0" role="button">
+
+            <rect x="20" y="176" width="150" height="48"/>
+
+            <text class="t" x="34" y="198">An advanced core</text><text class="s" x="34" y="213">inside Ash Twin</text>
+
+          </g>
+
+          <g class="dn f-nomai" data-open="vessel-found" tabindex="0" role="button">
+
+            <rect x="20" y="280" width="150" height="48"/>
+
+            <text class="t" x="34" y="302">The Vessel</text><text class="s" x="34" y="317">deep in Dark Bramble</text>
+
+          </g>
+
+          <g class="dn f-nomai" data-open="solanum" tabindex="0" role="button">
+
+            <rect x="20" y="358" width="150" height="42"/>
+
+            <text class="t" x="34" y="378">Solanum</text><text class="s" x="34" y="392">optional thread</text>
+
+          </g>
+
+
+
+          <g class="dn f-hearth" data-open="last-loop" tabindex="0" role="button">
+
+            <rect x="340" y="170" width="190" height="60"/>
+
+            <text class="t" x="360" y="196">Fly the Vessel out</text><text class="s" x="360" y="213">one loop, no coming back</text>
+
+          </g>
+
+          <g class="dn f-eye" data-open="campfire" tabindex="0" role="button">
+
+            <rect x="640" y="130" width="230" height="56"/>
+
+            <text class="t" x="660" y="154">The campfire at the Eye</text><text class="s" x="660" y="170">everyone who made it</text>
+
+          </g>
+
+          <g class="dn f-eye" data-open="new-universe" tabindex="0" role="button">
+
+            <rect x="640" y="222" width="230" height="56"/>
+
+            <text class="t" x="660" y="246">A new universe</text><text class="s" x="660" y="262">14.3 billion years later</text>
+
+          </g>
+
+          <path class="dep-line" d="M755 186 L 755 222"/>
+
+        </svg>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<footer>
+
+  <div class="wrap">
+
+    <div class="foot">
+
+      <p>A fan-made study guide to <em>Outer Wilds</em> (2019) and <em>Echoes of the Eye</em> (2021) by Mobius Digital. All artwork on this page is original vector illustration, not game assets. Dates before the present are the ones the Nomai and the Hearthians recorded themselves, which is to say approximate.</p>
+
+      <p class="mono" style="text-align:right">22:00<br>and then again</p>
+
+    </div>
+
+  </div>
+
+</footer>
+
+</div>
+
+
+
+<div id="scrim"></div>
+
+<aside id="drawer" aria-hidden="true" aria-label="Event detail">
+
+  <div class="dr-strip"></div>
+
+  <div class="dr-bar">
+
+    <span class="eyebrow" id="drfac"></span>
+
+    <button class="dr-close" id="drclose">Close <svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+
+  </div>
+
+  <div class="dr-body" id="drbody"></div>
+
+</aside>
+
+
+
+<script>
+
+/* ================= GLYPH LIBRARY (original vector art) ================= */
+
+const G = {
+
+  eye:'<circle cx="50" cy="50" r="30" opacity=".3"/><circle cx="50" cy="50" r="20"/><circle cx="50" cy="50" r="8" fill="currentColor" opacity=".25"/><circle cx="50" cy="50" r="3" fill="currentColor" stroke="none"/><circle cx="50" cy="50" r="40" stroke-dasharray="1 6" opacity=".5"/>',
+
+  spiral:'<path d="M50 50a6 6 0 016 6 14 14 0 01-14 14 24 24 0 01-24-24 34 34 0 0134-34 44 44 0 0144 44"/><circle cx="50" cy="50" r="2.4" fill="currentColor" stroke="none"/>',
+
+  flame:'<path d="M50 84c-13 0-22-9-22-21 0-16 16-22 14-38 12 6 15 15 15 22 4-3 5-8 5-12 9 7 12 18 12 28 0 12-11 21-24 21z"/><path d="M50 78c-5 0-8-4-8-9 0-6 6-9 5-15 6 4 11 9 11 15 0 5-3 9-8 9z" opacity=".55"/>',
+
+  campfire:'<path d="M50 74c-9 0-15-6-15-14 0-11 11-15 10-26 8 4 10 10 10 15 3-2 4-5 4-8 6 5 8 12 8 19 0 8-8 14-17 14z"/><path d="M20 82h60M28 88l44-12M72 88L28 76" opacity=".8"/>',
+
+  comet:'<circle cx="62" cy="42" r="13"/><path d="M50 50L18 74M52 58l-22 16M46 44L20 56" opacity=".75"/><circle cx="62" cy="42" r="21" stroke-dasharray="2 5" opacity=".5"/>',
+
+  nova:'<circle cx="50" cy="50" r="14" fill="currentColor" opacity=".18"/><circle cx="50" cy="50" r="14"/><path d="M50 8v20M50 72v20M8 50h20M72 50h20M20 20l14 14M66 66l14 14M80 20L66 34M34 66L20 80"/>',
+
+  ship:'<path d="M50 14c9 10 13 22 13 34v20H37V48c0-12 4-24 13-34z"/><path d="M37 60L22 78h14M63 60l15 18H64" /><path d="M44 84h12" /><circle cx="50" cy="42" r="6"/>',
+
+  vessel:'<path d="M50 12c14 8 22 22 22 38S64 80 50 88 28 66 28 50s8-30 22-38z"/><path d="M50 22c7 6 11 17 11 28s-4 22-11 28"/><path d="M50 22c-7 6-11 17-11 28s4 22 11 28"/><circle cx="50" cy="50" r="5" fill="currentColor" stroke="none" opacity=".6"/>',
+
+  mask:'<path d="M32 26h36l6 18c0 20-11 34-24 34S26 64 26 44z"/><path d="M36 44h9M55 44h9" stroke-width="3"/><path d="M44 62h12"/><path d="M32 26l-6-12M68 26l6-12"/>',
+
+  ring:'<ellipse cx="50" cy="50" rx="38" ry="14"/><ellipse cx="50" cy="50" rx="24" ry="8" opacity=".55"/><path d="M12 50c0 8 17 14 38 14" stroke-dasharray="2 5"/>',
+
+  clock:'<circle cx="50" cy="52" r="32"/><path d="M50 32v20l14 9"/><path d="M38 14h24M50 14v6"/><path d="M76 26l6-6"/>',
+
+  tree:'<path d="M50 16l20 26H58l14 20H56l12 16H32l12-16H28l14-20H30z"/><path d="M50 78v12M34 90h32"/>',
+
+  fish:'<path d="M18 50c14-18 42-24 62-12-6 8-6 16 0 24-20 12-48 6-62-12z"/><path d="M74 34l10-10v52l-10-10"/><path d="M30 42l4 4M38 38l3 4M28 58l4-4" opacity=".7"/><circle cx="66" cy="46" r="2.6" fill="currentColor" stroke="none"/>',
+
+  jelly:'<path d="M22 52a28 24 0 0156 0z"/><path d="M30 52c0 14-4 22-8 30M42 52c0 16-2 24-4 32M58 52c0 16 2 24 4 32M70 52c0 14 4 22 8 30"/>',
+
+  bramble:'<circle cx="50" cy="50" r="34" stroke-dasharray="4 4" opacity=".6"/><path d="M24 34q18 12 10 30M76 34q-18 12-10 30M32 70q18-12 36 0M50 20v40"/><circle cx="50" cy="60" r="3" fill="currentColor" stroke="none"/>',
+
+  probe:'<path d="M50 20l14 24-14 10-14-10z"/><path d="M50 54v26M36 80h28"/><path d="M64 44l16 8M36 44l-16 8"/><circle cx="50" cy="34" r="4"/>',
+
+  warp:'<path d="M50 16c-14 12-22 22-22 34a22 22 0 0044 0c0-12-8-22-22-34z"/><path d="M50 34c-6 6-10 11-10 17a10 10 0 0020 0c0-6-4-11-10-17z" opacity=".55"/><path d="M28 76q22 10 44 0" stroke-dasharray="2 4"/>',
+
+  city:'<path d="M16 84V52l12-8 12 8v32M46 84V38l14-10 14 10v46"/><path d="M10 84h80"/><path d="M24 62h8M56 50h12M56 66h12"/>',
+
+  book:'<path d="M20 22h26a6 6 0 016 6v50a6 6 0 00-6-6H20z"/><path d="M80 22H54a6 6 0 00-6 6v50a6 6 0 016-6h26z"/>',
+
+  seal:'<circle cx="50" cy="50" r="30"/><path d="M50 20v60M20 50h60" opacity=".4"/><circle cx="50" cy="50" r="12" fill="currentColor" opacity=".2"/><path d="M50 38v24M38 50h24" stroke-width="3"/>',
+
+  key:'<circle cx="34" cy="50" r="14"/><path d="M48 50h34M72 50v14M60 50v10"/>',
+
+  antenna:'<path d="M50 84V44"/><path d="M26 30a34 34 0 0148 0z"/><circle cx="50" cy="44" r="5"/><path d="M36 84h28"/><path d="M18 22a44 44 0 0164 0" stroke-dasharray="3 5" opacity=".6"/>',
+
+  rock:'<path d="M22 66l10-30 22-10 24 16-6 30-28 8z"/><path d="M32 36l22 6 4 28M54 42l22-6"/>',
+
+  sun:'<circle cx="50" cy="50" r="22" fill="currentColor" opacity=".2"/><circle cx="50" cy="50" r="22"/><path d="M50 12v10M50 78v10M12 50h10M78 50h10M23 23l7 7M70 70l7 7M77 23l-7 7M30 70l-7 7"/>',
+
+  hole:'<circle cx="50" cy="50" r="14" fill="currentColor" opacity=".85" stroke="none"/><ellipse cx="50" cy="50" rx="36" ry="12"/><ellipse cx="50" cy="50" rx="26" ry="8" opacity=".5"/>'
+
+};
+
+function glyph(name,cls){return '<svg class="'+(cls||'')+'" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(G[name]||G.spiral)+'</svg>';}
+
+
+
+const FAC = {eye:'The Eye',owlk:'The Strangers',nomai:'The Nomai',hearth:'The Hearthians',cosmos:'Cosmic event'};
+
+const LOC = {sun:'The Sun',twins:'Hourglass Twins',hearth:'Timber Hearth',hollow:'Brittle Hollow',deep:"Giant's Deep",bramble:'Dark Bramble',interloper:'The Interloper',stranger:'The Stranger',quantum:'Quantum Moon',eye:'The Eye',elsewhere:'Beyond the system'};
+
+
+
+/* ================= ERAS ================= */
+
+const ERAS = [
+
+ {id:'e0',n:'I',t:'Before the Beginning',when:'Older than time',b:'One object in the story predates everything else in it, including the universe.'},
+
+ {id:'e1',n:'II',t:'The Strangers',when:'Long before the Nomai',b:'A people who heard the signal first, crossed the void to find it, and then decided nobody else should ever hear it again.'},
+
+ {id:'e2',n:'III',t:'The Nomai',when:'From about 281,000 years ago',b:'Scientists, architects and obsessives who came chasing a signal, got stranded, and spent generations building a machine to cheat causality.'},
+
+ {id:'e3',n:'IV',t:'The Long Quiet',when:'281,000 years to last week',b:'The system is empty. Vines eat a planet, ghost matter fades, and something with four eyes crawls out of the water on Timber Hearth.'},
+
+ {id:'e4',n:'V',t:'Twenty-Two Minutes',when:'Now, repeatedly',b:'Launch day. The loop. Everything the game actually happens inside.'},
+
+ {id:'e5',n:'VI',t:'The Eye',when:'The last loop, and after',b:'Where all four peoples finally arrive in the same place at the same time.'}
+
+];
+
+
+
+/* ================= EVENTS ================= */
+
+const EV = [
+
+/* ---------- ERA I ---------- */
+
+{id:'eye-origin',era:'e0',fac:'eye',loc:'eye',ico:'eye',when:'Before the universe',t:'The Eye of the Universe',
+
+ b:'An object older than everything around it, sitting quietly outside the system in interstellar space.',
+
+ d:['The Eye is the oldest thing in the story. The Nomai who studied its signal concluded it was already there <b>before the universe began</b>, which is the sort of sentence that ends a research career.',
+
+    'It is not a planet, a station or a creature. It is a place where the rules that hold the rest of reality together are thinner, and where a sufficiently curious observer can do something no observer should be able to do.',
+
+    'Everything else on this page, every voyage, every death, every machine, happens because somebody looked up and noticed it.'],
+
+ w:'Reachable only in the final loop. Its coordinates come from a probe on Giant\'s Deep.',l:['eye-signal','owlk-home','nomai-hear','new-universe']},
+
+
+
+{id:'eye-signal',era:'e0',fac:'eye',loc:'eye',ico:'antenna',when:'Before the universe',t:'The oldest signal',
+
+ b:'The Eye broadcasts. Anyone with the right instrument, anywhere, can hear it.',
+
+ d:['The Eye emits a signal that carries across interstellar distances and does not weaken the way it should. Two separate species picked it up from different corners of the galaxy, thousands of generations apart, and both dropped everything to follow it.',
+
+    'The signal is not a message. There is no language in it, no instruction, no invitation. It is closer to a note held forever. That ambiguity is the whole engine of the plot: one species heard a promise, the other heard a threat.'],
+
+ w:'Audible on the Signalscope\'s Quantum Fluctuation frequency, and from the Deep Space Satellite.',l:['owlk-home','signal-quenched','nomai-hear']},
+
+
+
+/* ---------- ERA II ---------- */
+
+{id:'owlk-home',era:'e1',fac:'owlk',loc:'elsewhere',ico:'tree',when:'Long before the Nomai',t:'A forest world hears something',
+
+ b:'The Strangers lived among trees and rivers on a green planet, and one night they saw a light that should not be there.',
+
+ d:['The people you meet in <b>Echoes of the Eye</b> are never named in their own records. Players call them Owlks, for the obvious reason. They were tall, feathered, horned, and by every surviving image, deeply attached to running water and old growth forest.',
+
+    'Their astronomers found the Eye\'s signal and read it as sacred. Not a curiosity. A destination.'],
+
+ w:'Slide reels throughout the Stranger, especially in the River Lowlands.',l:['eye-signal','stranger-built']},
+
+
+
+{id:'stranger-built',era:'e1',fac:'owlk',loc:'stranger',ico:'ring',when:'Before departure',t:'They cut their home free',
+
+ b:'Rather than build a ship, they carved a slab out of their own planet and built a ring around it.',
+
+ d:['The Stranger is a rotating habitat roughly the size of a small moon, and the ground inside it is <b>literal homeworld</b>: soil, rivers, forests and rock quarried from the planet they were leaving.',
+
+    'It is the single most human thing any species does in this game. They did not want to survive the journey. They wanted to arrive without ever having left home.'],
+
+ w:'The Stranger itself, once you can see it. The construction reels are near the Cinder Isles.',l:['owlk-home','stranger-voyage','fire']},
+
+
+
+{id:'stranger-voyage',era:'e1',fac:'owlk',loc:'stranger',ico:'ship',when:'Generations',t:'The long crossing',
+
+ b:'A journey measured in lifetimes, aimed at a signal they could not yet see the source of.',
+
+ d:['Nobody who left the homeworld saw the destination. The Stranger travelled for generations, carrying its forests and its rivers, until it reached a small solar system with a bright, unstable sun.',
+
+    'The reels show the arrival as a celebration. It is the last unambiguously happy image in their record.'],
+
+ w:'Reels in the Endless Canyon and the Hidden Gorge.',l:['stranger-arrival']},
+
+
+
+{id:'stranger-arrival',era:'e1',fac:'owlk',loc:'sun',ico:'sun',when:'On arrival',t:'Arrival at a small, bright sun',
+
+ b:'They park in orbit and begin the search for the source of the signal.',
+
+ d:['The Stranger settled into a solar orbit and its people began looking for the thing that had called them across the galaxy. This took a very long time. The Eye does not sit inside the system, and it does not want to be triangulated.',
+
+    'Eventually they found it.'],
+
+ w:'The Stranger\'s orbit sits between the sun and Hourglass Twins, cloaked.',l:['eye-found','discover-stranger']},
+
+
+
+{id:'eye-found',era:'e1',fac:'owlk',loc:'eye',ico:'eye',when:'The turning point',t:'They find the Eye, and stop',
+
+ b:'They located it, they looked, and what they understood about it terrified them into reversing everything.',
+
+ d:['This is the hinge of the entire DLC. Having spent generations chasing the Eye, the Strangers finally worked out what it was and what reaching it would mean, and they decided the correct response was <b>to make sure nobody ever found it</b>.',
+
+    'Their records are careful not to say plainly what they saw. What follows tells you enough: they did not destroy the Eye, they did not warn anyone about it, and they did not go home. They hid it, then hid themselves.'],
+
+ w:'The sealed vault reels, reachable only by carrying a lit artifact past the wall of the dream.',l:['signal-quenched','cloak','prisoner-rebels']},
+
+
+
+{id:'signal-quenched',era:'e1',fac:'owlk',loc:'stranger',ico:'seal',when:'The turning point',t:'Snuffing out the signal',
+
+ b:'They built a device to silence the Eye\'s broadcast, and sealed it away.',
+
+ d:['The Strangers suppressed the signal at its source and locked the mechanism behind a seal on their own ship. Across the galaxy, anyone listening would have heard the oldest sound in existence simply stop.',
+
+    'It is worth sitting with the scale of this. A species crossed the void out of reverence, and their final act of worship was to gag the thing they worshipped.'],
+
+ w:'The sealed vaults at the Cinder Isles, Hidden Gorge and Endless Canyon.',l:['eye-found','prisoner-rebels','nomai-hear']},
+
+
+
+{id:'cloak',era:'e1',fac:'owlk',loc:'stranger',ico:'ring',when:'The turning point',t:'The ship disappears',
+
+ b:'A cloaking field wraps the Stranger. For 281,000 years, nobody in the system knows it is there.',
+
+ d:['Hiding the signal was not enough. The Strangers cloaked the Stranger itself, so that anyone who came looking would find an ordinary solar system with nothing unusual in it.',
+
+    'It worked completely. The Nomai arrived, surveyed every body in the system, built observatories and probes and warp networks, and never once noticed the moon-sized ring sharing their orbit.'],
+
+ w:'The cloaking field generator, inside the Stranger. Breaking it is how you get in.',l:['discover-stranger','nomai-clans']},
+
+
+
+{id:'fire',era:'e1',fac:'owlk',loc:'stranger',ico:'flame',when:'After the sealing',t:'Fire, and a broken dam',
+
+ b:'Something went catastrophically wrong inside the ship. The evidence is charred into the walls.',
+
+ d:['The interior of the Stranger is scarred: burned forest, a wrecked dam, a drowned gorge, whole districts abandoned. The exact sequence is left for you to reconstruct from what survives, but the ship you explore is unmistakably a place that suffered a disaster and never fully recovered from it.',
+
+    'Whatever happened, the population that came out the other side was smaller, and it made a very final decision about how to spend the rest of its existence.'],
+
+ w:'The Hidden Gorge and the Reservoir, in the physical Stranger.',l:['simulation']},
+
+
+
+{id:'simulation',era:'e1',fac:'owlk',loc:'stranger',ico:'flame',when:'After the fire',t:'They go inside',
+
+ b:'The Strangers laid their bodies in vaults and moved permanently into a simulated version of their world.',
+
+ d:['Rather than live in a burned ship in a system they had deliberately emptied of meaning, they built a <b>dream world</b>: a simulation of the Stranger as it was, running on the ship\'s own systems, entered by the light of a green flame.',
+
+    'Their physical bodies remain in three sealed vaults, kept alive and asleep. Everyone you meet in the dream has been dead-but-not-dead for a quarter of a million years, still going about their evening, still afraid of the dark for reasons that turn out to be excellent.'],
+
+ w:'Enter by taking a lit artifact to a green fire, anywhere on the Stranger.',l:['vaults','free-prisoner','fire']},
+
+
+
+{id:'prisoner-rebels',era:'e1',fac:'owlk',loc:'stranger',ico:'key',when:'Before the Nomai arrived',t:'One of them opens the seal',
+
+ b:'A single dissenter released the Eye\'s signal back into the universe. It was heard.',
+
+ d:['One of the Strangers disagreed with the silencing, and did something about it: they broke the seal and let the signal out again.',
+
+    'It did not stay out for long. But it was out long enough. Somewhere across the galaxy, a Nomai clan\'s instruments registered a sound older than the universe, and turned their ship around.',
+
+    '<b>Every Nomai in this story died because of that one act of conscience.</b> So did every possibility of the loop, the Vessel, the campfire and the ending. It is the single most consequential decision anyone makes, and the person who made it spent eternity in a cell for it.'],
+
+ w:'The vault reels, and the Prisoner\'s own account after you free them.',l:['prisoner-jailed','nomai-hear','free-prisoner']},
+
+
+
+{id:'prisoner-jailed',era:'e1',fac:'owlk',loc:'stranger',ico:'seal',when:'Before the Nomai arrived',t:'Sentenced to the dark',
+
+ b:'The Prisoner was locked in a cell inside the simulation and left there.',
+
+ d:['The others resealed the signal, erased the Prisoner from the public record, and confined them below the dream world in a prison with no release condition. Not a sentence. Storage.',
+
+    'They are still there when you arrive, still awake, and they have had 281,000 years to think about whether they were right.'],
+
+ w:'The Subterranean Lake, behind a door only three raised elevators can open.',l:['free-prisoner','simulation']},
+
+
+
+/* ---------- ERA III ---------- */
+
+{id:'nomai-clans',era:'e2',fac:'nomai',loc:'elsewhere',ico:'vessel',when:'Before arrival',t:'A people who live between stars',
+
+ b:'The Nomai were nomads in living warp-capable Vessels, spread across the galaxy in scattered clans.',
+
+ d:['Three-eyed, long-limbed, relentlessly curious, and constitutionally incapable of leaving a question alone. The Nomai travelled in enormous organic Vessels, splitting into clans that would separate for centuries and reunite at agreed coordinates.',
+
+    'They wrote on walls. Constantly. Their script spirals outward from a seed point and branches whenever a conversation branches, which is why the story of this species can be read as a literal diagram of who interrupted whom.'],
+
+ w:'Nomai text on every planet, once you have the translator tool.',l:['nomai-hear','vessel-warp']},
+
+
+
+{id:'nomai-hear',era:'e2',fac:'nomai',loc:'elsewhere',ico:'antenna',when:'About 281,000 years ago',t:"Escall's clan hears the Eye",
+
+ b:'A signal appears where nothing should be broadcasting. One clan abandons the rendezvous to chase it.',
+
+ d:['The clan aboard the Vessel, under a captain named <b>Escall</b>, detected the Eye\'s signal and made a choice their sister clans did not: they broke off, left word of where they were going, and set course.',
+
+    'They never made the rendezvous. The other clans presumably waited, then moved on, and to this day have no idea what happened here.'],
+
+ w:'Escape Pod 3 and the Vessel logs in Dark Bramble.',l:['prisoner-rebels','vessel-warp','pods']},
+
+
+
+{id:'vessel-warp',era:'e2',fac:'nomai',loc:'bramble',ico:'vessel',when:'On arrival',t:'The Vessel warps in, and is lost',
+
+ b:'They aimed for the signal and arrived inside Dark Bramble, which is not a place you can steer out of.',
+
+ d:['The Vessel warped to the source of the signal and materialised inside the tangle of Dark Bramble. The interior of that planet does not obey Euclidean geometry: the space inside a seed is larger than the seed, exits do not lead where they should, and something enormous and blind lives in the fog.',
+
+    'The Vessel was crippled. Its warp core failed. Anglerfish tore into the hull. The crew abandoned ship in escape pods.'],
+
+ w:'The Vessel, in the deepest node of Dark Bramble.',l:['pods','anglerfish','vessel-found']},
+
+
+
+{id:'pods',era:'e2',fac:'nomai',loc:'bramble',ico:'ship',when:'On arrival',t:'Three escape pods',
+
+ b:'Three pods launched. Their fates are the reason there is a civilisation here at all.',
+
+ d:['The wreck of the Vessel is not where the Nomai story continues. It continues in three small metal boxes that were flung out of it in a hurry, and you can still visit all three.'],
+
+ w:'One in Dark Bramble, one on Brittle Hollow, one at the bottom of Giant\'s Deep.',l:['pod1','pod2','pod3']},
+
+
+
+{id:'pod1',era:'e2',fac:'nomai',loc:'bramble',ico:'ship',when:'On arrival',t:'Escape Pod 1',branch:1,
+
+ b:'Adrift in the Bramble. Its distress beacon is still transmitting.',
+
+ d:['Pod 1 never got out of Dark Bramble. Its signal is one of the strongest things on the Signalscope and it has been calling for help for 281,000 years into a system where everyone who could answer is dead.',
+
+    'Following it is also how a great many players first meet an anglerfish.'],
+
+ w:'Dark Bramble. Follow the Escape Pod signal on the Signalscope.',l:['anglerfish','feldspar']},
+
+
+
+{id:'pod2',era:'e2',fac:'nomai',loc:'hollow',ico:'city',when:'On arrival',t:'Escape Pod 2',branch:1,
+
+ b:'Crashed on Brittle Hollow. These survivors founded everything that follows.',
+
+ d:['Pod 2 got clear and came down on Brittle Hollow. The Nomai aboard survived, walked out, and built the <b>Old Settlement</b> in the crust above a black hole. Every Nomai structure you will ever explore descends from this crash.'],
+
+ w:'Brittle Hollow, at the Old Settlement.',l:['old-settlement']},
+
+
+
+{id:'pod3',era:'e2',fac:'nomai',loc:'deep',ico:'ship',when:'On arrival',t:'Escape Pod 3',branch:1,
+
+ b:'Reached Giant\'s Deep. Nobody walked out of it.',
+
+ d:['Pod 3 made it through the cyclones and sank. Inside it, a Nomai skeleton and a wall of text recording the crew\'s realisation that they were not going to be found.',
+
+    'It sits at the bottom of the ocean, inside the current, and it is one of the quietest rooms in the game.'],
+
+ w:'Giant\'s Deep, carried down by the ocean current at the core.',l:['probe-cannon']},
+
+
+
+{id:'old-settlement',era:'e2',fac:'nomai',loc:'hollow',ico:'city',when:'First generation',t:'The Old Settlement',
+
+ b:'A stranded crew builds a town on a planet that is actively falling into a black hole.',
+
+ d:['Brittle Hollow has a black hole at its centre, and its crust breaks off in chunks and falls in. The Nomai settled there anyway, because it was survivable and because the black hole was interesting.',
+
+    'They started with survival, moved quickly to research, and never really went back. The first gravity crystals, the first warp experiments and the first serious study of the Eye\'s signal all trace to here.'],
+
+ w:'Brittle Hollow, north pole, reachable by gravity crystal walkway.',l:['move-twins','black-hole-forge']},
+
+
+
+{id:'move-twins',era:'e2',fac:'nomai',loc:'twins',ico:'city',when:'Early generations',t:'Down to the Hourglass Twins',
+
+ b:'The population moves to Ember Twin and builds a city where the sand has not yet reached.',
+
+ d:['The Hourglass Twins pour sand into each other on a cycle: one fills as the other empties, endlessly. The Nomai built the <b>Sunless City</b> in Ember Twin\'s caves, above the tide line, with the High Energy Lab and the Quantum Caves alongside it.',
+
+    'It is the closest thing the Nomai had to a capital, and it is now half buried.'],
+
+ w:'Ember Twin. Enter through the caves before the sand rises.',l:['sunless-city','quantum-moon','ash-twin']},
+
+
+
+{id:'sunless-city',era:'e2',fac:'nomai',loc:'twins',ico:'book',when:'Peak of the settlement',t:'The Sunless City',
+
+ b:'Homes, a school, a shrine, and an argument about whether any of this is a good idea.',
+
+ d:['The Sunless City is where the Nomai stop being a plot device and start being people. There are children learning to write. There is a mural room. There is a Nomai worrying, in writing, on a wall, that the plan to detonate a star might be slightly irresponsible, and being talked round by a colleague.',
+
+    'The most important research in the system was done by a few dozen individuals who bickered constantly and left every word of it where you could find it.'],
+
+ w:'Ember Twin, in the caves below the sand line.',l:['sun-station','high-energy']},
+
+
+
+{id:'high-energy',era:'e2',fac:'nomai',loc:'twins',ico:'warp',when:'Peak of the settlement',t:'The High Energy Lab',
+
+ b:'Where the loop was invented: send information, not matter, and send it backwards.',
+
+ d:['The lab tested the principle that makes the entire game possible. A warp core paired with a sufficiently violent energy source can push data 22 minutes into the past, into a receiver that already existed at that moment.',
+
+    'The Nomai proved it worked at small scale. Scaling it up needed the energy of a supernova, which is where the plan stops being physics and starts being hubris.'],
+
+ w:'Ember Twin, up the tower from the Sunless City.',l:['ash-twin','sun-station','loop-mechanic']},
+
+
+
+{id:'quantum-moon',era:'e2',fac:'nomai',loc:'quantum',ico:'spiral',when:'Peak of the settlement',t:'The moon that will not stay put',
+
+ b:'A moon that occupies a different orbit every time nobody is looking at it.',
+
+ d:['The Quantum Moon appears in orbit around Timber Hearth, Brittle Hollow, the Hourglass Twins, Giant\'s Deep and Dark Bramble, changing location whenever it is unobserved. The Nomai catalogued five positions and then found a written reference to a <b>sixth</b>.',
+
+    'The sixth location is the Eye. The moon is the Eye\'s moon, and it wanders.'],
+
+ w:'Look for it around any of the five planets, or follow it in the Signalscope.',l:['quantum-trials','solanum','museum']},
+
+
+
+{id:'quantum-trials',era:'e2',fac:'nomai',loc:'quantum',ico:'spiral',when:'Peak of the settlement',t:'The rules of the quantum',branch:1,
+
+ b:'Three lessons the Nomai wrote down so their students could land on a moon that runs away.',
+
+ d:['Scattered across the system are teaching sites: the Quantum Grove on Timber Hearth, the Quantum Caves on Ember Twin, the Tower of Quantum Knowledge on Brittle Hollow, and a shard on an island in Giant\'s Deep.',
+
+    'Between them they teach that observation locks a quantum object in place, that a photograph counts as observation, and that if you stand on a quantum object while unobserved you travel with it. That last one is not a puzzle mechanic. It is a mode of transport.'],
+
+ w:'Four sites, one per planet. The Tower of Quantum Knowledge holds the sixth location rule.',l:['quantum-moon','museum']},
+
+
+
+{id:'black-hole-forge',era:'e2',fac:'nomai',loc:'hollow',ico:'hole',when:'Peak of the settlement',t:'The Black Hole Forge',
+
+ b:'Where warp cores were made, using a black hole as a workshop tool.',
+
+ d:['The Nomai learned to pair a black hole with a white hole and use the pairing to move things instantly. The Forge on Brittle Hollow manufactured the cores, and the White Hole Station out past the Twins catches whatever the black holes swallow.',
+
+    'The whole system is threaded with their transport network: the Ash Twin warp towers, the black hole floor plates, the gravity walkways. It still works. Nobody has maintained it for 281,000 years and it still works.'],
+
+ w:'Brittle Hollow, raised above the surface. You may need to reach it from below.',l:['ash-twin','vessel-found','white-hole']},
+
+
+
+{id:'white-hole',era:'e2',fac:'nomai',loc:'twins',ico:'warp',when:'Peak of the settlement',t:'The White Hole Station',branch:1,
+
+ b:'The other end of every black hole in the system, parked in the outer dark.',
+
+ d:['Everything that falls into Brittle Hollow\'s black hole, including you, comes out here, moving fast, in the wrong direction, a long way from anywhere.',
+
+    'The station exists because the Nomai wanted to prove that nothing was actually being destroyed. It also doubles as the least convenient piece of public transport ever constructed.'],
+
+ w:'Outside the orbit of the Hourglass Twins. You arrive by falling.',l:['black-hole-forge']},
+
+
+
+{id:'probe-cannon',era:'e2',fac:'nomai',loc:'deep',ico:'probe',when:'Late in the settlement',t:'Nine million shots in the dark',
+
+ b:'They could not find the Eye, so they built a cannon to guess.',
+
+ d:['The Eye does not stay findable. Silenced and unlocatable, it left the Nomai with a search problem and no way to narrow it down, so they built the <b>Orbital Probe Cannon</b> above Giant\'s Deep: a gun that fires a scanning probe in a random direction and reports back if it hits anything.',
+
+    'The plan was to fire it until it worked. It fired once. The recoil tore the cannon apart, the modules scattered across the ocean and the sky, and the Nomai never learned whether that first shot found anything.'],
+
+ w:'In orbit above Giant\'s Deep, broken into three modules.',l:['probe-hit','pod3','sun-station']},
+
+
+
+{id:'sun-station',era:'e2',fac:'nomai',loc:'sun',ico:'sun',when:'Late in the settlement',t:'A machine to kill a star',
+
+ b:'To power the loop they needed a supernova, so they built a station to cause one.',
+
+ d:['The Ash Twin Project needed the energy of an exploding star. Rather than wait for one, the Nomai constructed the <b>Sun Station</b> in close solar orbit, designed to destabilise their own sun on command.',
+
+    'There is a wall in the Sunless City where one Nomai asks whether this is wise and another explains, patiently, why the risk is acceptable. They were arguing about deliberately detonating the star their entire species was living next to.'],
+
+ w:'Warp there from the Ash Twin tower. It only exists to be visited once.',l:['sun-station-fail','high-energy','why-sun']},
+
+
+
+{id:'sun-station-fail',era:'e2',fac:'nomai',loc:'sun',ico:'nova',when:'Late in the settlement',t:'It does not work',
+
+ b:'The sun was too big. The station fired and nothing happened.',
+
+ d:['The Sun Station failed. The sun simply absorbed it. The Nomai\'s notes record the disappointment with the flatness of people who have just watched a lifetime of work fail on the first attempt.',
+
+    'It matters enormously, because it means <b>the Nomai did not cause the supernova you keep dying in</b>. They tried and they could not. The sun is dying on its own schedule, and the machine they left behind is simply waiting for it.'],
+
+ w:'Sun Station logs, at the far end of the station.',l:['ash-twin','why-sun']},
+
+
+
+{id:'ash-twin',era:'e2',fac:'nomai',loc:'twins',ico:'warp',when:'Late in the settlement',t:'The Ash Twin Project',
+
+ b:'A warp core the size of a building, buried inside a planet, waiting for a star to die.',
+
+ d:['Inside Ash Twin, behind sand and a ring of warp towers, sits the largest warp core the Nomai ever built and a room of masks. The design is simple and appalling: when the sun explodes, the core catches the energy and uses it to fling <b>the memories of everyone linked to the masks</b> 22 minutes into the past.',
+
+    'It was never switched on in their lifetime. They built it, linked it to their statues, and died waiting for a supernova that arrived 281,000 years late.'],
+
+ w:'Inside Ash Twin. Reachable through a warp tower when the sand has drained.',l:['statues','loop-mechanic','last-loop']},
+
+
+
+{id:'statues',era:'e2',fac:'nomai',loc:'twins',ico:'mask',when:'Late in the settlement',t:'The statues that watch you',
+
+ b:'Paired to the masks in Ash Twin, a statue links a mind to the project.',
+
+ d:['The Nomai carved statues to act as the user end of the Ash Twin Project. Look one in the face and it links you: from then on, when the core fires, your memories are what it sends back.',
+
+    'They built them for themselves. There is a workshop full of unfinished ones. One was shipped to Timber Hearth long ago and buried, and it has been sitting in the dirt outside the village, waiting, for a very long time.'],
+
+ w:'The Statue Workshop on Ember Twin. And one on Timber Hearth, newly dug up.',l:['statue-wakes','ash-twin']},
+
+
+
+{id:'interloper',era:'e2',fac:'cosmos',loc:'interloper',ico:'comet',when:'The end of the Nomai',t:'A comet on a long orbit',
+
+ b:'The Nomai investigated the system\'s comet and found it was not carrying ice all the way down.',
+
+ d:['The Interloper swings close to the sun on a long elliptical orbit. The Nomai landed on it, drilled in, and discovered a hollow core packed with a strange substance under enormous pressure, held stable only by the cold.',
+
+    'They named it ghost matter. They worked out that it was lethal. They worked out roughly what would happen when the comet next passed the sun. They did not have time to do anything with that knowledge.'],
+
+ w:'Land on the Interloper and go inside. Bring the scout to see what you are standing in.',l:['ghost-matter','extinction']},
+
+
+
+{id:'ghost-matter',era:'e2',fac:'cosmos',loc:'interloper',ico:'nova',when:'The end of the Nomai',t:'The shell cracks',
+
+ b:'Solar heat splits the comet. Ghost matter vents across the entire system at once.',
+
+ d:['At perihelion the icy shell fractured and the core vented. Ghost matter sprayed outward and settled over every world in the system: in craters on the Attlerock, in drifts on Brittle Hollow, in the ruins of the Sunless City.',
+
+    'It is invisible to the naked eye. Your scout\'s camera can see it. Every Hearthian who has died to a shimmer they could not see has died to a comet that passed by 281,000 years before they were born.'],
+
+ w:'Everywhere. Launch the scout ahead of you and watch for the shimmer.',l:['extinction','ghost-decay']},
+
+
+
+{id:'extinction',era:'e2',fac:'nomai',loc:'sun',ico:'mask',when:'The end of the Nomai',t:'Every Nomai dies in about a minute',
+
+ b:'No war, no collapse, no last stand. A cloud arrives and a civilisation stops mid-sentence.',
+
+ d:['The Nomai were killed effectively simultaneously across every planet they occupied. There are skeletons in the middle of conversations. There is a wall in the Sunless City where the writing simply stops.',
+
+    'They had solved warp travel, quantum observation and time-reversed information transfer. They were beaten by a rock on a predictable orbit.',
+
+    'The Ash Twin Project was finished, linked, and armed. It sat in the dark for 281,000 years with nobody left to remember anything.'],
+
+ w:'Nomai remains on every planet, most affectingly in the Sunless City.',l:['solanum','statue-wakes','ghost-decay']},
+
+
+
+{id:'solanum',era:'e2',fac:'nomai',loc:'quantum',ico:'spiral',when:'The end of the Nomai',t:'Solanum, alive-ish',
+
+ b:'One Nomai was standing on the Quantum Moon when it happened, and is still there.',
+
+ d:['Solanum went to the Quantum Moon to prove she could reach it, and was on its surface when the ghost matter swept the system. What happened to her is not death and is not survival. She describes herself, carefully, as alive-ish: her state collapsed into something the moon holds open.',
+
+    'She is the only Nomai you can talk to. She is patient, precise, and quietly delighted that someone finally came. She will also tell you the thing nobody else can: that the Eye is where the moon\'s sixth location leads, and that she cannot follow you there.'],
+
+ w:'The Quantum Shrine on the Quantum Moon. Ride the moon to its sixth location.',l:['museum','campfire','quantum-trials']},
+
+
+
+/* ---------- ERA IV ---------- */
+
+{id:'bramble',era:'e3',fac:'cosmos',loc:'bramble',ico:'bramble',when:'Uncertain',t:'Dark Bramble eats a planet',
+
+ b:'There used to be an ice planet out there. There is now a shell full of vines and fog.',
+
+ d:['Dark Bramble is not a planet. It is the wreckage of one, hollowed out and threaded through with an alien vine that grew from a seed and burst the world open from the inside.',
+
+    'The space inside it does not behave. Enter a seed and you emerge in a fog-filled void larger than the object you entered, containing more seeds. The Nomai mapped it, lost people in it, and gave up.'],
+
+ w:'The outermost planet. Fly slowly and keep your lights off.',l:['anglerfish','vessel-warp','feldspar']},
+
+
+
+{id:'anglerfish',era:'e3',fac:'cosmos',loc:'bramble',ico:'fish',when:'Uncertain',t:'The anglerfish',branch:1,
+
+ b:'Enormous, blind, and navigating entirely by sound.',
+
+ d:['They hunt by ear. Cut your engines and drift and they will pass within metres of the hull and never know. Fire a thruster and they will cross the fog at a speed nothing that size should manage.',
+
+    'They are also the reason the Vessel is a wreck, which makes them, indirectly, the reason the Nomai settled here at all.'],
+
+ w:'Dark Bramble, especially near the Vessel and Escape Pod 1.',l:['vessel-warp','vessel-found']},
+
+
+
+{id:'jellyfish',era:'e3',fac:'cosmos',loc:'deep',ico:'jelly',when:'Uncertain',t:'The jellyfish of Giant\'s Deep',branch:1,
+
+ b:'Harmless, drifting, and the only way through the electric field around the planet\'s core.',
+
+ d:['Giant\'s Deep protects its core with a current that shocks anything passing through. The jellyfish drift up and down through it unbothered, because they are insulated.',
+
+    'The Nomai noticed. If you climb inside one and hold still, so are you.'],
+
+ w:'Giant\'s Deep, in the upper ocean. Get in from underneath.',l:['pod3','probe-cannon']},
+
+
+
+{id:'attlerock',era:'e3',fac:'cosmos',loc:'hearth',ico:'rock',when:'Always',t:'The Attlerock',branch:1,
+
+ b:'Timber Hearth\'s small grey moon, tidally locked, holding some of the clearest ghost matter in the system.',
+
+ d:['The Attlerock keeps one face turned to Timber Hearth for its entire orbit, which is why Esker set up on it and has been alone up there long enough to get genuinely good at whistling.',
+
+    'Its craters also hold ghost matter in visible drifts. Launch the scout ahead of you before you go wandering, because the surface looks completely empty and is not.'],
+
+ w:'Orbiting Timber Hearth. Land near the lamp and walk around the far side.',l:['ghost-matter','astronauts','hearthians']},
+
+
+
+{id:'lantern',era:'e3',fac:'cosmos',loc:'hollow',ico:'nova',when:'Always',t:'Hollow\'s Lantern',branch:1,
+
+ b:'A volcanic moon in close orbit that shells Brittle Hollow with molten rock for the entire loop.',
+
+ d:['Hollow\'s Lantern orbits close enough to throw lava at Brittle Hollow continuously. That bombardment is why the crust breaks up across the twenty-two minutes, and why the planet you land on at 02:00 is not the planet you land on at 15:00.',
+
+    'It is the only timed destruction in the game you can watch happening from a safe distance, and it is worth doing once.'],
+
+ w:'Orbiting Brittle Hollow. Watch it from the Old Settlement.',l:['old-settlement','black-hole-forge']},
+
+
+
+{id:'satellite',era:'e3',fac:'hearth',loc:'elsewhere',ico:'antenna',when:'Now',t:'The deep space satellite',branch:1,
+
+ b:'A Hearthian probe far outside the planets, taking photographs nobody has looked at closely enough.',
+
+ d:['Outer Wilds Ventures put a satellite in a distant orbit to photograph the sun and the outer system. Its images are the reason anyone ever finds the Stranger: one frame shows a ring-shaped shadow crossing the sun, in an orbit where every instrument insists there is nothing.',
+
+    'It sits far enough out to pick up things the inner system cannot hear.'],
+
+ w:'Far beyond Dark Bramble. Fly out, or find it on the Signalscope.',l:['discover-stranger','eye-signal','owv']},
+
+
+
+{id:'ghost-decay',era:'e3',fac:'cosmos',loc:'hearth',ico:'nova',when:'Over millennia',t:'The ghost matter thins',
+
+ b:'Enough of it decays that a species can evolve on Timber Hearth without walking into it.',
+
+ d:['Ghost matter breaks down slowly. Over a few hundred thousand years the drifts thin out to pockets: crater floors, cave mouths, the ruins where it settled thickest.',
+
+    'The pockets that remain are still lethal, and they are still invisible, and nothing on Timber Hearth has ever had any reason to develop a sense for them.'],
+
+ w:'Attlerock craters, Brittle Hollow, Nomai ruins on Timber Hearth.',l:['hearthians','ghost-matter']},
+
+
+
+{id:'hearthians',era:'e3',fac:'hearth',loc:'hearth',ico:'campfire',when:'Recent, on this scale',t:'Four eyes open on Timber Hearth',
+
+ b:'An amphibious, blue, four-eyed people evolve on a small green planet and turn out to be relentless.',
+
+ d:['Hearthians are small, sociable, musically inclined and completely unbothered by risk. Their entire settlement is a village of a few dozen people, and it has produced a functioning space programme.',
+
+    'They are the only species in this story with no ancient tradition, no lost homeworld, and no signal calling them anywhere. They go up because it is interesting up there.'],
+
+ w:'The Village, Timber Hearth.',l:['ruins-found','owv','campfire']},
+
+
+
+{id:'ruins-found',era:'e3',fac:'hearth',loc:'hearth',ico:'rock',when:'Within living memory',t:'Ruins, and a language nobody spoke',
+
+ b:'Hearthians dig up Nomai structures on their own planet and realise they were not first.',
+
+ d:['Nomai remains turn up on Timber Hearth: a sealed structure in the mines, a quantum grove, and a statue that nobody can date or explain.',
+
+    'The reaction is characteristically Hearthian. Not fear, not reverence. A museum, a research programme, and an enormous amount of enthusiasm.'],
+
+ w:'The Nomai mines and the Zero-G Cave, Timber Hearth.',l:['translator','statue-wakes']},
+
+
+
+{id:'translator',era:'e3',fac:'hearth',loc:'hearth',ico:'book',when:'Within living memory',t:'The translator tool',
+
+ b:'Hal builds a device that turns Nomai spiral script into something readable, badly but usefully.',
+
+ d:['Hearthian researchers reverse-engineered enough Nomai writing to build a handheld translator. It is slow, it is imprecise, and it renders their branching spiral script as plain sentences one paragraph at a time.',
+
+    'It is also the single most important object in the game. Without it the ruins are scenery. With it, a dead civilisation talks to you continuously for twenty hours.'],
+
+ w:'Hal gives you the mark 3 in the museum on launch day.',l:['launch-day','ruins-found']},
+
+
+
+{id:'owv',era:'e3',fac:'hearth',loc:'hearth',ico:'ship',when:'Within living memory',t:'Outer Wilds Ventures',
+
+ b:'A space programme run out of a village by about six people and a lot of wood.',
+
+ d:['Slate builds the ships. Gossan runs training. Hornfels runs mission control and the observatory. The ships are held together with timber, rivets and optimism, and the launch procedure involves being fired out of a tree.',
+
+    'Their safety record is not good. Their exploration record is extraordinary.'],
+
+ w:'The observatory and launch tower, Timber Hearth.',l:['feldspar','astronauts','launch-day']},
+
+
+
+{id:'feldspar',era:'e3',fac:'hearth',loc:'bramble',ico:'campfire',when:'Some years ago',t:'Feldspar disappears',branch:1,
+
+ b:'The first and best Hearthian pilot flies into Dark Bramble and is never heard from again.',
+
+ d:['Feldspar flew everything first and treated every planet as a personal challenge. Then they went to Dark Bramble and the signal stopped.',
+
+    'They are not dead. They are camped deep inside the Bramble next to a wrecked ship, roasting marshmallows, entirely content, and mildly surprised anyone came looking. They also fixed their own broken leg, and would like you to know it.'],
+
+ w:'Dark Bramble, in the anglerfish nest. Follow the harmonica.',l:['anglerfish','campfire']},
+
+
+
+{id:'astronauts',era:'e3',fac:'hearth',loc:'hearth',ico:'antenna',when:'Now',t:'Five travellers, five planets',
+
+ b:'Esker, Chert, Riebeck, Gabbro and Feldspar are already out there when you launch.',
+
+ d:['Esker is alone on the Attlerock, whistling. Chert is on Ember Twin with a telescope, watching the sky do something it should not. Riebeck is hiding on Brittle Hollow with a banjo and a great deal of anxiety. Gabbro is lying in a hammock on Giant\'s Deep. Feldspar is lost in the Bramble.',
+
+    'Each one is alone, each one has an instrument, and you can hear all of them on the Signalscope from anywhere in the system. That is not decoration. Those five signals are how you learn the system is small enough to hold in your head.'],
+
+ w:'Track them on the Signalscope under Outer Wilds Ventures.',l:['launch-day','campfire','gabbro']},
+
+
+
+/* ---------- ERA V ---------- */
+
+{id:'launch-day',era:'e4',fac:'hearth',loc:'hearth',ico:'campfire',when:'Loop 1',t:'Launch day',
+
+ b:'You wake up by a campfire. Someone has your launch codes. Nobody is worried about anything.',
+
+ d:['The game opens with a Hearthian waking under a tree, roasting a marshmallow, and walking through a village to collect launch codes from Hornfels. Twenty minutes of unhurried conversation with people who like you.',
+
+    'This is the only time you will experience the village without knowing what happens to it.'],
+
+ w:'Timber Hearth. Get the codes, take the translator, ride the elevator.',l:['statue-wakes','translator','owv']},
+
+
+
+{id:'statue-wakes',era:'e4',fac:'hearth',loc:'hearth',ico:'mask',when:'Loop 1',t:'The statue opens its eyes',
+
+ b:'The Nomai statue in the dig site looks at you, and something 281,000 years old links to your mind.',
+
+ d:['On the way to the launch tower you can walk past a newly excavated Nomai statue. It turns its head. Its eyes light. Nobody in the village has ever seen it do that.',
+
+    'What has actually happened is that the Ash Twin Project has just registered a user, for the first time in its existence. From this moment, when the sun explodes, <b>your</b> memories are the ones that get sent back.'],
+
+ w:'The dig site on Timber Hearth, on your way to the ship.',l:['statues','loop-mechanic','supernova']},
+
+
+
+{id:'supernova',era:'e4',fac:'cosmos',loc:'sun',ico:'nova',when:'00:22',t:'The sun dies',
+
+ b:'Twenty-two minutes after you wake, the star goes up and takes the system with it.',
+
+ d:['The sun swells, turns blue, and detonates. The shockwave crosses the system in seconds. Everything, every planet, every person, every wall of Nomai writing, is gone.',
+
+    'Then you wake up under the tree with a marshmallow in your hand.'],
+
+ w:'Everywhere. You cannot outrun it and you should try once anyway.',l:['loop-mechanic','why-sun']},
+
+
+
+{id:'why-sun',era:'e4',fac:'cosmos',loc:'sun',ico:'nova',when:'Now',t:'Why now',
+
+ b:'It is not the Sun Station, and it is not your fault. The universe is simply finishing.',
+
+ d:['Chert on Ember Twin will tell you, in rising distress across the loop, that stars are going out all over the sky. Not one star. All of them.',
+
+    'The universe is roughly 14 billion years old and it has reached the end of the era in which stars exist. Your sun is not special. It is just the nearest one, and its timing is the reason a machine buried in Ash Twin finally has enough power to run.',
+
+    'The Nomai tried to cause this and failed. Nobody caused it. It was always going to be today.'],
+
+ w:'Chert\'s dialogue across successive loops, and the deep space observations.',l:['sun-station-fail','supernova','new-universe']},
+
+
+
+{id:'loop-mechanic',era:'e4',fac:'nomai',loc:'twins',ico:'clock',when:'Every loop',t:'How the loop actually works',
+
+ b:'Nothing rewinds. The universe ends every time. Only the memory travels.',
+
+ d:['This is the detail that makes the ending land. The Ash Twin Project does not reset time and it does not save anyone. Every loop, the supernova really happens and everyone really dies.',
+
+    'What the core sends back is <b>information</b>: your memories, 22 minutes into the past, into the version of you that is about to wake under the tree. You are not reliving a day. You are the last thing a dying universe keeps writing down.',
+
+    'It also means the only progress that exists is what you personally understand. There are no upgrades. The lock is always knowledge.'],
+
+ w:'The Ash Twin Project interior, and the High Energy Lab notes.',l:['ash-twin','last-loop','gabbro']},
+
+
+
+{id:'gabbro',era:'e4',fac:'hearth',loc:'deep',ico:'campfire',when:'Every loop',t:'Gabbro remembers too',branch:1,
+
+ b:'One other Hearthian is looped, and is completely relaxed about it.',
+
+ d:['Gabbro visited a Nomai statue on Giant\'s Deep and got linked the same way you did. They are the only other person who remembers, and their reaction to being trapped in a dying universe is to stay in the hammock and enjoy the view.',
+
+    'Gabbro is also the one who tells you the useful thing: that meditating until the loop ends is a way to reset on purpose.'],
+
+ w:'Gabbro\'s Island, Giant\'s Deep.',l:['loop-mechanic','campfire']},
+
+
+
+{id:'probe-hit',era:'e4',fac:'nomai',loc:'deep',ico:'probe',when:'Every loop',t:'Probe 9,318,054',
+
+ b:'The cannon has been firing every loop since the loop began. One shot found the Eye.',
+
+ d:['The Orbital Probe Cannon fires once per loop, automatically, and its control module keeps a running count. By the time you read it, the tally stands at <b>9,318,054</b> launches.',
+
+    'The last one hit. The control module holds a photograph of the Eye of the Universe and the coordinates to go with it. That number is not flavour text: it means the loop has been running, unwatched, for many more cycles than yours, and that the very first shot the Nomai ever fired was one in nine million.'],
+
+ w:'The Probe Tracking Module, sunk into the ocean on Giant\'s Deep.',l:['probe-cannon','last-loop','eye-origin']},
+
+
+
+{id:'discover-stranger',era:'e4',fac:'hearth',loc:'stranger',ico:'ring',when:'Every loop',t:'A ring across the sun',
+
+ b:'A photograph shows something enormous eclipsing the sun. There is nothing there.',
+
+ d:['Deep space imaging catches a silhouette crossing the sun: a ring, moon-sized, in a solar orbit, that no instrument can otherwise detect.',
+
+    'This is the seam of the DLC. Once you have seen the shadow you can fly to the coordinates, find nothing, and then find the cloaking field generator hidden inside the nothing.'],
+
+ w:'The Deep Space Satellite photograph. Then fly to the empty orbit and look harder.',l:['cloak','dream-world','stranger-arrival']},
+
+
+
+{id:'dream-world',era:'e4',fac:'owlk',loc:'stranger',ico:'flame',when:'Every loop',t:'Into the dream',branch:1,
+
+ b:'Take a lit artifact to a green fire and you wake up in a simulation of a burned ship.',
+
+ d:['The dream world is the Stranger as it was before the fire, populated by inhabitants who have been asleep for 281,000 years and who do not react well to being seen.',
+
+    'Light is the whole grammar of this place. Their lanterns can force you awake. Your own artifact can put them out. And to reach the sealed archives you have to do the thing every instinct refuses: blow out your own light and walk into the dark.'],
+
+ w:'Any green fire on the Stranger, carrying a lit artifact.',l:['simulation','vaults','free-prisoner']},
+
+
+
+{id:'vaults',era:'e4',fac:'owlk',loc:'stranger',ico:'seal',when:'Every loop',t:'The three sealed vaults',branch:1,
+
+ b:'Three places in the dream where the Strangers locked their own history away.',
+
+ d:['The Cinder Isles, the Hidden Gorge and the Endless Canyon each hide a sealed reel, and each one is guarded by a puzzle built around extinguishing your lantern and moving unseen.',
+
+    'What they contain is the confession: how the Eye was found, how it was silenced, and what was done to the one who objected.'],
+
+ w:'Three locations in the dream world, each behind a light-based puzzle.',l:['signal-quenched','eye-found','free-prisoner']},
+
+
+
+{id:'free-prisoner',era:'e4',fac:'owlk',loc:'stranger',ico:'key',when:'Every loop',t:'You open the cell',branch:1,
+
+ b:'The Prisoner has waited 281,000 years to find out whether they were right.',
+
+ d:['Behind the Subterranean Lake, past three raised elevators, is a door and behind the door is the only Stranger still awake. They cannot speak to you. You show each other things instead: they give you their account of the sealing, and you can give them a vision of the Eye.',
+
+    'When they see that the signal was heard, that someone followed it, and that someone is going to reach it, they raise a hand and hold yours. That is the whole payoff of the expansion, and it is done entirely without words.'],
+
+ w:'The Subterranean Lake in the dream world. Bring the vision staff.',l:['prisoner-jailed','prisoner-rebels','campfire']},
+
+
+
+{id:'vessel-found',era:'e4',fac:'nomai',loc:'bramble',ico:'vessel',when:'Every loop',t:'The Vessel, still waiting',
+
+ b:'The Nomai ship is intact enough to warp one more time. It needs a core it does not have.',
+
+ d:['Deep inside Dark Bramble, past the anglerfish, sits the Vessel where it has sat since it crashed. Its systems come up. Its warp drive is fine. Its core is dead.',
+
+    'There is exactly one working advanced warp core in the system, and it is currently the power supply for the time loop.'],
+
+ w:'The deepest seed in Dark Bramble. Take the Nomai coordinates or follow the distress signal.',l:['vessel-warp','last-loop','ash-twin']},
+
+
+
+{id:'last-loop',era:'e4',fac:'hearth',loc:'bramble',ico:'ship',when:'The last loop',t:'The last loop',
+
+ b:'Pull the core out of Ash Twin and the loop dies with it. Whatever you do next, you only do once.',
+
+ d:['To fly the Vessel you must take the advanced warp core from the Ash Twin Project. Removing it shuts the project down. No more memories go back. The next supernova is simply the end.',
+
+    'So the final act is a single unrepeatable run: into Ash Twin, out with the core, across the system, into Dark Bramble, through the fog, into the Vessel, coordinates in, warp.',
+
+    'You will have about twenty minutes, and you will be doing it alone, and it is one of the great endings in games.'],
+
+ w:'Ash Twin, then Dark Bramble, in one loop.',l:['ash-twin','vessel-found','warp-eye']},
+
+
+
+/* ---------- ERA VI ---------- */
+
+{id:'warp-eye',era:'e5',fac:'eye',loc:'eye',ico:'eye',when:'After the last loop',t:'Beyond the sun\'s reach',
+
+ b:'The Vessel jumps. You arrive somewhere the supernova will never reach, and step out.',
+
+ d:['The Eye is not a place with ground, exactly. You descend through it and it responds to you: a forest, a road, an observatory that should not exist, all of it assembled out of what you have already been through.',
+
+    'Your ship is gone. Your suit is gone. What you have left is a working knowledge of quantum observation and a lot of walking.'],
+
+ w:'The Eye, reachable only by the Vessel.',l:['museum','last-loop']},
+
+
+
+{id:'museum',era:'e5',fac:'eye',loc:'eye',ico:'book',when:'After the last loop',t:'The moon, and the museum',
+
+ b:'The Quantum Moon is here, at its sixth location, and Solanum is on it.',
+
+ d:['The Eye rebuilds the Timber Hearth observatory around you, exhibit by exhibit, out of everything you learned. It is a quiet inventory of your entire playthrough.',
+
+    'And the Quantum Moon reaches its sixth location at last, which means the one Nomai left alive gets to see the thing her people crossed the galaxy for. She cannot come with you. She knows that. She is glad anyway.'],
+
+ w:'Inside the Eye. Follow the path down.',l:['solanum','quantum-moon','campfire']},
+
+
+
+{id:'campfire',era:'e5',fac:'eye',loc:'eye',ico:'campfire',when:'The end',t:'Everyone at the campfire',
+
+ b:'Every traveller you found, in one place, with their instruments.',
+
+ d:['At the centre of the Eye you gather the others: Esker, Chert, Riebeck, Gabbro, Feldspar, Solanum, and, if you freed them, the Prisoner. Every one of them was alone when you found them. A moon, a cave, a hammock, a cell.',
+
+    'They sit down around a fire and play together. The five instruments you have been hearing separately on the Signalscope for the whole game finally resolve into one piece of music, joined by two more that have not been heard in 281,000 years.',
+
+    'It is a game about a dying universe and it ends with a folk band.'],
+
+ w:'The Eye, at the end of the path.',l:['astronauts','solanum','free-prisoner','new-universe']},
+
+
+
+{id:'new-universe',era:'e5',fac:'eye',loc:'eye',ico:'nova',when:'The end',t:'The instrument, and the next Big Bang',
+
+ b:'The music converges into a single point. The old universe ends. A new one starts.',
+
+ d:['The gathering is not a farewell scene. It is the mechanism. The Eye needs an observer, and observation is what collapses possibility into a single outcome. Between them, the travellers give it one.',
+
+    'Everything folds inward and detonates outward. The universe you spent the game exploring is over, completely and permanently, and something new begins in the same instant.',
+
+    'Nobody is rescued. Nothing is undone. That is the point.'],
+
+ w:'The end of the Eye.',l:['eye-origin','epilogue','why-sun']},
+
+
+
+{id:'epilogue',era:'e5',fac:'eye',loc:'elsewhere',ico:'tree',when:'14.3 billion years later',t:'Somewhere, someone builds a fire',
+
+ b:'New stars, new worlds, and something small and curious sitting down to look at them.',
+
+ d:['The epilogue jumps forward the full age of a universe. Galaxies have formed. A planet has water and trees. Something is sitting by a fire under an unfamiliar sky, doing exactly what your species does.',
+
+    'The Nomai chased a signal. The Strangers tried to silence it. The Hearthians went out because it looked interesting. Only one of those approaches was still there at the end.'],
+
+ w:'Stay through the credits.',l:['new-universe','hearthians']}
+
+];
+
+
+
+/* ================= CODEX ================= */
+
+const BEINGS = [
+
+ {id:'b-hearth',fac:'hearth',n:'Hearthians',s:'Four eyes, no fear',
+
+  p:'<ellipse cx="50" cy="60" rx="26" ry="24"/><circle cx="40" cy="52" r="4"/><circle cx="52" cy="49" r="4"/><circle cx="41" cy="64" r="3"/><circle cx="53" cy="62" r="3"/><circle cx="40" cy="52" r="1.4" fill="currentColor" stroke="none"/><circle cx="52" cy="49" r="1.4" fill="currentColor" stroke="none"/><path d="M24 76q10 10 26 8t26-14"/><path d="M76 52l14-12v34z"/><path d="M50 36V22M44 22h12"/>',
+
+  d:['Small amphibious people from Timber Hearth, four-eyed, blue, and unreasonably calm about vacuum.','Their space programme is six people, a wooden ship and a launch tower built into a tree.','Every one of them plays an instrument. This turns out to matter.']},
+
+ {id:'b-nomai',fac:'nomai',n:'The Nomai',s:'Extinct 281,000 years',
+
+  p:'<path d="M34 30h32l5 16c0 20-10 34-21 34S29 66 29 46z"/><circle cx="42" cy="46" r="3.5"/><circle cx="57" cy="44" r="3.5"/><circle cx="50" cy="57" r="3"/><path d="M34 30l-7-14M66 30l7-14"/><path d="M42 80v10h16V80"/><path d="M50 90c-8 0-14 4-14 8h28c0-4-6-8-14-8"/>',
+
+  d:['Nomadic scientists who lived aboard warp-capable Vessels and wrote everything on the nearest wall.','Their script spirals out from a seed and branches wherever the conversation branched.','Killed in about a minute by an event they had already predicted and had no time to act on.']},
+
+ {id:'b-owlk',fac:'owlk',n:'The Strangers',s:'Asleep, not dead',
+
+  p:'<path d="M50 24c14 0 24 11 24 26 0 18-11 32-24 32S26 68 26 50c0-15 10-26 24-26z"/><path d="M38 44c3-3 8-3 11 0M51 44c3-3 8-3 11 0"/><circle cx="43" cy="46" r="2.4" fill="currentColor" stroke="none"/><circle cx="57" cy="46" r="2.4" fill="currentColor" stroke="none"/><path d="M50 52l-4 6h8z"/><path d="M32 26c-6-8-4-14-4-14 6 2 10 6 12 10M68 26c6-8 4-14 4-14-6 2-10 6-12 10"/><path d="M34 78q16 8 32 0"/>',
+
+  d:['Tall, horned, feathered people who crossed the galaxy chasing the Eye and then hid it from everyone.','Their bodies sleep in three vaults; their minds live in a simulation lit by green fire.','One of them broke ranks. That is why the Nomai came, and why you exist as a player character.']},
+
+ {id:'b-angler',fac:'cosmos',n:'Anglerfish',s:'Blind, enormous, listening',
+
+  p:'<path d="M14 52c14-20 44-26 64-14-6 8-6 18 0 26-20 12-50 6-64-12z"/><path d="M78 38l10-12v52l-10-12"/><path d="M30 42l5 6M40 38l4 6M30 62l5-6M42 66l4-6" /><path d="M60 38c8-6 4-16-4-16" /><circle cx="55" cy="21" r="3" fill="currentColor" stroke="none"/>',
+
+  d:['Apex predators native to Dark Bramble, larger than your ship and completely blind.','They hunt by sound. Cut your thrusters and they cannot find you.','They wrecked the Nomai Vessel, which is the reason there is a civilisation in this system at all.']},
+
+ {id:'b-jelly',fac:'cosmos',n:'Giant\'s Deep jellyfish',s:'Insulated, incurious',
+
+  p:'<path d="M18 54a32 26 0 0164 0z"/><path d="M18 54q8 6 16 0t16 0 16 0 16 0"/><path d="M28 58c0 16-4 24-8 34M42 58c0 18-2 26-4 34M58 58c0 18 2 26 4 34M72 58c0 16 4 24 8 34"/>',
+
+  d:['Drifting, harmless, and the only safe way through the electrified current around Giant\'s Deep\'s core.','Climb inside from underneath and hold still.','The Nomai worked this out too, and left notes about it.']},
+
+ {id:'b-eye',fac:'eye',n:'The Eye of the Universe',s:'Older than everything',
+
+  p:'<circle cx="50" cy="50" r="32" stroke-dasharray="1 6"/><circle cx="50" cy="50" r="22"/><circle cx="50" cy="50" r="11" fill="currentColor" opacity=".18"/><circle cx="50" cy="50" r="4" fill="currentColor" stroke="none"/><path d="M50 6v10M50 84v10M6 50h10M84 50h10"/><path d="M22 22l7 7M71 71l7 7M78 22l-7 7M29 71l-7 7" opacity=".6"/>',
+
+  d:['Predates the universe. Broadcasts a signal that does not weaken with distance.','Two species crossed the galaxy for it and drew opposite conclusions about what to do next.','It requires an observer. Providing one is the last thing anybody in this story does.']}
+
+];
+
+
+
+/* ================= RENDER ================= */
+
+const $ = s=>document.querySelector(s), $$ = s=>[...document.querySelectorAll(s)];
+
+const byId = Object.fromEntries(EV.map(e=>[e.id,e]));
+
+const tl = $('#timeline');
+
+
+
+ERAS.forEach(era=>{
+
+  const sec = document.createElement('section');
+
+  sec.className='era'; sec.dataset.era=era.id;
+
+  sec.innerHTML = '<div class="era-head"><span class="era-num mono">'+era.n+'</span>'+
+
+    '<h2 class="era-title">'+era.t+'</h2><span class="era-when mono">'+era.when+'</span></div>'+
+
+    '<p class="era-blurb">'+era.b+'</p><div class="thread"></div>';
+
+  const th = sec.querySelector('.thread');
+
+  EV.filter(e=>e.era===era.id).forEach(e=>{
+
+    const btn=document.createElement('button');
+
+    btn.className='node f-'+e.fac+(e.branch?' branch':'');
+
+    btn.dataset.id=e.id; btn.dataset.fac=e.fac; btn.dataset.loc=e.loc;
+
+    btn.dataset.txt=(e.t+' '+e.b+' '+e.d.join(' ')+' '+FAC[e.fac]+' '+LOC[e.loc]).toLowerCase().replace(/<[^>]+>/g,'');
+
+    btn.innerHTML='<div class="node-top"><span class="node-when mono">'+e.when+'</span>'+
+
+      (e.branch?'<span class="node-tag mono">branch</span>':'')+
+
+      '<span class="node-tag mono">'+LOC[e.loc]+'</span></div>'+
+
+      '<h3>'+e.t+'</h3><p>'+e.b+'</p>'+glyph(e.ico,'node-ico');
+
+    th.appendChild(btn);
+
+  });
+
+  tl.appendChild(sec);
+
+});
+
+
+
+const cx = $('#codex');
+
+BEINGS.forEach(b=>{
+
+  const el=document.createElement('button');
+
+  el.className='being f-'+b.fac; el.dataset.being=b.id;
+
+  el.innerHTML='<svg class="port" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+b.p+'</svg>'+
+
+    '<div><div class="eyebrow">'+b.s+'</div><h3 style="margin-top:5px">'+b.n+'</h3></div>'+
+
+    '<p>'+b.d[0]+'</p>';
+
+  cx.appendChild(el);
+
+});
+
+
+
+/* ================= DRAWER ================= */
+
+const drawer=$('#drawer'), scrim=$('#scrim'), drbody=$('#drbody'), drfac=$('#drfac');
+
+let lastFocus=null;
+
+function openEvent(id){
+
+  const e=byId[id]; if(!e) return;
+
+  lastFocus=document.activeElement;
+
+  drawer.className='f-'+e.fac+' on'; drawer.setAttribute('aria-hidden','false');
+
+  drfac.textContent=FAC[e.fac];
+
+  const links=(e.l||[]).filter(x=>byId[x]).map(x=>
+
+    '<button class="lnk f-'+byId[x].fac+'" data-go="'+x+'"><span>'+byId[x].t+'</span><span style="color:var(--c)">&rarr;</span></button>').join('');
+
+  drbody.innerHTML=glyph(e.ico,'dr-glyph')+
+
+    '<h2>'+e.t+'</h2>'+
+
+    '<dl class="dr-meta">'+
+
+      '<div class="dr-row"><dt>When</dt><dd>'+e.when+'</dd></div>'+
+
+      '<div class="dr-row"><dt>Where</dt><dd>'+LOC[e.loc]+'</dd></div>'+
+
+      '<div class="dr-row"><dt>Who</dt><dd>'+FAC[e.fac]+'</dd></div>'+
+
+    '</dl>'+
+
+    '<div class="dr-text">'+e.d.map(p=>'<p>'+p+'</p>').join('')+'</div>'+
+
+    '<dl class="dr-meta" style="border-bottom:none"><div class="dr-row"><dt>In game</dt><dd>'+e.w+'</dd></div></dl>'+
+
+    (links?'<div class="dr-links"><div class="eyebrow">Threads from here</div>'+links+'</div>':'');
+
+  scrim.classList.add('on'); drbody.scrollTop=0;
+
+  setTimeout(()=>$('#drclose').focus(),60);
+
+}
+
+function openBeing(id){
+
+  const b=BEINGS.find(x=>x.id===id); if(!b) return;
+
+  lastFocus=document.activeElement;
+
+  drawer.className='f-'+b.fac+' on'; drawer.setAttribute('aria-hidden','false');
+
+  drfac.textContent='Codex';
+
+  drbody.innerHTML='<svg class="dr-glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+b.p+'</svg>'+
+
+    '<h2>'+b.n+'</h2><div class="eyebrow" style="color:var(--c)">'+b.s+'</div>'+
+
+    '<div class="dr-text">'+b.d.map(p=>'<p>'+p+'</p>').join('')+'</div>';
+
+  scrim.classList.add('on'); drbody.scrollTop=0;
+
+  setTimeout(()=>$('#drclose').focus(),60);
+
+}
+
+function closeDrawer(){
+
+  drawer.classList.remove('on'); drawer.setAttribute('aria-hidden','true'); scrim.classList.remove('on');
+
+  if(lastFocus&&lastFocus.focus)lastFocus.focus();
+
+}
+
+$('#drclose').onclick=closeDrawer; scrim.onclick=closeDrawer;
+
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&drawer.classList.contains('on'))closeDrawer();});
+
+document.addEventListener('click',ev=>{
+
+  const n=ev.target.closest('.node'); if(n){openEvent(n.dataset.id);return;}
+
+  const g=ev.target.closest('.lnk'); if(g){openEvent(g.dataset.go);return;}
+
+  const b=ev.target.closest('.being'); if(b){openBeing(b.dataset.being);return;}
+
+  const d=ev.target.closest('.dn'); if(d){openEvent(d.dataset.open);return;}
+
+});
+
+document.addEventListener('keydown',ev=>{
+
+  if(ev.key!=='Enter'&&ev.key!==' ')return;
+
+  const d=ev.target.closest('.dn'); if(d){ev.preventDefault();openEvent(d.dataset.open);}
+
+});
+
+
+
+/* ================= FILTERING ================= */
+
+let facs=new Set(), loc=null, term='';
+
+function apply(){
+
+  let shown=0;
+
+  $$('.node').forEach(n=>{
+
+    const ok=(facs.size===0||facs.has(n.dataset.fac))&&(!loc||n.dataset.loc===loc)&&(!term||n.dataset.txt.includes(term));
+
+    n.classList.toggle('hidden',!ok); if(ok)shown++;
+
+  });
+
+  $$('.era').forEach(s=>s.classList.toggle('hidden',!s.querySelector('.node:not(.hidden)')));
+
+  $('#empty').hidden=shown>0;
+
+  const parts=[];
+
+  if(facs.size)parts.push([...facs].map(f=>FAC[f]).join(', '));
+
+  if(loc)parts.push(LOC[loc]);
+
+  if(term)parts.push('"'+term+'"');
+
+  $('#fnote').hidden=parts.length===0;
+
+  $('#fnotetext').textContent=parts.length?('Showing '+shown+' of '+EV.length+' entries: '+parts.join(' + ')):'';
+
+  $$('.bd').forEach(b=>b.classList.toggle('on',b.dataset.loc===loc));
+
+}
+
+$$('#chips .chip').forEach(c=>c.onclick=()=>{
+
+  const f=c.dataset.fac;
+
+  if(facs.has(f)){facs.delete(f);c.classList.remove('on');}else{facs.add(f);c.classList.add('on');}
+
+  apply();
+
+});
+
+function toggleLoc(l){ loc = (loc===l?null:l); apply();
+
+  if(loc)document.querySelector('.rail').scrollIntoView({behavior:'smooth',block:'start'}); }
+
+$('#q').oninput=e=>{term=e.target.value.trim().toLowerCase();apply();};
+
+$('#clearf').onclick=()=>{facs.clear();loc=null;term='';$('#q').value='';$$('#chips .chip').forEach(c=>c.classList.remove('on'));apply();};
+
+
+
+/* ================= SOLAR SYSTEM MODEL =================
+
+   Orbits are anchored on the one independently measured pair of values:
+
+   Timber Hearth, a = 8.6 km, T = 250 s. The other four planets are derived
+
+   from their published orbital velocities via a = GM/v^2 and T = 2*pi*a/v,
+
+   which reproduces Kepler's third law across the set to within ~1%.
+
+   K below is that constant: T(seconds) = K * a(km)^1.5                     */
+
+const LOOP=1320, K=9.87;
+
+const kepT=aM=>K*Math.pow(aM/1000,1.5);
+
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+
+const BODIES=[
+
+ {id:'sun',n:'The Sun',a:0,R:2000,art:'sun',loc:'sun',ev:'why-sun',src:'est'},
+
+ {id:'sunstation',n:'Sun Station',a:2800,R:70,art:'station',loc:'sun',ev:'sun-station',src:'est',ph:.12},
+
+ {id:'twins',n:'Hourglass Twins',a:6053,T:147,R:95,art:'twins',loc:'twins',ev:'move-twins',src:'derived',ph:.70},
+
+ {id:'stranger',n:'The Stranger',a:7300,R:900,art:'ring',loc:'stranger',ev:'discover-stranger',src:'est',ph:.40,cloak:1,sq:.40},
+
+ {id:'hearth',n:'Timber Hearth',a:8600,T:250,R:138,art:'hearth',loc:'hearth',ev:'hearthians',src:'measured',ph:.05,
+
+   moons:[{id:'attlerock',n:'The Attlerock',a:1150,T:96,R:45,art:'rockmoon',loc:'hearth',ev:'attlerock',src:'est'}]},
+
+ {id:'hollow',n:'Brittle Hollow',a:12000,T:408,R:300,art:'hollow',loc:'hollow',ev:'old-settlement',src:'derived',ph:.33,
+
+   moons:[{id:'lantern',n:"Hollow's Lantern",a:1300,T:92,R:120,art:'lantern',loc:'hollow',ev:'lantern',src:'est'}]},
+
+ {id:'deep',n:"Giant's Deep",a:16684,T:672,R:1000,art:'deep',loc:'deep',ev:'probe-cannon',src:'derived',ph:.88,
+
+   moons:[{id:'cannon',n:'Orbital Probe Cannon',a:2300,T:108,R:90,art:'cannon',loc:'deep',ev:'probe-cannon',src:'est'}]},
+
+ {id:'bramble',n:'Dark Bramble',a:20421,T:910,R:800,art:'bramble',loc:'bramble',ev:'bramble',src:'derived',ph:.52},
+
+ {id:'whitehole',n:'White Hole Station',a:26000,R:70,art:'station',loc:'twins',ev:'white-hole',src:'est',ph:.62},
+
+ {id:'satellite',n:'Deep Space Satellite',a:30000,R:50,art:'sat',loc:'elsewhere',ev:'satellite',src:'est',ph:.20},
+
+ {id:'interloper',n:'The Interloper',a:16100,e:.8634,T:638,R:130,art:'comet',loc:'interloper',ev:'interloper',
+
+   src:'fitted',ph:.1035,arg:-0.42,dies:1200}
+
+];
+
+const QM={id:'quantum',n:'The Quantum Moon',R:100,art:'quantum',loc:'quantum',ev:'quantum-moon',src:'est'};
+
+const QM_HOSTS=['twins','hearth','hollow','deep','bramble'];
+
+
+
+/* the 22 minutes as the game runs them. sure:1 = a time the game states outright */
+
+const SCHED=[
+
+ {t:0,   k:'Loop start',sure:1,d:'You wake under the tree on Timber Hearth. The Orbital Probe Cannon fires its probe, and a warp core inside Ash Twin has just finished receiving twenty-two minutes of memory.'},
+
+ {t:120, k:'The sand turns',sure:1,d:'Ember Twin begins pulling sand off Ash Twin. Ash Twin starts to uncover; Ember Twin starts to fill.'},
+
+ {t:300, k:'Sunless City rising',sure:0,d:'Sand climbs through Ember Twin\u2019s caves. The lowest Nomai rooms begin to close for the loop.'},
+
+ {t:450, k:'Brittle Hollow falls',sure:0,d:'Hollow\u2019s Lantern bombards the crust and large sections break away into the black hole. Anything you have not read up there is now underneath you, or gone.'},
+
+ {t:780, k:'Ash Twin uncovered',sure:0,d:'Enough sand has drained to expose the Ash Twin Project towers and the warp receivers on the surface.'},
+
+ {t:1000,k:'Sunless City buried',sure:0,d:'Ember Twin\u2019s caves are largely full. The Nomai capital is under sand until the loop resets.'},
+
+ {t:1200,k:'End Times',sure:1,d:'The final two minutes. The sun begins to swell, the score changes everywhere in the system at once, and the Interloper is consumed.'},
+
+ {t:1320,k:'Supernova',sure:1,d:'The sun detonates. The shockwave crosses the system in seconds and everything in it ends, including you.'}
+
+];
+
+
+
+const POI=[
+
+ {g:'The Sun',items:[{n:'Sun Station',e:'sun-station',d:'Nomai, low solar orbit'}]},
+
+ {g:'Hourglass Twins',items:[
+
+  {n:'Ash Twin Project',e:'ash-twin',d:'inside Ash Twin'},{n:'Warp towers',e:'ash-twin',d:'Ash Twin surface'},
+
+  {n:'Sunless City',e:'sunless-city',d:'Ember Twin caves'},{n:'High Energy Lab',e:'high-energy',d:'Ember Twin'},
+
+  {n:'Statue Workshop',e:'statues',d:'Ember Twin'},{n:'Quantum Caves',e:'quantum-trials',d:'Ember Twin'},
+
+  {n:"Chert's camp",e:'astronauts',d:'drums'}]},
+
+ {g:'Timber Hearth',items:[
+
+  {n:'The Village',e:'hearthians',d:''},{n:'Observatory and museum',e:'owv',d:''},
+
+  {n:'Nomai mines and statue',e:'statue-wakes',d:''},{n:'Quantum Grove',e:'quantum-trials',d:''},
+
+  {n:'The Attlerock',e:'attlerock',d:"Esker's camp, whistling"}]},
+
+ {g:'Brittle Hollow',items:[
+
+  {n:'Old Settlement',e:'old-settlement',d:''},{n:'Escape Pod 2',e:'pod2',d:'the crash that started it'},
+
+  {n:'Black Hole Forge',e:'black-hole-forge',d:''},{n:'Tower of Quantum Knowledge',e:'quantum-trials',d:''},
+
+  {n:"Riebeck's camp",e:'astronauts',d:'banjo'},{n:"Hollow's Lantern",e:'lantern',d:'volcanic moon'}]},
+
+ {g:"Giant's Deep",items:[
+
+  {n:'Orbital Probe Cannon',e:'probe-cannon',d:'in orbit, wrecked'},
+
+  {n:'Probe Tracking Module',e:'probe-hit',d:'sunk, holds the photograph',sig:1},
+
+  {n:'Escape Pod 3',e:'pod3',d:'in the core current',sig:1},
+
+  {n:"Gabbro's island",e:'gabbro',d:'flute'},{n:'Statue Island',e:'gabbro',d:''},
+
+  {n:'Southern Observatory',e:'jellyfish',d:'how to survive the current'}]},
+
+ {g:'Dark Bramble',items:[
+
+  {n:'Escape Pod 1',e:'pod1',d:'flashing distress beacon',sig:1},
+
+  {n:'The Nomai Vessel',e:'vessel-found',d:'still transmitting',sig:1},
+
+  {n:"Feldspar's wrecked ship",e:'feldspar',d:'harmonica, and a marshmallow',sig:1},
+
+  {n:'Anglerfish nests',e:'anglerfish',d:'cut your engines'}]},
+
+ {g:'Outer orbits',items:[
+
+  {n:'White Hole Station',e:'white-hole',d:'the far end of every black hole'},
+
+  {n:'Deep Space Satellite',e:'satellite',d:'photographed the eclipse'},
+
+  {n:'The Interloper',e:'interloper',d:'consumed by the sun at 20:00'},
+
+  {n:'The Stranger',e:'discover-stranger',d:'cloaked ring'},
+
+  {n:'The Quantum Moon',e:'quantum-moon',d:'six possible locations'}]}
+
+];
+
+
+
+/* ================= ART (drawn in unit space, radius 1) ================= */
+
+const NS='http://www.w3.org/2000/svg';
+
+const nss='vector-effect="non-scaling-stroke"';
+
+const ART={
+
+ sun:()=>'<circle class="corona" r="1.8" fill="url(#gCorona)"/><circle class="disc" r="1" fill="url(#gSun)"/>',
+
+ station:()=>'<rect x="-1.5" y="-.17" width=".95" height=".34" fill="#6E93B8"/><rect x=".55" y="-.17" width=".95" height=".34" fill="#6E93B8"/>'+
+
+   '<rect x="-.5" y="-.34" width="1" height=".68" rx=".1" fill="#D3C9B4"/><circle r=".18" fill="#8E8270"/>',
+
+ sat:()=>'<path d="M-.9 -.7A1.1 1.1 0 00-.9 .7Z" fill="#C6BCA6"/><rect x="-.15" y="-.16" width=".9" height=".32" fill="#6E93B8"/>'+
+
+   '<path d="M-.9 0h-.5" stroke="#8E8270" stroke-width=".16" '+nss+'/>',
+
+ ring:()=>'<circle r="1" fill="none" stroke="#2F3B33" stroke-width=".30"/><circle r="1" fill="none" stroke="#55BE8C" stroke-width=".07" opacity=".55"/>'+
+
+   '<circle r=".84" fill="none" stroke="#3E5145" stroke-width=".07" opacity=".8"/>',
+
+ twins:()=>'<path class="tw-sand" d="M-.30 -.16 L.30 -.30 L.30 .30 L-.30 .16 Z" fill="#C9B58E" opacity="0"/>'+
+
+   '<circle class="tw-ash" cx="-.72" cy="0" r=".50" fill="url(#gAsh)"/>'+
+
+   '<circle class="tw-ashcap" cx="-.72" cy="0" r=".50" fill="#CBB894" opacity=".85"/>'+
+
+   '<circle class="tw-ember" cx=".72" cy="0" r=".54" fill="url(#gEmber)"/>'+
+
+   '<path d="M.52 -.28q.22 .12 .40 -.04M.56 .30q.24 -.14 .36 .02" stroke="#3A160C" stroke-width=".07" fill="none" opacity=".55" '+nss+'/>',
+
+ hearth:()=>'<circle r="1" fill="url(#gHearth)"/>'+
+
+   '<path d="M-.62 -.36q.34 -.22 .68 -.02t.62 -.10" stroke="#2A5C3E" stroke-width=".17" fill="none" opacity=".75" '+nss+'/>'+
+
+   '<circle cx="-.30" cy=".30" r=".28" fill="#2E6E8C" opacity=".85"/><circle cx=".38" cy=".14" r=".20" fill="#2E6E8C" opacity=".7"/>'+
+
+   '<circle cx=".30" cy="-.52" r=".16" fill="#66A87A" opacity=".8"/>',
+
+ rockmoon:()=>'<circle r="1" fill="#A79C8E"/><circle cx="-.3" cy="-.26" r=".26" fill="#7D7365"/><circle cx=".36" cy=".3" r=".2" fill="#7D7365"/>'+
+
+   '<circle cx=".1" cy="-.6" r=".14" fill="#8D8375"/>',
+
+ hollow:()=>'<circle r="1" fill="url(#gHollow)"/>'+
+
+   '<path d="M-.86 -.3L-.2 -.5M.1 -.86L.26 -.3M-.5 .5L.16 .3M.5 .58L.86 .2" stroke="#191426" stroke-width=".10" '+nss+'/>'+
+
+   '<circle r=".22" fill="#07050C"/><circle r=".30" fill="none" stroke="#9C80E6" stroke-width=".055" opacity=".9" '+nss+'/>',
+
+ lantern:()=>'<circle r="1" fill="url(#gLantern)"/><circle cx="-.34" cy="-.28" r=".26" fill="#7A2410" opacity=".8"/>'+
+
+   '<circle cx=".34" cy=".3" r=".22" fill="#7A2410" opacity=".7"/>',
+
+ deep:()=>'<circle r="1" fill="url(#gDeep)"/>'+
+
+   '<path d="M-.9 -.28q.5 -.2 .9 0t.86 -.08" stroke="#C8F0DE" stroke-width=".12" fill="none" opacity=".45" '+nss+'/>'+
+
+   '<path d="M-.7 .34q.5 .2 .84 0" stroke="#C8F0DE" stroke-width=".10" fill="none" opacity=".35" '+nss+'/>'+
+
+   '<path d="M-.34 -.02a.30 .30 0 10.30 .30" stroke="#EAFBF3" stroke-width=".09" fill="none" opacity=".8" '+nss+'/>'+
+
+   '<path d="M.40 .34a.20 .20 0 10.20 .20" stroke="#EAFBF3" stroke-width=".08" fill="none" opacity=".65" '+nss+'/>',
+
+ bramble:()=>'<circle r="1" fill="url(#gBramble)"/>'+
+
+   '<path d="M-.62 -.78q.30 .5 .04 .96M.10 -1q-.06 .6 .30 .9M-.98 .18q.5 -.06 .74 .3M.66 -.6q-.2 .44 .1 .8" stroke="#33474A" stroke-width=".085" fill="none" opacity=".85" '+nss+'/>'+
+
+   '<path d="M-.2 -1.28q.16 .3 -.02 .48M.86 .5q-.28 .1 -.4 .34M-1.16 -.5q.3 .06 .42 .26" stroke="#2A3A3D" stroke-width=".075" fill="none" '+nss+'/>'+
+
+   '<circle cx="-.1" cy=".28" r=".16" fill="#20302F"/>',
+
+ comet:()=>'<g class="tail"><path d="M0 -.7 L4.6 -.12 L4.6 .12 L0 .7 Z" fill="#9FDCEE" opacity=".26"/>'+
+
+   '<path d="M0 -.36 L3.2 -.05 L3.2 .05 L0 .36 Z" fill="#DCF4FB" opacity=".4"/></g>'+
+
+   '<circle r="1" fill="url(#gIce)"/><path d="M-.3 -.6q.3 .5 .1 1.2" stroke="#7FB4C9" stroke-width=".1" fill="none" '+nss+'/>',
+
+ cannon:()=>'<g transform="rotate(18)"><rect x="-.9" y="-.22" width="1.5" height=".44" rx=".08" fill="#B9AE99"/>'+
+
+   '<rect x=".5" y="-.34" width=".5" height=".68" fill="#8E8270"/></g><path d="M-1.1 .5l.5 -.3" stroke="#8E8270" stroke-width=".14" '+nss+'/>',
+
+ quantum:()=>'<circle r="1" fill="url(#gQuantum)"/><circle r="1.35" fill="none" stroke="#E3B45E" stroke-width=".07" stroke-dasharray=".18 .28" opacity=".8"/>'+
+
+   '<path d="M-.5 -.2q.5 -.3 .96 .1" stroke="#DCF2EA" stroke-width=".1" fill="none" opacity=".5" '+nss+'/>'
+
+};
+
+
+
+/* ================= SIM STATE ================= */
+
+const svgO=$('#orrery'), gOrb=$('#orbits'), gBod=$('#bodies'), gFx=$('#fx');
+
+let simT=0, playing=false, speed=1, trueScale=false, zoomV=1, cloakOff=false, novaAt=null, qmHost=1, qmNext=0;
+
+const S0=0.01;
+
+const S=()=>S0*zoomV;
+
+const drawR=b=>trueScale?Math.max(.35,b.R*S()):(4+14*Math.pow(b.R/2000,.45));
+
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+
+const SRC={measured:'measured in game',derived:'derived from orbital velocity',est:'estimated, not published',fitted:'fitted to the stated facts'};
+
+
+
+function pos(b,t){
+
+  if(!b.a) return [0,0];
+
+  const T=b.T||kepT(b.a), e=b.e||0;
+
+  const M=2*Math.PI*(((t/T)+(b.ph||0))%1);
+
+  let E=M; if(e) for(let i=0;i<8;i++) E=E-(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));
+
+  const x=b.a*(Math.cos(E)-e), y=b.a*Math.sqrt(1-e*e)*Math.sin(E), w=b.arg||0;
+
+  return [x*Math.cos(w)-y*Math.sin(w), x*Math.sin(w)+y*Math.cos(w)];
+
+}
+
+const sunR=t=>2000*(t<1200?1:1+2.5*Math.pow((t-1200)/120,1.7));
+
+
+
+function el(tag,attrs,html){
+
+  const e=document.createElementNS(NS,tag);
+
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+
+  if(html!=null) e.innerHTML=html;
+
+  return e;
+
+}
+
+function buildOrbit(b){
+
+  if(!b.a) return;
+
+  if(!b.e){
+
+    gOrb.appendChild(el('circle',{class:'orbit'+(b.cloak?' orbit-ghost':''),cx:0,cy:0,r:1,'data-orb':b.id,
+
+      transform:'scale(1,'+(b.sq||1)+')'}));
+
+  }else{
+
+    gOrb.appendChild(el('ellipse',{class:'orbit orbit-ghost orbit-hot',cx:0,cy:0,rx:1,ry:1,'data-orb':b.id,
+
+      transform:'rotate('+((b.arg||0)*180/Math.PI)+')'}));
+
+  }
+
+}
+
+function buildBody(b,parent){
+
+  const g=el('g',{class:'bd','data-loc':b.loc,'data-ev':b.ev,'data-id':b.id,tabindex:0,role:'button','aria-label':b.n});
+
+  g.appendChild(el('circle',{class:'halo',r:1,cx:0,cy:0}));
+
+  g.appendChild(el('g',{class:'art'},ART[b.art]()));
+
+  const lab=el('text',{class:'blabel','text-anchor':'middle',y:0});
+
+  lab.textContent=b.n; g.appendChild(lab);
+
+  (parent||gBod).appendChild(g);
+
+  b.g=g; b.gArt=g.querySelector('.art'); b.gHalo=g.querySelector('.halo'); b.gLab=lab;
+
+  g.addEventListener('click',ev=>{ if(ev.shiftKey||ev.altKey){openEvent(b.ev);return;} toggleLoc(b.loc); });
+
+  g.addEventListener('dblclick',()=>openEvent(b.ev));
+
+  g.addEventListener('keydown',ev=>{
+
+    if(ev.key==='Enter'){ev.preventDefault();toggleLoc(b.loc);}
+
+    if(ev.key===' '){ev.preventDefault();openEvent(b.ev);}
+
+  });
+
+  g.addEventListener('pointerenter',()=>readout(b));
+
+  return g;
+
+}
+
+function readout(b){
+
+  const T=b.T||(b.a?kepT(b.a):0);
+
+  $('#simread').innerHTML='<b>'+b.n+'</b><span>'+
+
+    (b.a?(b.a/1000).toFixed(b.a<10000?2:1)+' km orbit &middot; '+(T<LOOP?fmt(T):(T/60).toFixed(1)+' min')+' period<br>':'')+
+
+    'radius '+(b.R>=1000?(b.R/1000).toFixed(1)+' km':b.R+' m')+' &middot; '+SRC[b.src||'est']+
+
+    '<br>click to filter &middot; double-click to open</span>';
+
+}
+
+BODIES.forEach(buildOrbit);
+
+BODIES.forEach(b=>{
+
+  buildBody(b);
+
+  (b.moons||[]).forEach(m=>{ m.parent=b; m.orbCirc=el('circle',{class:'orbit orbit-ghost',r:1}); gOrb.appendChild(m.orbCirc); buildBody(m); });
+
+});
+
+buildBody(QM);
+
+svgO.addEventListener('pointerleave',()=>{$('#simread').innerHTML='<b>&nbsp;</b><span>Hover a body</span>';});
+
+
+
+const fxRing=el('circle',{r:0,fill:'none',stroke:'#EAF4FF','stroke-width':3,opacity:0,'vector-effect':'non-scaling-stroke'});
+
+gFx.appendChild(fxRing);
+
+
+
+function render(){
+
+  const t=simT, sc=S(), sunRadM=sunR(t), novaOn=novaAt!=null;
+
+  const shock=novaOn?Math.min(1,(performance.now()-novaAt)/2200):0;
+
+  const shockR=shock*34000;
+
+
+
+  BODIES.forEach(b=>{
+
+    const [x,y]=pos(b,t);
+
+    const sq=b.sq||1, px=x*sc, py=y*sc*sq;
+
+    const r=b.id==='sun'
+
+      ? (trueScale?sunRadM*sc:(4+14*Math.pow(sunRadM/2000,.45)))
+
+      : drawR(b);
+
+    let vis=1;
+
+    if(b.cloak&&!cloakOff) vis=0;
+
+    if(b.dies&&t>=b.dies-8) vis=Math.max(0,1-(t-(b.dies-8))/16);
+
+    if(novaOn&&b.id!=='sun'&&Math.hypot(x,y)<shockR) vis=0;
+
+    b.g.setAttribute('transform','translate('+px.toFixed(2)+','+py.toFixed(2)+')');
+
+    b.gArt.setAttribute('transform','scale('+r.toFixed(2)+')');
+
+    b.gHalo.setAttribute('r',(r+5).toFixed(2));
+
+    b.gLab.setAttribute('y',(r+11).toFixed(1));
+
+    b.g.style.opacity=vis;
+
+    b.g.style.pointerEvents=vis?'auto':'none';
+
+
+
+    if(b.id==='sun'){
+
+      const u=t<1200?0:(t-1200)/120;
+
+      b.gArt.querySelector('.corona').setAttribute('opacity',(1-u*.45).toFixed(2));
+
+      b.gArt.querySelector('.disc').setAttribute('fill',(novaOn||u>.4)?'url(#gNova)':'url(#gSun)');
+
+    }
+
+    if(b.id==='twins'){
+
+      const u=Math.max(0,Math.min(1,(t-120)/900));
+
+      b.gArt.querySelector('.tw-sand').setAttribute('opacity',u>0?'.9':'0');
+
+      b.gArt.querySelector('.tw-ashcap').setAttribute('r',(0.50*(1-u*.94)).toFixed(3));
+
+      b.gArt.querySelector('.tw-ember').setAttribute('r',(0.54+u*.06).toFixed(3));
+
+      b.gArt.setAttribute('transform','scale('+r.toFixed(2)+') rotate('+((t/210)*360).toFixed(1)+')');
+
+    }
+
+    if(b.art==='comet'){
+
+      b.gArt.querySelector('.tail').setAttribute('transform','rotate('+(Math.atan2(y,x)*180/Math.PI).toFixed(1)+')');
+
+    }
+
+    (b.moons||[]).forEach(m=>{
+
+      const [mx,my]=pos(m,t);
+
+      const mr=drawR(m), ring=Math.max(m.a*sc,r+mr+6), k=ring/(m.a*sc);
+
+      m.g.setAttribute('transform','translate('+(px+mx*sc*k).toFixed(2)+','+(py+my*sc*k).toFixed(2)+')');
+
+      m.gArt.setAttribute('transform','scale('+mr.toFixed(2)+')');
+
+      m.gHalo.setAttribute('r',(mr+4).toFixed(2));
+
+      m.gLab.setAttribute('y',(mr+10).toFixed(1));
+
+      m.orbCirc.setAttribute('r',ring.toFixed(1));
+
+      m.orbCirc.setAttribute('cx',px.toFixed(2)); m.orbCirc.setAttribute('cy',py.toFixed(2));
+
+      const mvis=(novaOn&&Math.hypot(x,y)<shockR)?0:1;
+
+      m.g.style.opacity=mvis; m.orbCirc.style.opacity=mvis?.5:0;
+
+    });
+
+  });
+
+
+
+  BODIES.forEach(b=>{
+
+    if(!b.a) return;
+
+    const c=gOrb.querySelector('[data-orb="'+b.id+'"]');
+
+    if(!c) return;
+
+    if(b.e){
+
+      c.setAttribute('rx',(b.a*sc).toFixed(1));
+
+      c.setAttribute('ry',(b.a*Math.sqrt(1-b.e*b.e)*sc).toFixed(1));
+
+      c.setAttribute('cx',(-b.a*b.e*sc).toFixed(1));
+
+    }else{
+
+      c.setAttribute('r',(b.a*sc).toFixed(1));
+
+      c.style.opacity=(b.cloak&&!cloakOff)?0:1;
+
+    }
+
+  });
+
+
+
+  const host=BODIES.find(b=>b.id===QM_HOSTS[qmHost]);
+
+  const [hx,hy]=pos(host,t), qr=drawR(QM), off=drawR(host)+qr+13, qa=t*0.9;
+
+  QM.g.setAttribute('transform','translate('+(hx*sc+Math.cos(qa)*off).toFixed(2)+','+(hy*sc+Math.sin(qa)*off).toFixed(2)+')');
+
+  QM.gArt.setAttribute('transform','scale('+qr.toFixed(2)+')');
+
+  QM.gHalo.setAttribute('r',(qr+5).toFixed(2)); QM.gLab.setAttribute('y',(qr+12).toFixed(1));
+
+  QM.g.style.opacity=(novaOn&&Math.hypot(hx,hy)<shockR)?0:1;
+
+
+
+  if(novaOn){
+
+    fxRing.setAttribute('r',(shockR*sc).toFixed(1));
+
+    fxRing.setAttribute('opacity',(1-shock).toFixed(2));
+
+    $('#novaflash').style.opacity=(Math.max(0,1-Math.abs(shock-.10)*7)*.92).toFixed(3);
+
+    if(shock>=1) endNova();
+
+  }
+
+}
+
+
+
+let lastMs=performance.now();
+
+function frame(ms){
+
+  const dt=Math.min(.25,(ms-lastMs)/1000); lastMs=ms;
+
+  if(playing&&novaAt==null){
+
+    simT+=dt*speed;
+
+    if(simT>=LOOP){ simT=LOOP; startNova(); }
+
+    $('#scrub').value=Math.round(simT);
+
+    syncClock();
+
+  }
+
+  if(!calm&&ms>qmNext&&novaAt==null){
+
+    qmNext=ms+3800+Math.random()*3000;
+
+    qmHost=(qmHost+1+Math.floor(Math.random()*3))%QM_HOSTS.length;
+
+  }
+
+  render();
+
+  requestAnimationFrame(frame);
+
+}
+
+function startNova(){ playing=false; novaAt=performance.now(); $('#playbtn').textContent='Play'; audioNova(); }
+
+function endNova(){ novaAt=null; $('#novaflash').style.opacity=0; fxRing.setAttribute('opacity',0);
+
+  simT=0; $('#scrub').value=0; syncClock(); }
+
+function syncClock(){
+
+  const c=$('#hudclock');
+
+  c.textContent=fmt(simT);
+
+  c.classList.toggle('calm',!playing);
+
+  let cur=SCHED[0]; SCHED.forEach(s=>{ if(simT>=s.t) cur=s; });
+
+  const sp=speed===1?'real time':speed+'\u00d7';
+
+  $('#hudsub').textContent=(novaAt!=null?'supernova':(playing?'running '+sp:'paused'))+' \u00b7 '+cur.k.toLowerCase();
+
+  $('#schednote').innerHTML='<b>'+fmt(cur.t)+', '+cur.k+'.</b> '+cur.d+
+
+    (cur.sure?'':' <span style="color:var(--ink-faint)">(approximate timing)</span>');
+
+  $$('.mark').forEach(m=>m.classList.toggle('on',+m.dataset.t===cur.t));
+
+}
+
+
+
+$('#playbtn').onclick=()=>{ if(novaAt!=null) return; playing=!playing; $('#playbtn').textContent=playing?'Pause':'Play'; syncClock(); };
+
+$$('[data-spd]').forEach(b=>b.onclick=()=>{ speed=+b.dataset.spd; $$('[data-spd]').forEach(x=>x.classList.toggle('on',x===b)); syncClock(); });
+
+$('#resetbtn').onclick=()=>{ if(novaAt!=null) return; simT=0; playing=false;
+
+  $('#playbtn').textContent='Play'; $('#scrub').value=0; syncClock(); };
+
+$('#novabtn').onclick=()=>{ if(novaAt!=null) return;
+
+  simT=1200; speed=6;
+
+  $$('[data-spd]').forEach(x=>x.classList.toggle('on',x.dataset.spd==='6'));
+
+  playing=true; $('#playbtn').textContent='Pause'; $('#scrub').value=1200; syncClock();
+
+  document.querySelector('.sim-stage').scrollIntoView({behavior:calm?'auto':'smooth',block:'center'});
+
+};
+
+$('#scalebtn').onclick=()=>{ trueScale=!trueScale;
+
+  $('#scalebtn').textContent='Body sizes: '+(trueScale?'true':'readable');
+
+  $('#scalebtn').classList.toggle('on',trueScale); };
+
+$('#labelbtn').onclick=()=>{ svgO.classList.toggle('labels-on'); $('#labelbtn').classList.toggle('on'); };
+
+$('#cloakbtn').onclick=()=>{ cloakOff=!cloakOff;
+
+  $('#cloakbtn').textContent=cloakOff?'Re-engage the cloak':'Reveal the Stranger';
+
+  $('#cloakbtn').classList.toggle('on',cloakOff); };
+
+$('#zoom').oninput=e=>{ zoomV=+e.target.value/100; };
+
+$('#scrub').oninput=e=>{ if(novaAt!=null) return; simT=+e.target.value; syncClock(); };
+
+
+
+SCHED.forEach(s=>{
+
+  const b=document.createElement('button');
+
+  b.className='mark'+(s.sure?'':' approx'); b.dataset.t=s.t;
+
+  b.style.left=(s.t/LOOP*100)+'%';
+
+  b.innerHTML='<span class="pip"></span><span>'+fmt(s.t)+'</span>';
+
+  b.title=s.k;
+
+  b.onclick=()=>{ simT=s.t; $('#scrub').value=s.t; syncClock(); };
+
+  $('#marks').appendChild(b);
+
+});
+
+
+
+POI.forEach(grp=>{
+
+  const h=document.createElement('div'); h.className='poi-grp'; h.textContent=grp.g; $('#poi').appendChild(h);
+
+  grp.items.forEach(it=>{
+
+    const b=document.createElement('button'); b.className='poi-item';
+
+    b.innerHTML='<i class="'+(it.sig?'red sig':'')+'">'+(it.sig?'\u25cf':'\u25cb')+'</i><span>'+it.n+
+
+      (it.d?' <em>'+it.d+'</em>':'')+'</span>';
+
+    b.onclick=()=>openEvent(it.e);
+
+    $('#poi').appendChild(b);
+
+  });
+
+});
+
+
+
+$('#simnote').innerHTML='<b>How accurate is this?</b> Timber Hearth\u2019s orbit (8.6 km, 250 s) is measured from the game itself, and the '+
+
+ 'other four planets are derived from their published orbital velocities, landing within about 1% of Kepler\u2019s third law across the set. '+
+
+ 'So the relative distances, periods and phasing are real: in one loop the Hourglass Twins go round nine times while Dark Bramble manages one and a half. Moon orbits, the two '+
+
+ 'stations, the satellite and the Stranger\u2019s orbit are not published anywhere I could verify, and are marked <em>estimated</em> when you '+
+
+ 'hover them. The Interloper is fitted to the three things the game does state: perihelion inside the Hourglass Twins\u2019 orbit, aphelion '+
+
+ 'beyond the White Hole Station, and destruction by the sun about twenty minutes in. Body sizes are drawn readable by default, because a '+
+
+ 'true-scale Timber Hearth is under two pixels wide; the toggle shows you the honest version.';
+
+
+
+syncClock();
+
+requestAnimationFrame(frame);
+
+
+
+/* ================= SCORE =================
+
+   Two short original pieces, sequenced note by note. Piece A is the campfire
+
+   theme; piece B takes over for the final two minutes and leads into the
+
+   detonation. Written in the idiom (plucked folk instrument, open fifths,
+
+   a descending minor lament for the end) but they are my tunes, not the
+
+   game's score, which is Andrew Prahlow's copyrighted work.               */
+
+const mtof=m=>440*Math.pow(2,(m-69)/12);
+
+
+
+/* A: campfire, D major, 88bpm, 8 bars of 4                                */
+
+const THEME={
+
+  name:'campfire', bpm:88, bars:8,
+
+  mel:[[69,0,1],[74,1,1],[78,2,1.5],[76,3.5,.5],
+
+       [74,4,1],[71,5,1],[69,6,2],
+
+       [67,8,1],[69,9,1],[71,10,1],[74,11,1],
+
+       [69,12,2],[66,14,2],
+
+       [66,16,1],[69,17,1],[74,18,1.5],[73,19.5,.5],
+
+       [71,20,1],[69,21,1],[66,22,2],
+
+       [64,24,1],[66,25,1],[69,26,1],[71,27,1],
+
+       [74,28,2],[69,30,2]],
+
+  chords:[[62,66,69],[59,62,66],[55,59,62],[57,61,64],
+
+          [62,66,69],[59,62,66],[55,59,62],[57,61,64]],
+
+  bass:[50,47,43,45,50,47,43,45],
+
+  arp:1, lead:'pluck', melGain:.19, padGain:.055, bassGain:.12
+
+};
+
+
+
+/* B: end times, D minor, 54bpm, 8 bars of 4                               */
+
+const ENDT={
+
+  name:'end times', bpm:54, bars:8,
+
+  mel:[[74,0,2],[72,2,2],
+
+       [70,4,2],[69,6,2],
+
+       [67,8,2],[65,10,2],
+
+       [64,12,2],[62,14,2],
+
+       [62,16,3],[60,19,1],
+
+       [58,20,4],
+
+       [57,24,2],[55,26,2],
+
+       [50,28,4]],
+
+  chords:[[62,65,69],[62,65,69],[58,62,65],[58,62,65],
+
+          [55,58,62],[55,58,62],[57,61,64],[62,65,69]],
+
+  bass:[38,38,34,34,31,31,33,38],
+
+  arp:0, lead:'bell', melGain:.17, padGain:.085, bassGain:.13, toll:1
+
+};
+
+
+
+let AC=null,mst=null,wet=null,audOn=false,seqTimer=null,barT=0,barI=0,piece=null;
+
+
+
+function makeVerb(){
+
+  const len=Math.floor(AC.sampleRate*2.4), b=AC.createBuffer(2,len,AC.sampleRate);
+
+  for(let c=0;c<2;c++){ const d=b.getChannelData(c);
+
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6); }
+
+  const cv=AC.createConvolver(); cv.buffer=b; return cv;
+
+}
+
+function env(g,t,a,d,peak){
+
+  g.gain.setValueAtTime(.0001,t);
+
+  g.gain.linearRampToValueAtTime(peak,t+a);
+
+  g.gain.exponentialRampToValueAtTime(.0004,t+a+d);
+
+}
+
+function voice(nodes,t,dur){ nodes.forEach(n=>{n.start(t); n.stop(t+dur+.12);}); }
+
+
+
+/* plucked string: bright transient, quick body decay */
+
+function pluck(f,t,dur,gv){
+
+  const g=AC.createGain(), lp=AC.createBiquadFilter();
+
+  lp.type='lowpass'; lp.frequency.setValueAtTime(4200,t);
+
+  lp.frequency.exponentialRampToValueAtTime(700,t+Math.min(dur,1.2));
+
+  const o1=AC.createOscillator(); o1.type='triangle'; o1.frequency.value=f;
+
+  const o2=AC.createOscillator(); o2.type='sawtooth'; o2.frequency.value=f; o2.detune.value=7;
+
+  const g2=AC.createGain(); g2.gain.value=.35;
+
+  o1.connect(lp); o2.connect(g2); g2.connect(lp); lp.connect(g);
+
+  g.connect(mst); g.connect(wet);
+
+  env(g,t,.006,Math.max(.35,dur*.95),gv);
+
+  voice([o1,o2],t,dur);
+
+}
+
+/* bell: inharmonic partials, long tail */
+
+function bell(f,t,dur,gv){
+
+  const g=AC.createGain(); g.connect(mst); g.connect(wet);
+
+  env(g,t,.02,Math.max(1.6,dur*1.3),gv);
+
+  const os=[[1,1],[2.76,.32],[5.4,.14]].map(([r,a])=>{
+
+    const o=AC.createOscillator(); o.type='sine'; o.frequency.value=f*r;
+
+    const ga=AC.createGain(); ga.gain.value=a; o.connect(ga); ga.connect(g); return o;
+
+  });
+
+  voice(os,t,Math.max(1.8,dur*1.4));
+
+}
+
+function pad(freqs,t,dur,gv){
+
+  const g=AC.createGain(), lp=AC.createBiquadFilter();
+
+  lp.type='lowpass'; lp.frequency.value=1150; lp.connect(g); g.connect(mst); g.connect(wet);
+
+  g.gain.setValueAtTime(.0001,t);
+
+  g.gain.linearRampToValueAtTime(gv,t+dur*.35);
+
+  g.gain.setValueAtTime(gv,t+dur*.7);
+
+  g.gain.exponentialRampToValueAtTime(.0004,t+dur);
+
+  const os=freqs.map((f,i)=>{
+
+    const o=AC.createOscillator(); o.type='sine'; o.frequency.value=f; o.detune.value=(i-1)*4;
+
+    o.connect(lp); return o;
+
+  });
+
+  voice(os,t,dur);
+
+}
+
+function bass(f,t,dur,gv){
+
+  const g=AC.createGain(); g.connect(mst);
+
+  env(g,t,.03,dur*.9,gv);
+
+  const o=AC.createOscillator(); o.type='sine'; o.frequency.value=f;
+
+  const o2=AC.createOscillator(); o2.type='triangle'; o2.frequency.value=f*2;
+
+  const g2=AC.createGain(); g2.gain.value=.12;
+
+  o.connect(g); o2.connect(g2); g2.connect(g);
+
+  voice([o,o2],t,dur);
+
+}
+
+/* low struck drum for the end-times bars */
+
+function toll(t,gv){
+
+  const g=AC.createGain(); g.connect(mst); g.connect(wet);
+
+  env(g,t,.01,1.5,gv);
+
+  const o=AC.createOscillator(); o.type='sine';
+
+  o.frequency.setValueAtTime(96,t); o.frequency.exponentialRampToValueAtTime(42,t+.5);
+
+  o.connect(g); voice([o],t,1.6);
+
+}
+
+
+
+function scheduleBar(p,bar,t0){
+
+  const spb=60/p.bpm, b0=bar*4;
+
+  p.chords[bar]&&pad(p.chords[bar].map(mtof),t0,spb*4,p.padGain);
+
+  bass(mtof(p.bass[bar]),t0,spb*2.2,p.bassGain);
+
+  if(bar%2===1) bass(mtof(p.bass[bar])*1.5,t0+spb*2,spb*1.6,p.bassGain*.6);
+
+  p.mel.forEach(n=>{
+
+    if(n[1]<b0||n[1]>=b0+4) return;
+
+    const t=t0+(n[1]-b0)*spb, d=n[2]*spb;
+
+    (p.lead==='bell'?bell:pluck)(mtof(n[0]),t,d,p.melGain);
+
+  });
+
+  if(p.arp) p.chords[bar].forEach((m,i)=>{
+
+    pluck(mtof(m+12),t0+(i*1+.5)*spb,spb*.8,.038);
+
+  });
+
+  if(p.toll){ toll(t0,.30); toll(t0+spb*2,.16); }
+
+}
+
+/* ---- scheduler: loops the campfire piece, swaps to end times for the last two minutes ---- */
+function wantPiece(){ return (simT>=1200&&novaAt==null)?ENDT:THEME; }
+function pump(){
+  if(!AC||!audOn) return;
+  const look=AC.currentTime+.8;
+  let guard=0;
+  while(barT<look&&guard++<40){
+    const p=wantPiece();
+    if(piece!==p){ piece=p; barI=0; }
+    scheduleBar(p,barI,barT);
+    barT+=(60/p.bpm)*4; barI=(barI+1)%p.bars;
+  }
+}
+function musicStart(){
+  if(!AC){
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    const lim=AC.createDynamicsCompressor();
+    lim.threshold.value=-13; lim.knee.value=6; lim.ratio.value=9;
+    lim.attack.value=.004; lim.release.value=.18;
+    lim.connect(AC.destination);
+    mst=AC.createGain(); mst.gain.value=(+$('#vol').value/100)*.8; mst.connect(lim);
+    const verb=makeVerb(); wet=AC.createGain(); wet.gain.value=.30;
+    wet.connect(verb); verb.connect(mst);
+  }
+  AC.resume();
+  barT=AC.currentTime+.12; barI=0; piece=null;
+  clearInterval(seqTimer); seqTimer=setInterval(pump,140); pump();
+}
+function musicStop(){ clearInterval(seqTimer); seqTimer=null; if(AC) AC.suspend(); }
+
+function audioNova(){
+  if(!AC||!audOn) return;
+  clearInterval(seqTimer); seqTimer=null;
+  const vol=(+$('#vol').value/100)*.8;
+  const n=AC.createBuffer(1,AC.sampleRate*3,AC.sampleRate), d=n.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource(); s.buffer=n;
+  const f=AC.createBiquadFilter(); f.type='lowpass';
+  f.frequency.setValueAtTime(160,AC.currentTime);
+  f.frequency.exponentialRampToValueAtTime(5200,AC.currentTime+.45);
+  f.frequency.exponentialRampToValueAtTime(110,AC.currentTime+2.7);
+  const g=AC.createGain();
+  g.gain.setValueAtTime(.0001,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.55,AC.currentTime+.22);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+2.9);
+  s.connect(f); f.connect(g); g.connect(mst); g.connect(wet); s.start();
+  toll(AC.currentTime+.02,.5);
+  setTimeout(()=>{ if(audOn&&AC){ mst.gain.setValueAtTime(vol,AC.currentTime);
+    barT=AC.currentTime+.3; barI=0; piece=null;
+    clearInterval(seqTimer); seqTimer=setInterval(pump,140); pump(); } },3200);
+}
+$('#audiobtn').onclick=()=>{
+  if(!audOn){
+    audOn=true; musicStart();
+    $('#audiobtn').textContent='Music on';
+    $('#audiobox').classList.remove('idle'); $('#spk').style.color='var(--eye)';
+  } else {
+    audOn=false; musicStop(); $('#audiobtn').textContent='Music off';
+    $('#audiobox').classList.add('idle'); $('#spk').style.color='var(--ink-faint)';
+  }
+};
+$('#vol').oninput=e=>{ if(mst) mst.gain.value=(+e.target.value/100)*.8; };
+/* the MIDI slot feature was removed; clear anything it left in this browser */
+try{ localStorage.removeItem('ow-midi-A'); localStorage.removeItem('ow-midi-B'); }catch(e){}
+
+
+
+/* ================= STARFIELD ================= */
+
+(function(){
+
+  const c=$('#stars'), x=c.getContext('2d');
+
+  let w,h,st=[];
+
+  function init(){
+
+    w=c.width=innerWidth*devicePixelRatio; h=c.height=innerHeight*devicePixelRatio;
+
+    c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px';
+
+    st=[]; const n=Math.round(innerWidth*innerHeight/9000);
+
+    for(let i=0;i<n;i++)st.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3*devicePixelRatio+.2,a:Math.random()*.7+.15,s:Math.random()*.012+.003});
+
+    draw(0);
+
+  }
+
+  function draw(ts){
+
+    x.clearRect(0,0,w,h);
+
+    const dark=getComputedStyle(document.documentElement).getPropertyValue('--scheme').trim()==='dark';
+
+    for(const s of st){
+
+      const tw=dark?(s.a*(.65+.35*Math.sin(ts*s.s+s.x))):s.a*.8;
+
+      x.beginPath(); x.arc(s.x,s.y,s.r,0,6.284);
+
+      x.fillStyle=dark?'rgba(232,240,255,'+tw+')':'rgba(120,100,70,'+tw*.5+')';
+
+      x.fill();
+
+    }
+
+  }
+
+  let raf;
+
+  function loop(ts){draw(ts);raf=requestAnimationFrame(loop);}
+
+  addEventListener('resize',init); init();
+
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches) raf=requestAnimationFrame(loop);
+
+})();
+
+
+
+/* ================= GATE ================= */
+
+$('#enter').onclick=()=>{
+
+  $('#gate').classList.add('gone');
+
+  $('#page').hidden=false;
+
+  setTimeout(()=>$('#gate').remove(),600);
+
+};
+
+$('#enter').focus();
+
+</script>
+
+</body>
+</html>
